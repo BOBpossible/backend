@@ -26,3 +26,6 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+
+jwt:
+  secret: c3ByaW5nLWJvb3QtY21jLW1pc3NadklsfjkASDFWO12409o71b24tYm9iLXBvc3NpYmxlLXNlY3VyaXR5LWp3dAo=
