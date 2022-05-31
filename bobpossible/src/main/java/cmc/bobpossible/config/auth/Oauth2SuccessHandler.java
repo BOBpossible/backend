@@ -22,32 +22,23 @@ import java.util.Optional;
 @Component
 public class Oauth2SuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-//    private final JwtService jwtService;
-//    private final MemberRepository memberRepository;
     private final TokenProvider tokenProvider;
 
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-//        HttpSession session = request.getSession();
-//        SessionMember sessionMember = (SessionMember) session.getAttribute("member");
-//        Optional<Member> member = memberRepository.findByEmail(sessionMember.getEmail());
-//
-//        String jwt = jwtService.createJwt(member.get().getId());
-//        System.out.println(member.get().getId()+"??????????????????????????????????????????????");
-//        System.out.println(sessionMember.getId()+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//        System.out.println(jwt);
-//
-//        String targetUrl = UriComponentsBuilder.fromUriString("/auth")
-//                .queryParam("jwt",jwt)
-//                .queryParam("id", member.get().getId())
-//                .build().toUriString();
-//        getRedirectStrategy().sendRedirect(request,response,targetUrl);
         TokenDto token = tokenProvider.generateTokenDto(authentication);
-        String targetUrl = UriComponentsBuilder.fromUriString("/auth")
-                .queryParam("token", token.getAccessToken())
+        String targetUrl = UriComponentsBuilder.fromUriString("/auth/success")
+                .queryParam("grantType", token.getGrantType())
+                .queryParam("accessToken", token.getAccessToken())
+                .queryParam("refreshToken", token.getRefreshToken())
+                .queryParam("accessTokenExpiresIn", token.getAccessTokenExpiresIn())
                 .build().toUriString();
+//        if (response.isCommitted()) {
+//            return;
+//        }
+
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 
