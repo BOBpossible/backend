@@ -2,14 +2,13 @@ package cmc.bobpossible.member;
 
 
 import cmc.bobpossible.BaseEntity;
+import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "ROLE")
 @Where(clause = "status='ACTIVE'")
 @Getter
 @Entity
@@ -19,8 +18,16 @@ public class Member extends BaseEntity {
     @Column(name = "member_id")
     private Long id;
 
+    @Enumerated
+    private Role role;
+
     @Column(length = 40)
     private String name;
+
+    @Column(columnDefinition = "TEXT")
+    private String profileImage;
+
+    private String email;
 
     @Column(length = 10)
     private String gender;
@@ -33,6 +40,17 @@ public class Member extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String address;
 
-
     private int point;
+
+    @Builder
+    public Member(Long id, String name, String profileImage, String email) {
+        this.id = id;
+        this.name = name;
+        this.profileImage = profileImage;
+        this.email = email;
+    }
+
+    public Member() {
+
+    }
 }
