@@ -9,14 +9,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
 
 @RequiredArgsConstructor
 @RestController
 public class OauthController {
 
-    @ApiOperation(value = "로그인 완료후 리다이렉트")
-    @GetMapping("/auth")
-    public BaseResponse<String> jwtResponse(@RequestParam String token) {
-        return new BaseResponse<>(token);
+    @ApiOperation(value = "로그인 성공")
+    @GetMapping("/auth/success")
+    public BaseResponse<TokenDto> jwtResponse(@RequestParam String grantType, @RequestParam String accessToken, @RequestParam String refreshToken, @RequestParam Long accessTokenExpiresIn) {
+
+        return new BaseResponse<>(new TokenDto(grantType,accessToken,accessTokenExpiresIn,refreshToken));
     }
 }
