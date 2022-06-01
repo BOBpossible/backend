@@ -20,7 +20,7 @@ public class OauthController {
 
     @ApiOperation(value = "로그인 성공")
     @GetMapping("/auth/success")
-    public BaseResponse<TokenDto> jwtResponse(@RequestParam String grantType, @RequestParam String accessToken, @RequestParam String refreshToken, @RequestParam Long accessTokenExpiresIn) {
+    public BaseResponse<TokenDto> jwtResponse(@RequestParam("grantType") String grantType, @RequestParam("accessToken") String accessToken, @RequestParam("refreshToken") String refreshToken, @RequestParam("accessTokenExpiresIn") Long accessTokenExpiresIn) {
 
         return new BaseResponse<>(new TokenDto(grantType,accessToken,accessTokenExpiresIn,refreshToken));
     }
