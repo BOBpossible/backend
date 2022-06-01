@@ -15,9 +15,10 @@ import javax.persistence.Id;
 public class RefreshToken extends BaseEntity {
 
     @Id
-    @Column
+    @Column(name = "rt_key")
     private String key;
 
+    @Column(name = "rt_value")
     private String value;
 
     @Builder
@@ -26,7 +27,11 @@ public class RefreshToken extends BaseEntity {
         this.value = value;
     }
 
-    public RefreshToken updateValue(String refreshToken) {
+    public RefreshToken() {
+
+    }
+
+    public void updateValue(String refreshToken) {
         this.value = refreshToken;
     }
 }

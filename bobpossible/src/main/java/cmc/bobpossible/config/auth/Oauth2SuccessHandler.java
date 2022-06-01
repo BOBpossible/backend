@@ -37,7 +37,7 @@ public class Oauth2SuccessHandler extends SavedRequestAwareAuthenticationSuccess
         String targetUrl = UriComponentsBuilder.fromUriString("/auth/success")
                 .queryParam("grantType", token.getGrantType())
                 .queryParam("accessToken", token.getAccessToken())
-                .queryParam("cmc/bobpossible/refreshToken", token.getRefreshToken())
+                .queryParam("refreshToken", token.getRefreshToken())
                 .queryParam("accessTokenExpiresIn", token.getAccessTokenExpiresIn())
                 .build().toUriString();
 //        if (response.isCommitted()) {

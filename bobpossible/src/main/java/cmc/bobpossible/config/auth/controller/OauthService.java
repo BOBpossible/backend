@@ -39,7 +39,7 @@ public class OauthService {
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
         // 저장소 정보 업데이트
-        RefreshToken newRefreshToken = refreshTokenMem.updateValue(tokenDto.getRefreshToken());
+        refreshTokenMem.updateValue(tokenDto.getRefreshToken());
 
         return tokenDto;
     }
