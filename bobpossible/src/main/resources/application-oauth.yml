@@ -4,20 +4,20 @@ spring:
       client:
         registration:
           google:
-            client-id: 827052985059-35bracmr4mr01vrrd5olqaf0nrvmq1kh.apps.googleusercontent.com
-            client-secret: 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
-            redirect-uri: "https://jinbeom.shop/{action}/oauth2/code/{registrationId}"
+            client-id: 637195245754-uj9k0moklij1ahsu1clej5qt6l55emqs.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: "https://bobpossible.shop/{action}/oauth2/code/{registrationId}"
             scope: profile,email
           naver:
-            client-id: kHM0xB5DImn6ULK7AbRs
-            client-secret: VLytBnJCGT
-            redirect-uri: "https://jinbeom.shop/{action}/oauth2/code/{registrationId}"
+            client-id: zbqaN75lf7ofQphXPiDW
+            client-secret: OBgJpHe0dh
+            redirect-uri: "https://bobpossible.shop/{action}/oauth2/code/{registrationId}"
             authorization-grant-type: authorization_code
             scope: name,email,profile_image
             client-name: Naver
           kakao:
             client-id: 2c6cea3d3e57cbf749e31376bd0aa499
-            redirect-uri: "http://localhost:8080/{action}/oauth2/code/{registrationId}"
+            redirect-uri: "https://bobpossible.shop/{action}/oauth2/code/{registrationId}"
             client-authentication-method: POST
             authorization-grant-type: authorization_code
             scope: profile_nickname, profile_image, account_email
