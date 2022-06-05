@@ -22,7 +22,7 @@ public class OauthController {
     @GetMapping("/auth/success")
     public BaseResponse<TokenDto> jwtResponse(@RequestParam("grantType") String grantType, @RequestParam("accessToken") String accessToken, @RequestParam("refreshToken") String refreshToken, @RequestParam("accessTokenExpiresIn") Long accessTokenExpiresIn) {
 
-        return new BaseResponse<>(new TokenDto(grantType,accessToken,accessTokenExpiresIn,refreshToken));
+        return new BaseResponse<>(new TokenDto(grantType, accessToken, accessTokenExpiresIn, refreshToken));
     }
 
     @ApiOperation(value = "토큰 갱신")
@@ -30,5 +30,10 @@ public class OauthController {
     public BaseResponse<TokenDto> reissueToken(@RequestParam String accessToken, @RequestParam String refreshToken) {
 
         return new BaseResponse<>(oauthService.reissueToken(accessToken, refreshToken));
+    }
+
+    @GetMapping("/health")
+    public String checkHealth() {
+        return "healthy";
     }
 }
