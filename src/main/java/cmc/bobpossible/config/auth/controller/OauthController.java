@@ -32,7 +32,7 @@ public class OauthController {
         return new BaseResponse<>(oauthService.reissueToken(accessToken, refreshToken));
     }
 
-    @GetMapping("/health")
+    @GetMapping("/auth/health")
     public String checkHealth() {
         return "healthy";
     }
