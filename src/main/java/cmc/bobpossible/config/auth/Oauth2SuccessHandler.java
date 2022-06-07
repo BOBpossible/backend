@@ -6,8 +6,13 @@ import cmc.bobpossible.config.auth.jwt.TokenDto;
 import cmc.bobpossible.config.auth.jwt.TokenProvider;
 import cmc.bobpossible.refreshToken.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -17,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -32,7 +38,8 @@ public class Oauth2SuccessHandler extends SavedRequestAwareAuthenticationSuccess
         HttpSession session = request.getSession();
         SessionMember sessionMember = (SessionMember) session.getAttribute("member");
 
-        TokenDto token = tokenProvider.generateTokenDto(authentication);
+        Authentication auth = new UsernamePasswordAuthenticationToken(sessionMember.getId(), "", authentication.getAuthorities());
+        TokenDto token = tokenProvider.generateTokenDto(auth);
 
         RefreshToken refreshToken = RefreshToken.builder()
                 .key(authentication.getName())
