@@ -36,7 +36,12 @@ public class OauthController {
     }
 
     @GetMapping("/auth/health")
-    public Long checkHealth() {
+    public String checkHealth() {
+        return "healthy";
+    }
+
+    @GetMapping("/me")
+    public Long checkToken() {
         return SecurityUtil.getCurrentMemberId();
     }
 }
