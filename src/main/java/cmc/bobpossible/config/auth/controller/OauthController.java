@@ -5,7 +5,9 @@ import cmc.bobpossible.config.auth.jwt.TokenDto;
 import cmc.bobpossible.config.auth.jwt.TokenProvider;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.security.SecurityUtil;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.context.support.SecurityWebApplicationContextUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,9 +22,10 @@ public class OauthController {
 
     @ApiOperation(value = "로그인 성공")
     @GetMapping("/auth/success")
-    public BaseResponse<TokenDto> jwtResponse(@RequestParam("grantType") String grantType, @RequestParam("accessToken") String accessToken, @RequestParam("refreshToken") String refreshToken, @RequestParam("accessTokenExpiresIn") Long accessTokenExpiresIn) {
+    public BaseResponse<TokenDto> jwtResponse(@RequestParam("grantType") String grantType, @RequestParam("accessToken") String accessToken, @RequestParam("refreshToken") String refreshToken, @RequestParam("accessTokenExpiresIn") Long accessTokenExpiresIn, @RequestParam("registerStatus") String registerStatus) {
 
-        return new BaseResponse<>(new TokenDto(grantType, accessToken, accessTokenExpiresIn, refreshToken));
+
+        return new BaseResponse<>(new TokenDto(grantType, accessToken, accessTokenExpiresIn, refreshToken, registerStatus));
     }
 
     @ApiOperation(value = "토큰 갱신")

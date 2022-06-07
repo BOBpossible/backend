@@ -1,11 +1,13 @@
 package cmc.bobpossible.config.auth;
 
+import cmc.bobpossible.config.auth.dto.SessionMember;
 import cmc.bobpossible.refreshToken.RefreshToken;
 import cmc.bobpossible.config.auth.jwt.TokenDto;
 import cmc.bobpossible.config.auth.jwt.TokenProvider;
 import cmc.bobpossible.refreshToken.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -13,7 +15,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
@@ -24,6 +28,9 @@ public class Oauth2SuccessHandler extends SavedRequestAwareAuthenticationSuccess
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+
+        HttpSession session = request.getSession();
+        SessionMember sessionMember = (SessionMember) session.getAttribute("member");
 
         TokenDto token = tokenProvider.generateTokenDto(authentication);
 
@@ -39,6 +46,7 @@ public class Oauth2SuccessHandler extends SavedRequestAwareAuthenticationSuccess
                 .queryParam("accessToken", token.getAccessToken())
                 .queryParam("refreshToken", token.getRefreshToken())
                 .queryParam("accessTokenExpiresIn", token.getAccessTokenExpiresIn())
+                .queryParam("registerStatus", sessionMember.getRegisterStatus())
                 .build().toUriString();
 //        if (response.isCommitted()) {
 //            return;
