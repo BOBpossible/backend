@@ -42,7 +42,7 @@ public class Oauth2SuccessHandler extends SavedRequestAwareAuthenticationSuccess
         TokenDto token = tokenProvider.generateTokenDto(auth);
 
         RefreshToken refreshToken = RefreshToken.builder()
-                .key(authentication.getName())
+                .key(auth.getName())
                 .value(token.getRefreshToken())
                 .build();
 
