@@ -42,6 +42,10 @@ public class Member extends BaseEntity {
 
     private int point;
 
+    @Enumerated
+    @Column(length = 10, columnDefinition = "varchar(10) default 'NEW'")
+    private RegisterStatus registerStatus;
+
     @Builder
     public Member(Long id, String name, String profileImage, String email) {
         this.id = id;
