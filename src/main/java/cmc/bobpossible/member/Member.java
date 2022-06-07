@@ -18,7 +18,7 @@ public class Member extends BaseEntity {
     @Column(name = "member_id")
     private Long id;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Column(length = 40)
@@ -42,8 +42,7 @@ public class Member extends BaseEntity {
 
     private int point;
 
-    @Enumerated
-    @Column(length = 10, columnDefinition = "varchar(10) default 'NEW'")
+    @Enumerated(EnumType.STRING)
     private RegisterStatus registerStatus;
 
     @Builder
@@ -52,6 +51,7 @@ public class Member extends BaseEntity {
         this.name = name;
         this.profileImage = profileImage;
         this.email = email;
+        registerStatus = RegisterStatus.NEW;
     }
 
     public Member() {
