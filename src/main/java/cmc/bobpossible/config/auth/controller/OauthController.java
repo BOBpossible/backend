@@ -1,11 +1,11 @@
 package cmc.bobpossible.config.auth.controller;
 
 import cmc.bobpossible.config.BaseResponse;
+import cmc.bobpossible.config.auth.SecurityUtil;
 import cmc.bobpossible.config.auth.jwt.TokenDto;
 import cmc.bobpossible.config.auth.jwt.TokenProvider;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.security.SecurityUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.context.support.SecurityWebApplicationContextUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +36,7 @@ public class OauthController {
     }
 
     @GetMapping("/auth/health")
-    public String checkHealth() {
-        return "healthy";
+    public Long checkHealth() {
+        return SecurityUtil.getCurrentMemberId();
     }
 }
