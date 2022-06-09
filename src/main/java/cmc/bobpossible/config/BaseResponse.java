@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 import static cmc.bobpossible.config.BaseResponseStatus.SUCCESS;
@@ -29,31 +30,31 @@ public class BaseResponse<T> {
     private T result;
     @ApiModelProperty(example = "메세지")
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private LinkedList message;
+    private LinkedList<T> message;
 
 
     // validation 실패
-    public BaseResponse(LinkedList errorList){
+    public BaseResponse(LinkedList<LinkedHashMap<String,String>> errorList){
         this.isSuccess = false;
         this.code = 2090;
-        this.message =  errorList;
+        this.message = (LinkedList<T>) errorList;
     }
 
     // 요청에 실패한 경우
     public BaseResponse(BaseResponseStatus status) {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList();
         list.add(status.getMessage());
         this.isSuccess = status.isSuccess();
-        this.message = list;
+        this.message = (LinkedList<T>) list;
         this.code = status.getCode();
     }
 
     // 요청에 성공한 경우
     public BaseResponse(T result) {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList();
         list.add(SUCCESS.getMessage());
         this.isSuccess = SUCCESS.isSuccess();
-        this.message = list;
+        this.message = (LinkedList<T>) list;
         this.code = SUCCESS.getCode();
         this.result = result;
     }
