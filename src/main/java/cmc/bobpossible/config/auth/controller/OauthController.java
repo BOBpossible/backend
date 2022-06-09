@@ -1,5 +1,6 @@
 package cmc.bobpossible.config.auth.controller;
 
+import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.auth.SecurityUtil;
 import cmc.bobpossible.config.auth.jwt.TokenDto;
@@ -30,7 +31,7 @@ public class OauthController {
 
     @ApiOperation(value = "토큰 갱신")
     @PostMapping("/auth/token")
-    public BaseResponse<TokenDto> reissueToken(@RequestParam String accessToken, @RequestParam String refreshToken) {
+    public BaseResponse<TokenDto> reissueToken(@RequestParam String accessToken, @RequestParam String refreshToken) throws BaseException {
 
         return new BaseResponse<>(oauthService.reissueToken(accessToken, refreshToken));
     }
