@@ -14,7 +14,7 @@ public class PostUserReq {
 
     @NotBlank
     private String name;
-    @Pattern(regexp = "MALE | FEMALE | NONE", message = "MALE | FEMALE | NONE")
+    @NotNull
     private Gender gender;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDate birthDate;
