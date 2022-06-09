@@ -1,5 +1,7 @@
 package cmc.bobpossible.config.auth.controller;
 
+import cmc.bobpossible.config.BaseException;
+import cmc.bobpossible.config.BaseResponseStatus;
 import cmc.bobpossible.config.auth.jwt.TokenDto;
 import cmc.bobpossible.config.auth.jwt.TokenProvider;
 import cmc.bobpossible.refreshToken.RefreshToken;
@@ -8,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static cmc.bobpossible.config.BaseResponseStatus.*;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -18,10 +22,10 @@ public class OauthService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
-    public TokenDto reissueToken(String accessToken, String refreshToken) {
+    public TokenDto reissueToken(String accessToken, String refreshToken) throws BaseException {
         // Refresh Token 검증
         if (!tokenProvider.validateToken(refreshToken)) {
-            throw new RuntimeException("Refresh Token이 유효하지 않습니다.");
+            throw new BaseException(INVALID_REFRESH_TOKEN);
         }
 
         //Access Token에서 Member Id 가져오기
@@ -29,10 +33,10 @@ public class OauthService {
 
         //저장소에서 memberID 기반으로 refresh token 값 가져오기
         RefreshToken refreshTokenMem = refreshTokenRepository.findByKey(authentication.getName())
-                .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
+                .orElseThrow(() -> new BaseException(MEMBER_LOGOUT));
 
         if (!refreshTokenMem.getValue().equals(refreshToken)) {
-            throw new RuntimeException("토큰 정보가 불일치합니다");
+            throw new BaseException(CHECK_REFRESH_TOKEN);
         }
 
         // 새로운 토큰 생성
