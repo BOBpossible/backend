@@ -22,11 +22,11 @@ public class PostUserReq {
 
     //이용약관
     @AssertTrue
-    private boolean termsOfService;
+    private Boolean termsOfService;
     @AssertTrue
-    private boolean privacyPolicy;
+    private Boolean privacyPolicy;
     @NotNull
-    private boolean locationInfo;
+    private Boolean locationInfo;
     @NotNull
-    private boolean marketing;
+    private Boolean marketing;
 }
