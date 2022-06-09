@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import javax.persistence.Column;
 
 @Data
-@AllArgsConstructor
 public class Address {
 
     @Column(name = "address_street")
@@ -15,4 +14,9 @@ public class Address {
 
     @Column(name = "address_detail")
     private String detail;
+    
+    public Address(String street, String detail) {
+        this.street = street;
+        this.detail = detail;
+    }
 }
