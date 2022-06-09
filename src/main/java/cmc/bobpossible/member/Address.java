@@ -14,7 +14,10 @@ public class Address {
 
     @Column(name = "address_detail")
     private String detail;
-    
+
+    public Address() {
+    }
+
     public Address(String street, String detail) {
         this.street = street;
         this.detail = detail;
