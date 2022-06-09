@@ -21,13 +21,13 @@ public class OauthController {
 
     private final OauthService oauthService;
 
-    @ApiOperation(value = "로그인 성공")
-    @GetMapping("/auth/success")
-    public BaseResponse<TokenDto> jwtResponse(@RequestParam("grantType") String grantType, @RequestParam("accessToken") String accessToken, @RequestParam("refreshToken") String refreshToken, @RequestParam("accessTokenExpiresIn") Long accessTokenExpiresIn, @RequestParam("registerStatus") String registerStatus) {
-
-
-        return new BaseResponse<>(new TokenDto(grantType, accessToken, accessTokenExpiresIn, refreshToken, registerStatus));
-    }
+//    @ApiOperation(value = "로그인 성공")
+//    @GetMapping("/auth/success")
+//    public BaseResponse<TokenDto> jwtResponse(@RequestParam("grantType") String grantType, @RequestParam("accessToken") String accessToken, @RequestParam("refreshToken") String refreshToken, @RequestParam("accessTokenExpiresIn") Long accessTokenExpiresIn, @RequestParam("registerStatus") String registerStatus) {
+//
+//
+//        return new BaseResponse<>(new TokenDto(grantType, accessToken, accessTokenExpiresIn, refreshToken, registerStatus));
+//    }
 
     @ApiOperation(value = "토큰 갱신")
     @PostMapping("/auth/token")
