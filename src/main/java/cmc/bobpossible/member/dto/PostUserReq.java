@@ -2,6 +2,7 @@ package cmc.bobpossible.member.dto;
 
 import cmc.bobpossible.member.Gender;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
@@ -13,7 +14,7 @@ public class PostUserReq {
     private String name;
     @Pattern(regexp = "MALE | FEMALE | NONE", message = "MALE | FEMALE | NONE")
     private Gender gender;
-    @Pattern(regexp = "^(19|20)\\d{2}-\\d{2}-\\d{2}$", message = "형식 (19xx-xx-xx or 20xx-xx-xx)가 아닙니다 ")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime birthDate;
     @NotBlank
     private String addressStreet;
