@@ -11,6 +11,9 @@ public class Terms {
     private Boolean locationInfo;
     private Boolean marketing;
 
+    public Terms() {
+    }
+
     public Terms(Boolean termsOfService, Boolean privacyPolicy, Boolean locationInfo, Boolean marketing) {
         this.termsOfService = termsOfService;
         this.privacyPolicy = privacyPolicy;
