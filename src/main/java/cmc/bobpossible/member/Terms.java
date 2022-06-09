@@ -7,8 +7,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class Terms {
 
-    private boolean termsOfService;
-    private boolean privacyPolicy;
-    private boolean locationInfo;
-    private boolean marketing;
+    private Boolean termsOfService;
+    private Boolean privacyPolicy;
+    private Boolean locationInfo;
+    private Boolean marketing;
 }
