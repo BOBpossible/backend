@@ -1,10 +1,12 @@
 package cmc.bobpossible.member.dto;
 
 import cmc.bobpossible.member.Gender;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -14,8 +16,8 @@ public class PostUserReq {
     private String name;
     @Pattern(regexp = "MALE | FEMALE | NONE", message = "MALE | FEMALE | NONE")
     private Gender gender;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime birthDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    private LocalDate birthDate;
     @NotBlank
     private String addressStreet;
     @NotBlank

@@ -3,11 +3,13 @@ package cmc.bobpossible.member;
 
 import cmc.bobpossible.BaseEntity;
 import cmc.bobpossible.point.Point;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +37,7 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private LocalDateTime birth_date;
+    private LocalDate birthDate;
 
     @Column(length = 20)
     private String phone;
@@ -65,11 +67,11 @@ public class Member extends BaseEntity {
 
     }
 
-    public void joinUser(String name, Gender gender, LocalDateTime birth_date, Address address, Terms terms) {
+    public void joinUser(String name, Gender gender, LocalDate birthDate, Address address, Terms terms) {
         this.role = Role.USER;
         this.name = name;
         this.gender = gender;
-        this.birth_date = birth_date;
+        this.birthDate = birthDate;
         this.address = address;
         this.registerStatus = RegisterStatus.DONE;
         this.terms = terms;
