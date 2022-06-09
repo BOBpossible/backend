@@ -1,5 +1,6 @@
 package cmc.bobpossible.config.auth.controller;
 
+import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.auth.SecurityUtil;
 import cmc.bobpossible.config.auth.jwt.TokenDto;
@@ -20,17 +21,17 @@ public class OauthController {
 
     private final OauthService oauthService;
 
-    @ApiOperation(value = "로그인 성공")
-    @GetMapping("/auth/success")
-    public BaseResponse<TokenDto> jwtResponse(@RequestParam("grantType") String grantType, @RequestParam("accessToken") String accessToken, @RequestParam("refreshToken") String refreshToken, @RequestParam("accessTokenExpiresIn") Long accessTokenExpiresIn, @RequestParam("registerStatus") String registerStatus) {
-
-
-        return new BaseResponse<>(new TokenDto(grantType, accessToken, accessTokenExpiresIn, refreshToken, registerStatus));
-    }
+//    @ApiOperation(value = "로그인 성공")
+//    @GetMapping("/auth/success")
+//    public BaseResponse<TokenDto> jwtResponse(@RequestParam("grantType") String grantType, @RequestParam("accessToken") String accessToken, @RequestParam("refreshToken") String refreshToken, @RequestParam("accessTokenExpiresIn") Long accessTokenExpiresIn, @RequestParam("registerStatus") String registerStatus) {
+//
+//
+//        return new BaseResponse<>(new TokenDto(grantType, accessToken, accessTokenExpiresIn, refreshToken, registerStatus));
+//    }
 
     @ApiOperation(value = "토큰 갱신")
     @PostMapping("/auth/token")
-    public BaseResponse<TokenDto> reissueToken(@RequestParam String accessToken, @RequestParam String refreshToken) {
+    public BaseResponse<TokenDto> reissueToken(@RequestParam String accessToken, @RequestParam String refreshToken) throws BaseException {
 
         return new BaseResponse<>(oauthService.reissueToken(accessToken, refreshToken));
     }
