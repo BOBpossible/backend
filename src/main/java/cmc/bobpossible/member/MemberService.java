@@ -32,6 +32,7 @@ public class MemberService {
 
     }
 
+    @Transactional
     public void joinOwner(PostOwnerReq postOwnerReq) throws BaseException {
 
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
