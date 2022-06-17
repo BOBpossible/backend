@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 public class PostStoreReq {
 
     @NotBlank
-    private String name;
+    private String storeName;
     @NotBlank
     private String addressStreet;
     @NotBlank
@@ -19,4 +19,7 @@ public class PostStoreReq {
     private Long storeTypeId;
     @NotNull
     private int tableNum;
+
+    private String representativeMenuName;
+
 }
