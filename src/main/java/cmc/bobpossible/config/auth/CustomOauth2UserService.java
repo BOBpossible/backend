@@ -2,10 +2,9 @@ package cmc.bobpossible.config.auth;
 
 import cmc.bobpossible.config.auth.dto.OAuthAttributes;
 import cmc.bobpossible.config.auth.dto.SessionMember;
-import cmc.bobpossible.member.Member;
+import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
-import java.util.Properties;
 
 @RequiredArgsConstructor
 @Service
