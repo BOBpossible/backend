@@ -1,7 +1,7 @@
 package cmc.bobpossible.member_favorite;
 
 import cmc.bobpossible.BaseEntity;
-import cmc.bobpossible.favorite.Favorite;
+import cmc.bobpossible.favorite.Category;
 import cmc.bobpossible.member.Member;
 import lombok.Getter;
 import org.hibernate.annotations.Where;
@@ -23,17 +23,17 @@ public class MemberFavorite extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "favoriteId")
-    private Favorite favorite;
+    private Category category;
 
-    public static MemberFavorite create(Member member, Favorite favorite) {
+    public static MemberFavorite create(Member member, Category category) {
         MemberFavorite memberFavorite = new MemberFavorite();
-        memberFavorite.init(member, favorite);
+        memberFavorite.init(member, category);
         return memberFavorite;
     }
 
-    private void init(Member member, Favorite favorite) {
+    private void init(Member member, Category category) {
         this.member = member;
         member.addMemberFavorite(this);
-        this.favorite = favorite;
+        this.category = category;
     }
 }

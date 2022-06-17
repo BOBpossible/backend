@@ -9,11 +9,11 @@ import java.util.List;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
-public class FavoriteService {
+public class CategoryService {
 
-    private final FavoriteRepository favoriteRepository;
+    private final CategoryRepository categoryRepository;
 
-    public List<Favorite> getFavorites() {
-        return favoriteRepository.findAll();
+    public List<Category> getCategories() {
+        return categoryRepository.findAll();
     }
 }
