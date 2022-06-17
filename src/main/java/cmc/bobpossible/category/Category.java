@@ -15,7 +15,7 @@ import javax.persistence.Id;
 public class Category extends BaseEntity {
 
     @Id @GeneratedValue
-    @Column(name = "favorite_id")
+    @Column(name = "category_id")
     private Long id;
 
     @Column(length = 40)
