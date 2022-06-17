@@ -37,8 +37,8 @@ public enum BaseResponseStatus {
     // favorites
     FAVORITES_ID_NOT_EXIST(false, 2101, "해당 선호 음식 종류 ID가 존재하지 않습니다."),
 
-    // products/category
-    GET_PRODUCT_CATEGORY_NOT_EXIST(false, 2111, "id값에 해당하는 category가 없습니다"),
+    // aws
+    IMAGE_UPLOAD_FAIL(false, 2111, "이미지 업로드에 실패하였습니다."),
 
     // products/subCategory
     GET_PRODUCT_SUB_CATEGORY_NOT_EXIST(false, 2121, "id값에 해당하는 subCategory가 없습니다"),
