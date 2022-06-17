@@ -2,7 +2,7 @@ package cmc.bobpossible.member_category;
 
 import cmc.bobpossible.BaseEntity;
 import cmc.bobpossible.category.Category;
-import cmc.bobpossible.member.Member;
+import cmc.bobpossible.member.entity.Member;
 import lombok.Getter;
 import org.hibernate.annotations.Where;
 
