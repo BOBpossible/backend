@@ -1,9 +1,9 @@
-package cmc.bobpossible.member_favorite;
+package cmc.bobpossible.member_category;
 
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.auth.SecurityUtil;
-import cmc.bobpossible.favorite.Favorite;
-import cmc.bobpossible.favorite.FavoriteRepository;
+import cmc.bobpossible.category.Category;
+import cmc.bobpossible.category.CategoryRepository;
 import cmc.bobpossible.member.Member;
 import cmc.bobpossible.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,25 +15,25 @@ import static cmc.bobpossible.config.BaseResponseStatus.*;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
-public class MemberFavoriteService {
+public class MemberCategoryService {
 
     private final MemberRepository memberRepository;
-    private final FavoriteRepository favoriteRepository;
-    private final MemberFavoriteRepository memberFavoriteRepository;
+    private final CategoryRepository categoryRepository;
+    private final MemberCategoryRepository memberCategoryRepository;
 
     @Transactional
-    public void createMemberFavorites(Long favoriteId) throws BaseException {
+    public void createMemberCategories(Long favoriteId) throws BaseException {
 
         //고객 조회
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
         // 선호 음식 조회
-        Favorite favorite = favoriteRepository.findById(favoriteId)
+        Category category = categoryRepository.findById(favoriteId)
                 .orElseThrow(() -> new BaseException(FAVORITES_ID_NOT_EXIST));
 
-        MemberFavorite memberFavorite = MemberFavorite.create(member, favorite);
+        MemberCategory memberCategory = MemberCategory.create(member, category);
 
-        memberFavoriteRepository.save(memberFavorite);
+        memberCategoryRepository.save(memberCategory);
     }
 }

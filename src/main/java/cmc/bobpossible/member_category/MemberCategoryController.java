@@ -1,4 +1,4 @@
-package cmc.bobpossible.member_favorite;
+package cmc.bobpossible.member_category;
 
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RequestMapping("/api/v1/member-favorites")
+@RequestMapping("/api/v1/member-categories")
 @RequiredArgsConstructor
 @RestController
-public class MemberFavoriteController {
+public class MemberCategoryController {
 
-    private final MemberFavoriteService memberFavoriteService;
+    private final MemberCategoryService memberCategoryService;
 
     @ApiOperation("고객 선호 음식 추가")
     @PostMapping("/")
-    public BaseResponse<String> createMemberFavorites(@RequestParam List<Long> favorites) throws BaseException {
+    public BaseResponse<String> createMemberCategories(@RequestParam List<Long> favorites) throws BaseException {
 
         for (Long favorite : favorites) {
-            memberFavoriteService.createMemberFavorites(favorite);
+            memberCategoryService.createMemberCategories(favorite);
         }
 
         return new BaseResponse<>("");
