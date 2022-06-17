@@ -1,7 +1,7 @@
 package cmc.bobpossible.store;
 
 import cmc.bobpossible.BaseEntity;
-import cmc.bobpossible.member.Member;
+import cmc.bobpossible.member.entity.Member;
 import lombok.Getter;
 import org.hibernate.annotations.Where;
 
