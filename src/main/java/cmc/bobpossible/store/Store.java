@@ -1,11 +1,15 @@
 package cmc.bobpossible.store;
 
 import cmc.bobpossible.BaseEntity;
+import cmc.bobpossible.category.Category;
+import cmc.bobpossible.member.Address;
 import cmc.bobpossible.member.entity.Member;
 import lombok.Getter;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Where(clause = "status='ACTIVE'")
 @Getter
@@ -26,18 +30,29 @@ public class Store extends BaseEntity {
     @Column(length = 50)
     private String intro;
 
-    @Column(columnDefinition = "TEXT")
-    private String address;
+    @Embedded
+    private Address address;
 
-    @Column(columnDefinition = "TEXT")
-    private String bannerImage;
+    private int tableNum;
 
-    @Column(length = 100)
-    private String representativeMenu;
+    @Embedded
+    private RepresentativeMenu representativeMenu;
 
-    @Column(columnDefinition = "TEXT")
-    private String representativeMenuImage;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoryId")
+    private Category category;
 
-    private int tableCount;
+    public static Store create(@NotBlank String storeName, Address address, Category category, @NotNull int tableNum, RepresentativeMenu representativeMenu) {
+        Store store = new Store();
+        store.init( storeName, address, category, tableNum, representativeMenu);
+        return store;
+    }
 
+    private void init(String storeName, Address address, Category category, int tableNum, RepresentativeMenu representativeMenu) {
+        this.name = storeName;
+        this.address = address;
+        this.category = category;
+        this.tableNum = tableNum;
+        this.representativeMenu = representativeMenu;
+    }
 }
