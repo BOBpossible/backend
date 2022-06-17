@@ -12,7 +12,7 @@ import javax.persistence.Id;
 @Where(clause = "status='ACTIVE'")
 @Getter
 @Entity
-public class Favorite extends BaseEntity {
+public class Category extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "favorite_id")
@@ -21,10 +21,10 @@ public class Favorite extends BaseEntity {
     @Column(length = 40)
     private String name;
 
-    public static Favorite create(String name) {
-        Favorite favorite = new Favorite();
-        favorite.init(name);
-        return favorite;
+    public static Category create(String name) {
+        Category category = new Category();
+        category.init(name);
+        return category;
     }
 
     private void init(String name) {
