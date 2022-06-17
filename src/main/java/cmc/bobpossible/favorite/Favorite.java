@@ -20,4 +20,14 @@ public class Favorite extends BaseEntity {
 
     @Column(length = 40)
     private String name;
+
+    public static Favorite create(String name) {
+        Favorite favorite = new Favorite();
+        favorite.init(name);
+        return favorite;
+    }
+
+    private void init(String name) {
+        this.name = name;
+    }
 }

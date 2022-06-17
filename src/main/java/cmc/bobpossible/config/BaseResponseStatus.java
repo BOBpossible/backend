@@ -34,8 +34,8 @@ public enum BaseResponseStatus {
     POST_USERS_INVALID_EMAIL(false, 2016, "이메일 형식을 확인해주세요."),
     POST_USERS_EXISTS_EMAIL(false, 2017, "중복된 이메일입니다."),
 
-    // products
-    GET_PRODUCT_IDX_NOT_EXIST(false, 2101, "id값에 해당하는 product가 없습니다"),
+    // favorites
+    FAVORITES_ID_NOT_EXIST(false, 2101, "해당 선호 음식 종류 ID가 존재하지 않습니다."),
 
     // products/category
     GET_PRODUCT_CATEGORY_NOT_EXIST(false, 2111, "id값에 해당하는 category가 없습니다"),
