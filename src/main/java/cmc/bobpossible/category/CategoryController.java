@@ -1,7 +1,7 @@
-package cmc.bobpossible.favorite;
+package cmc.bobpossible.category;
 
 import cmc.bobpossible.config.BaseResponse;
-import cmc.bobpossible.favorite.dto.GetCategoriesRes;
+import cmc.bobpossible.category.dto.GetCategoriesRes;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

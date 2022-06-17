@@ -1,6 +1,6 @@
-package cmc.bobpossible.favorite.dto;
+package cmc.bobpossible.category.dto;
 
-import cmc.bobpossible.favorite.Category;
+import cmc.bobpossible.category.Category;
 import lombok.Data;
 
 @Data
