@@ -1,4 +1,4 @@
-package cmc.bobpossible.favorite;
+package cmc.bobpossible.category;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

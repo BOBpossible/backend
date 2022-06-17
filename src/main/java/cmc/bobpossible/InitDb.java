@@ -1,6 +1,6 @@
 package cmc.bobpossible;
 
-import cmc.bobpossible.favorite.Category;
+import cmc.bobpossible.category.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

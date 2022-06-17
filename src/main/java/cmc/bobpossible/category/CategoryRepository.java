@@ -1,4 +1,4 @@
-package cmc.bobpossible.favorite;
+package cmc.bobpossible.category;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
