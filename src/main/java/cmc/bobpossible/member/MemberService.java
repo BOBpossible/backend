@@ -2,12 +2,12 @@ package cmc.bobpossible.member;
 
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.auth.SecurityUtil;
+import cmc.bobpossible.member.dto.PostOwnerReq;
 import cmc.bobpossible.member.dto.PostUserReq;
+import cmc.bobpossible.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 import static cmc.bobpossible.config.BaseResponseStatus.CHECK_QUIT_USER;
 
@@ -26,8 +26,21 @@ public class MemberService {
         member.joinUser(postUserReq.getName(),
                 postUserReq.getGender(),
                 postUserReq.getBirthDate(),
-                new Address(postUserReq.getAddressStreet(),postUserReq.getAddressDetail()),
+                postUserReq.getPhone(),
+                new Address(postUserReq.getAddressStreet(),postUserReq.getAddressDetail(),postUserReq.getAddressDong()),
                 new Terms(postUserReq.getTermsOfService(),postUserReq.getPrivacyPolicy(),postUserReq.getLocationInfo(), postUserReq.getMarketing()));
 
+    }
+
+    public void joinOwner(PostOwnerReq postOwnerReq) throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        member.joinOwner(postOwnerReq.getName(),
+                postOwnerReq.getGender(),
+                postOwnerReq.getBirthDate(),
+                postOwnerReq.getPhone(),
+                new Terms(postOwnerReq.getTermsOfService(),postOwnerReq.getPrivacyPolicy(),postOwnerReq.getLocationInfo(), postOwnerReq.getMarketing()));
     }
 }
