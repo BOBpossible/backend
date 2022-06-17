@@ -4,7 +4,7 @@ import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.auth.SecurityUtil;
 import cmc.bobpossible.category.Category;
 import cmc.bobpossible.category.CategoryRepository;
-import cmc.bobpossible.member.Member;
+import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

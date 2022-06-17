@@ -1,5 +1,6 @@
 package cmc.bobpossible.member;
 
+import cmc.bobpossible.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

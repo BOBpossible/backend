@@ -1,17 +1,17 @@
-package cmc.bobpossible.member;
+package cmc.bobpossible.member.entity;
 
 
 import cmc.bobpossible.BaseEntity;
+import cmc.bobpossible.member.*;
 import cmc.bobpossible.member_category.MemberCategory;
 import cmc.bobpossible.point.Point;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +20,8 @@ import java.util.List;
 @Entity
 public class Member extends BaseEntity {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "member_id")
     private Long id;
 
@@ -71,12 +72,23 @@ public class Member extends BaseEntity {
 
     }
 
-    public void joinUser(String name, Gender gender, LocalDate birthDate, Address address, Terms terms) {
+    public void joinUser(String name, Gender gender, LocalDate birthDate, String phone, Address address, Terms terms) {
         this.role = Role.USER;
         this.name = name;
         this.gender = gender;
         this.birthDate = birthDate;
         this.address = address;
+        this.phone = phone;
+        this.registerStatus = RegisterStatus.DONE;
+        this.terms = terms;
+    }
+
+    public void joinOwner(String name, Gender gender, LocalDate birthDate, String phone, Terms terms) {
+        this.role = Role.OWNER;
+        this.name = name;
+        this.gender = gender;
+        this.birthDate = birthDate;
+        this.phone = phone;
         this.registerStatus = RegisterStatus.DONE;
         this.terms = terms;
     }

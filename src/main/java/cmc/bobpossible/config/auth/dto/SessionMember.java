@@ -1,6 +1,6 @@
 package cmc.bobpossible.config.auth.dto;
 
-import cmc.bobpossible.member.Member;
+import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.member.RegisterStatus;
 import lombok.Getter;
 

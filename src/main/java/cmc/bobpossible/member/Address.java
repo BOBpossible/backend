@@ -15,11 +15,15 @@ public class Address {
     @Column(name = "address_detail")
     private String detail;
 
+    @Column(name = "address_dong")
+    private String dong;
+
     public Address() {
     }
 
-    public Address(String street, String detail) {
+    public Address(String street, String detail, String dong) {
         this.street = street;
         this.detail = detail;
+        this.dong = dong;
     }
 }
