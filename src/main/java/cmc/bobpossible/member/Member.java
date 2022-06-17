@@ -2,6 +2,7 @@ package cmc.bobpossible.member;
 
 
 import cmc.bobpossible.BaseEntity;
+import cmc.bobpossible.member_favorite.MemberFavorite;
 import cmc.bobpossible.point.Point;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,6 +47,9 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Point> points = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<MemberFavorite> memberFavorites = new ArrayList<>();
+
     @Enumerated(EnumType.STRING)
     private RegisterStatus registerStatus;
 
@@ -73,5 +77,9 @@ public class Member extends BaseEntity {
         this.address = address;
         this.registerStatus = RegisterStatus.DONE;
         this.terms = terms;
+    }
+
+    public void addMemberFavorite(MemberFavorite memberFavorite) {
+        memberFavorites.add(memberFavorite);
     }
 }

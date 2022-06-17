@@ -1,9 +1,10 @@
-package cmc.bobpossible.member;
+package cmc.bobpossible.member.controller;
 
 
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.RefineError;
+import cmc.bobpossible.member.MemberService;
 import cmc.bobpossible.member.dto.PostUserReq;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -14,15 +15,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 @RestController
-public class MemberController {
+public class UserController {
 
     private final MemberService memberService;
 
     @ApiOperation("고객 회원가입")
-    @PostMapping("/user")
+    @PostMapping("/")
     public BaseResponse<String> joinUser(@Validated @RequestBody PostUserReq postUserReq, Errors errors) throws BaseException {
 
         //validation

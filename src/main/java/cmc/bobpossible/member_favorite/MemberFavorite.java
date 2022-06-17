@@ -24,4 +24,16 @@ public class MemberFavorite extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "favoriteId")
     private Favorite favorite;
+
+    public static MemberFavorite create(Member member, Favorite favorite) {
+        MemberFavorite memberFavorite = new MemberFavorite();
+        memberFavorite.init(member, favorite);
+        return memberFavorite;
+    }
+
+    private void init(Member member, Favorite favorite) {
+        this.member = member;
+        member.addMemberFavorite(this);
+        this.favorite = favorite;
+    }
 }
