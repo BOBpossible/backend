@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class MemberCategory extends BaseEntity {
 
     @Id @GeneratedValue
-    @Column(name = "member_favorite_id")
+    @Column(name = "member_category_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -22,7 +22,7 @@ public class MemberCategory extends BaseEntity {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "favoriteId")
+    @JoinColumn(name = "categoryId")
     private Category category;
 
     public static MemberCategory create(Member member, Category category) {
