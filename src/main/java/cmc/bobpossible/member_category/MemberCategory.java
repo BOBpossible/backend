@@ -1,7 +1,7 @@
-package cmc.bobpossible.member_favorite;
+package cmc.bobpossible.member_category;
 
 import cmc.bobpossible.BaseEntity;
-import cmc.bobpossible.favorite.Favorite;
+import cmc.bobpossible.category.Category;
 import cmc.bobpossible.member.Member;
 import lombok.Getter;
 import org.hibernate.annotations.Where;
@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Where(clause = "status='ACTIVE'")
 @Getter
 @Entity
-public class MemberFavorite extends BaseEntity {
+public class MemberCategory extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "member_favorite_id")
@@ -23,17 +23,17 @@ public class MemberFavorite extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "favoriteId")
-    private Favorite favorite;
+    private Category category;
 
-    public static MemberFavorite create(Member member, Favorite favorite) {
-        MemberFavorite memberFavorite = new MemberFavorite();
-        memberFavorite.init(member, favorite);
-        return memberFavorite;
+    public static MemberCategory create(Member member, Category category) {
+        MemberCategory memberCategory = new MemberCategory();
+        memberCategory.init(member, category);
+        return memberCategory;
     }
 
-    private void init(Member member, Favorite favorite) {
+    private void init(Member member, Category category) {
         this.member = member;
         member.addMemberFavorite(this);
-        this.favorite = favorite;
+        this.category = category;
     }
 }
