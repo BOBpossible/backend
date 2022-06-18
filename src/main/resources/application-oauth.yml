@@ -6,17 +6,17 @@ spring:
           google:
             client-id:
             client-secret:
-            redirect-uri:
+            redirect-uri: "https://bobpossible.shop/{action}/oauth2/code/{registrationId}"
             scope: profile,email
           naver:
-            client-id: zbqaN75lf7ofQphXPiDW
-            client-secret: OBgJpHe0dh
+            client-id:
+            client-secret:
             redirect-uri: "https://bobpossible.shop/{action}/oauth2/code/{registrationId}"
             authorization-grant-type: authorization_code
             scope: name,email,profile_image
             client-name: Naver
           kakao:
-            client-id: 2c6cea3d3e57cbf749e31376bd0aa499
+            client-id: 
             redirect-uri: "https://bobpossible.shop/{action}/oauth2/code/{registrationId}"
             client-authentication-method: POST
             authorization-grant-type: authorization_code
