@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 public class RepresentativeMenu {
 
+    @Column(name = "menu_name")
     private String name;
 
     @Column(columnDefinition = "TEXT")

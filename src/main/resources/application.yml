@@ -10,7 +10,7 @@ spring:
   datasource:
     url: jdbc:mariadb://missionbobpossible.cveg9tdkeygv.ap-northeast-2.rds.amazonaws.com/dev?autoReconnect=true
     username: admin
-    password: bobpossible1
+    password: 
     driver-class-name: org.mariadb.jdbc.Driver
   mvc:
     pathmatch:
@@ -30,4 +30,4 @@ logging:
     org.hibernate.type: trace
 
 jwt:
-  secret: hi
+  secret: c3ByaW5nLWJvb3QtY21jLW1pc3NadklsfjkASDFWO12409o71b24tYm9iLXBvc3NpYmxlLXNlY3VyaXR5LWp3dAo=
