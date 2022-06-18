@@ -8,6 +8,7 @@ import cmc.bobpossible.config.auth.jwt.TokenProvider;
 import cmc.bobpossible.utils.S3Uploader;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.context.support.SecurityWebApplicationContextUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,9 @@ public class OauthController {
 
     private final OauthService oauthService;
     private final S3Uploader s3Uploader;
+
+    @Value("${jwt.secret}")
+    private String value;
 
     @ApiOperation(value = "로그인 성공")
     @GetMapping("/auth/success")
@@ -44,6 +48,11 @@ public class OauthController {
     @GetMapping("/auth/health")
     public String checkHealth() {
         return "healthy";
+    }
+
+    @GetMapping("/auth/1")
+    public String checkHealth1() {
+        return value;
     }
 
 }
