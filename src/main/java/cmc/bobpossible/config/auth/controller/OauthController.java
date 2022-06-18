@@ -32,10 +32,10 @@ public class OauthController {
 
     @ApiOperation(value = "로그인 성공")
     @GetMapping("/auth/success")
-    public BaseResponse<String> jwtResponse(@RequestParam("grantType") String grantType, @RequestParam("accessToken") String accessToken, @RequestParam("refreshToken") String refreshToken, @RequestParam("accessTokenExpiresIn") Long accessTokenExpiresIn, @RequestParam("registerStatus") String registerStatus) {
+    public String jwtResponse(@RequestParam("grantType") String grantType, @RequestParam("accessToken") String accessToken, @RequestParam("refreshToken") String refreshToken, @RequestParam("accessTokenExpiresIn") Long accessTokenExpiresIn, @RequestParam("registerStatus") String registerStatus) {
 
 
-        return new BaseResponse<>("");
+        return "";
     }
 
     @ApiOperation(value = "토큰 갱신")

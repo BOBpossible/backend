@@ -16,7 +16,7 @@ spring:
             scope: name,email,profile_image
             client-name: Naver
           kakao:
-            client-id: 
+            client-id:
             redirect-uri: "https://bobpossible.shop/{action}/oauth2/code/{registrationId}"
             client-authentication-method: POST
             authorization-grant-type: authorization_code
