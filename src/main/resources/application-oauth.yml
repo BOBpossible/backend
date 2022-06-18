@@ -4,20 +4,20 @@ spring:
       client:
         registration:
           google:
-            client-id: 637195245754-uj9k0moklij1ahsu1clej5qt6l55emqs.apps.googleusercontent.com
-            client-secret: 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
-            redirect-uri: "https://bobpossible.shop/{action}/oauth2/code/{registrationId}"
+            client-id:
+            client-secret:
+            redirect-uri:
             scope: profile,email
           naver:
-            client-id: zbqaN75lf7ofQphXPiDW
-            client-secret: OBgJpHe0dh
-            redirect-uri: "https://bobpossible.shop/{action}/oauth2/code/{registrationId}"
+            client-id:
+            client-secret:
+            redirect-uri:
             authorization-grant-type: authorization_code
             scope: name,email,profile_image
             client-name: Naver
           kakao:
-            client-id: 2c6cea3d3e57cbf749e31376bd0aa499
-            redirect-uri: "https://bobpossible.shop/{action}/oauth2/code/{registrationId}"
+            client-id:
+            redirect-uri:
             client-authentication-method: POST
             authorization-grant-type: authorization_code
             scope: profile_nickname, profile_image, account_email
