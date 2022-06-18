@@ -38,7 +38,7 @@ jobs:
       - name: Set yaml file
         uses: microsoft/variable-substitution@v1
         with:
-          files: './src/main/resources/application.yml'
+          files: 'src/main/resources/application.yml'
         env:
           spring.datasource.password: bobpossible1
 
