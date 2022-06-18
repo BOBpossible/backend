@@ -58,14 +58,14 @@ jobs:
         with:
           files: 'src/main/resources/application-oauth.yml'
         env:
-          spring.security.oauth2.client.registration.google.client-id: ${{secrets.GOOGLE_CLEINT_ID}}
-          spring.security.oauth2.client.registration.google.client-secret: ${{secrets.GOOGLE_CLEINT_SECRET}}
+          spring.security.oauth2.client.registration.google.client-id: ${{secrets.GOOGLE_CLIENT_ID}}
+          spring.security.oauth2.client.registration.google.client-secret: ${{secrets.GOOGLE_CLIENT_SECRET}}
           spring.security.oauth2.client.registration.google.redirect-uri: ${{secrets.OAUTH_REDIRECT_URI}}
-#           spring.security.oauth2.client.registration.naver.client-id: ${{secrets.NAVER_CLEINT_ID}}
-#           spring.security.oauth2.client.registration.naver.client-secret: ${{secrets.NAVER_CLEINT_SECRET}}
-#           spring.security.oauth2.client.registration.naver.redirect-uri: ${{secrets.OAUTH_REDIRECT_URI}}
-#           spring.security.oauth2.client.registration.kakao.client-id: ${{secrets.KAKAO_CLEINT_ID}}
-#           spring.security.oauth2.client.registration.kakao.redirect-uri: ${{secrets.OAUTH_REDIRECT_URI}}
+          spring.security.oauth2.client.registration.naver.client-id: ${{secrets.NAVER_CLIENT_ID}}
+          spring.security.oauth2.client.registration.naver.client-secret: ${{secrets.NAVER_CLIENT_SECRET}}
+          spring.security.oauth2.client.registration.naver.redirect-uri: ${{secrets.OAUTH_REDIRECT_URI}}
+          spring.security.oauth2.client.registration.kakao.client-id: ${{secrets.KAKAO_CLIENT_ID}}
+          spring.security.oauth2.client.registration.kakao.redirect-uri: ${{secrets.OAUTH_REDIRECT_URI}}
 
     
           
