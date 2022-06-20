@@ -12,13 +12,24 @@ public class OAuthAttributes {
     private String nameAttributeKey;
     private String name;
     private String email;
+<<<<<<< HEAD
 
     @Builder
     public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name, String email) {
+=======
+    private String picture;
+
+    @Builder
+    public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name, String email, String picture) {
+>>>>>>> 1512c441780c7c79413647d4d638da0dd153e401
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
         this.name = name;
         this.email = email;
+<<<<<<< HEAD
+=======
+        this.picture = picture;
+>>>>>>> 1512c441780c7c79413647d4d638da0dd153e401
     }
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
@@ -36,6 +47,10 @@ public class OAuthAttributes {
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
+<<<<<<< HEAD
+=======
+                .picture((String) attributes.get("picture"))
+>>>>>>> 1512c441780c7c79413647d4d638da0dd153e401
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
@@ -47,6 +62,10 @@ public class OAuthAttributes {
         return OAuthAttributes.builder()
                 .name((String) response.get("name"))
                 .email((String) response.get("email"))
+<<<<<<< HEAD
+=======
+                .picture((String) response.get("profile_image"))
+>>>>>>> 1512c441780c7c79413647d4d638da0dd153e401
                 .attributes(response)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
@@ -61,6 +80,10 @@ public class OAuthAttributes {
         return OAuthAttributes.builder()
                 .name((String) kakaoProfile.get("nickname"))
                 .email((String) kakaoAccount.get("email"))
+<<<<<<< HEAD
+=======
+                .picture((String) kakaoProfile.get("profile_image_url"))
+>>>>>>> 1512c441780c7c79413647d4d638da0dd153e401
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
@@ -70,6 +93,10 @@ public class OAuthAttributes {
         return Member.builder()
                 .name(name)
                 .email(email)
+<<<<<<< HEAD
+=======
+                .profileImage(picture)
+>>>>>>> 1512c441780c7c79413647d4d638da0dd153e401
                 .build();
     }
 }

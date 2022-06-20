@@ -60,9 +60,16 @@ public class Member extends BaseEntity {
     private Terms terms;
 
     @Builder
+<<<<<<< HEAD
     public Member(Long id, String name, String email) {
         this.id = id;
         this.name = name;
+=======
+    public Member(Long id, String name, String profileImage, String email) {
+        this.id = id;
+        this.name = name;
+        this.profileImage = profileImage;
+>>>>>>> 1512c441780c7c79413647d4d638da0dd153e401
         this.email = email;
         registerStatus = RegisterStatus.NEW;
     }
@@ -71,6 +78,7 @@ public class Member extends BaseEntity {
 
     }
 
+<<<<<<< HEAD
     public static Member create(String email, String name) {
         Member member = new Member();
         member.init(email, name);
@@ -83,6 +91,8 @@ public class Member extends BaseEntity {
         registerStatus = RegisterStatus.NEW;
     }
 
+=======
+>>>>>>> 1512c441780c7c79413647d4d638da0dd153e401
     public void joinUser(String name, Gender gender, LocalDate birthDate, String phone, Address address, Terms terms) {
         this.role = Role.USER;
         this.name = name;
