@@ -1,7 +1,6 @@
 package cmc.bobpossible.config.auth.controller;
 
 import cmc.bobpossible.config.BaseException;
-<<<<<<< HEAD
 import cmc.bobpossible.config.auth.jwt.TokenDto;
 import cmc.bobpossible.config.auth.jwt.TokenProvider;
 import cmc.bobpossible.member.MemberRepository;
@@ -17,18 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 
-=======
-import cmc.bobpossible.config.BaseResponseStatus;
-import cmc.bobpossible.config.auth.jwt.TokenDto;
-import cmc.bobpossible.config.auth.jwt.TokenProvider;
-import cmc.bobpossible.refreshToken.RefreshToken;
-import cmc.bobpossible.refreshToken.RefreshTokenRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
->>>>>>> 1512c441780c7c79413647d4d638da0dd153e401
 import static cmc.bobpossible.config.BaseResponseStatus.*;
 
 @Transactional(readOnly = true)
@@ -38,10 +25,8 @@ public class OauthService {
 
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
-<<<<<<< HEAD
     private final MemberRepository memberRepository;
-=======
->>>>>>> 1512c441780c7c79413647d4d638da0dd153e401
+
 
     @Transactional
     public TokenDto reissueToken(String accessToken, String refreshToken) throws BaseException {
@@ -69,7 +54,6 @@ public class OauthService {
 
         return tokenDto;
     }
-<<<<<<< HEAD
 
     @Transactional
     public TokenDto googleLogin(String email, String name) {
@@ -97,6 +81,4 @@ public class OauthService {
                 .registerStatus(member.getRegisterStatus().name())
                 .build();
     }
-=======
->>>>>>> 1512c441780c7c79413647d4d638da0dd153e401
 }
