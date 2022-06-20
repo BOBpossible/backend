@@ -1,15 +1,20 @@
 package cmc.bobpossible.config.auth.controller;
 
 import cmc.bobpossible.config.BaseException;
-import cmc.bobpossible.config.BaseResponseStatus;
 import cmc.bobpossible.config.auth.jwt.TokenDto;
 import cmc.bobpossible.config.auth.jwt.TokenProvider;
+import cmc.bobpossible.member.MemberRepository;
+import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.refreshToken.RefreshToken;
 import cmc.bobpossible.refreshToken.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
 
 import static cmc.bobpossible.config.BaseResponseStatus.*;
 
@@ -20,6 +25,7 @@ public class OauthService {
 
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public TokenDto reissueToken(String accessToken, String refreshToken) throws BaseException {
@@ -46,5 +52,32 @@ public class OauthService {
         refreshTokenMem.updateValue(tokenDto.getRefreshToken());
 
         return tokenDto;
+    }
+
+    @Transactional
+    public TokenDto googleLogin(String email, String name) {
+
+        Member member = memberRepository.findByEmail(email)
+                .orElse(Member.create(email, name));
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(member.getId(), "", Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
+
+        TokenDto token = tokenProvider.generateTokenDto(auth);
+
+        RefreshToken refreshToken = RefreshToken.builder()
+                .key(auth.getName())
+                .value(token.getRefreshToken())
+                .build();
+
+        refreshTokenRepository.save(refreshToken);
+        memberRepository.save(member);
+
+        return TokenDto.builder()
+                .grantType(token.getGrantType())
+                .accessToken(token.getAccessToken())
+                .refreshToken(token.getRefreshToken())
+                .accessTokenExpiresIn(token.getAccessTokenExpiresIn())
+                .registerStatus(member.getRegisterStatus().name())
+                .build();
     }
 }

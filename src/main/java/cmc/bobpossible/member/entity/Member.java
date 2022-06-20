@@ -60,16 +60,27 @@ public class Member extends BaseEntity {
     private Terms terms;
 
     @Builder
-    public Member(Long id, String name, String profileImage, String email) {
+    public Member(Long id, String name, String email) {
         this.id = id;
         this.name = name;
-        this.profileImage = profileImage;
         this.email = email;
         registerStatus = RegisterStatus.NEW;
     }
 
     public Member() {
 
+    }
+
+    public static Member create(String email, String name) {
+        Member member = new Member();
+        member.init(email, name);
+        return member;
+    }
+
+    private void init(String email, String name) {
+        this.email = email;
+        this.name = name;
+        registerStatus = RegisterStatus.NEW;
     }
 
     public void joinUser(String name, Gender gender, LocalDate birthDate, String phone, Address address, Terms terms) {
