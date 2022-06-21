@@ -11,7 +11,7 @@ public class Terms {
     private Boolean locationInfo;
     private Boolean marketing;
 
-    public Terms() {
+    private Terms() {
     }
 
     public Terms(Boolean termsOfService, Boolean privacyPolicy, Boolean locationInfo, Boolean marketing) {

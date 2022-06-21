@@ -4,6 +4,7 @@ package cmc.bobpossible.member.entity;
 import cmc.bobpossible.BaseEntity;
 import cmc.bobpossible.member.*;
 import cmc.bobpossible.member_category.MemberCategory;
+import cmc.bobpossible.operation_time.OperationTime;
 import cmc.bobpossible.point.Point;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,17 +48,17 @@ public class Member extends BaseEntity {
     @Embedded
     private Address address;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Point> points = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<MemberCategory> memberCategories = new ArrayList<>();
-
     @Enumerated(EnumType.STRING)
     private RegisterStatus registerStatus;
 
     @Embedded
     private Terms terms;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Point> points = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<MemberCategory> memberCategories = new ArrayList<>();
 
     @Builder
     public Member(Long id, String name, String email) {
@@ -67,20 +68,15 @@ public class Member extends BaseEntity {
         registerStatus = RegisterStatus.NEW;
     }
 
-    public Member() {
+    protected Member() {
 
     }
 
     public static Member create(String email, String name) {
-        Member member = new Member();
-        member.init(email, name);
-        return member;
-    }
-
-    private void init(String email, String name) {
-        this.email = email;
-        this.name = name;
-        registerStatus = RegisterStatus.NEW;
+        return Member.builder()
+                        .email(email)
+                        .name(name)
+                        .build();
     }
 
     public void joinUser(String name, Gender gender, LocalDate birthDate, String phone, Address address, Terms terms) {

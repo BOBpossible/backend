@@ -18,7 +18,7 @@ public class Address {
     @Column(name = "address_dong")
     private String dong;
 
-    public Address() {
+    private Address() {
     }
 
     public Address(String street, String detail, String dong) {

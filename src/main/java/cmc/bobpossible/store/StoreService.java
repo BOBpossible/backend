@@ -4,6 +4,8 @@ import cmc.bobpossible.category.Category;
 import cmc.bobpossible.category.CategoryRepository;
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.member.Address;
+import cmc.bobpossible.menu_image.MenuImage;
+import cmc.bobpossible.operation_time.OperationTime;
 import cmc.bobpossible.store.dto.PostStoreReq;
 import cmc.bobpossible.utils.S3Uploader;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static cmc.bobpossible.config.BaseResponseStatus.CHECK_QUIT_USER;
 
@@ -38,12 +41,31 @@ public class StoreService {
             imageURL.add( s3Uploader.upload(representativeMenuImages.get(i), "menuImage"));
         }
 
+        // 메뉴 이미지 엔티티
+        List<MenuImage> menuImages = imageURL.stream()
+                .map(i -> MenuImage.builder().image(i).build())
+                .collect(Collectors.toList());
+
+
+        List<OperationTime> operationTimes = postStoreReq.getOperationTimeVO().stream()
+                .map(
+                        o -> OperationTime.builder()
+                                .dayOfWeek(o.getDayOfWeek())
+                                .startTime(o.getStartTime())
+                                .endTime(o.getEndTime())
+                                .breakStartTime(o.getBreakStartTime())
+                                .breakEndTime(o.getBreakEndTime())
+                                .build())
+                .collect(Collectors.toList());
+
         Store store = Store.create(
                 postStoreReq.getStoreName(),
                 new Address(postStoreReq.getAddressStreet(), postStoreReq.getAddressDetail(), postStoreReq.getAddressDong()),
                 category,
                 postStoreReq.getTableNum(),
-                new RepresentativeMenu(postStoreReq.getRepresentativeMenuName(), imageURL)
+                postStoreReq.getRepresentativeMenuName(),
+                menuImages,
+                operationTimes
         );
 
         storeRepository.save(store);

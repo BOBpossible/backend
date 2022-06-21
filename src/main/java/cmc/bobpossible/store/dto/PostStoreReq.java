@@ -3,6 +3,7 @@ package cmc.bobpossible.store.dto;
 import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 public class PostStoreReq {
@@ -20,6 +21,9 @@ public class PostStoreReq {
     @NotNull
     private int tableNum;
 
+    @NotNull
     private String representativeMenuName;
+
+    private List<OperationTimeVO> operationTimeVO;
 
 }
