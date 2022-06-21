@@ -68,6 +68,8 @@ public class StoreService {
                 operationTimes
         );
 
+        store.getMember().completeRegister();
+
         storeRepository.save(store);
     }
 }

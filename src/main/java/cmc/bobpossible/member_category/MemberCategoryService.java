@@ -32,6 +32,8 @@ public class MemberCategoryService {
         Category category = categoryRepository.findById(favoriteId)
                 .orElseThrow(() -> new BaseException(FAVORITES_ID_NOT_EXIST));
 
+        member.completeRegister();
+
         MemberCategory memberCategory = MemberCategory.create(member, category);
 
         memberCategoryRepository.save(memberCategory);

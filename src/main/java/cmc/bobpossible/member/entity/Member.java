@@ -86,7 +86,7 @@ public class Member extends BaseEntity {
         this.birthDate = birthDate;
         this.address = address;
         this.phone = phone;
-        this.registerStatus = RegisterStatus.DONE;
+        this.registerStatus = RegisterStatus.JOIN;
         this.terms = terms;
     }
 
@@ -96,11 +96,15 @@ public class Member extends BaseEntity {
         this.gender = gender;
         this.birthDate = birthDate;
         this.phone = phone;
-        this.registerStatus = RegisterStatus.DONE;
+        this.registerStatus = RegisterStatus.JOIN;
         this.terms = terms;
     }
 
     public void addMemberFavorite(MemberCategory memberCategory) {
         memberCategories.add(memberCategory);
+    }
+
+    public void completeRegister() {
+        this.registerStatus = RegisterStatus.DONE;
     }
 }
