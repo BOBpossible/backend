@@ -19,7 +19,7 @@ public class MemberCategoryController {
     private final MemberCategoryService memberCategoryService;
 
     @ApiOperation("고객 선호 음식 추가")
-    @PostMapping("/")
+    @PostMapping("")
     public BaseResponse<String> createMemberCategories(@RequestParam List<Long> favorites) throws BaseException {
 
         for (Long favorite : favorites) {
