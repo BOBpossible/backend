@@ -27,7 +27,7 @@ public class MemberService {
                 postUserReq.getGender(),
                 postUserReq.getBirthDate(),
                 postUserReq.getPhone(),
-                new Address(postUserReq.getAddressStreet(),postUserReq.getAddressDetail(),postUserReq.getAddressDong()),
+                new Address(postUserReq.getAddressStreet(),postUserReq.getAddressDong(), postUserReq.getX(), postUserReq.getY()),
                 new Terms(postUserReq.getTermsOfService(),postUserReq.getPrivacyPolicy(),postUserReq.getLocationInfo(), postUserReq.getMarketing()));
 
     }

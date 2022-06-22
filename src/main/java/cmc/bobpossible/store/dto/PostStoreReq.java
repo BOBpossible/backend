@@ -12,8 +12,10 @@ public class PostStoreReq {
     private String storeName;
     @NotBlank
     private String addressStreet;
-    @NotBlank
-    private String addressDetail;
+    @NotNull
+    private double x;
+    @NotNull
+    private double y;
     @NotBlank
     private String addressDong;
     @NotNull

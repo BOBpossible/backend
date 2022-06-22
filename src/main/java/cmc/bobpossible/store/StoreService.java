@@ -69,7 +69,7 @@ public class StoreService {
         Store store = Store.create(
                 member,
                 postStoreReq.getStoreName(),
-                new Address(postStoreReq.getAddressStreet(), postStoreReq.getAddressDetail(), postStoreReq.getAddressDong()),
+                new Address (postStoreReq.getAddressStreet(),  postStoreReq.getAddressDong(), postStoreReq.getX(), postStoreReq.getY()),
                 category,
                 postStoreReq.getTableNum(),
                 postStoreReq.getRepresentativeMenuName(),
