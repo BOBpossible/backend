@@ -43,11 +43,11 @@ public enum BaseResponseStatus {
     //mission
     INVALID_MISSION_ID(false, 2121, "해당 missionId값과 일치하는 값이 없습니다."),
 
-    // carts
-    USER_CART_NOT_EXIST(false, 2301, "userId에 해당하는 활성화된 cart가 없습니다"),
+    // Category
+    INVALID_CATEGORY_ID(false, 2301, "해당 categoryId값과 일치하는 값이 없습니다."),
 
-    // deliveryInfo
-    PATCH_DELIVERYINFO_IS_DEFAULT_ADDRESS(false, 2030, "기본배송지는 삭제되지않습니다"),
+    // store
+    INVALID_STORE_ID(false, 2030, "해당 storeId값과 일치하는 값이 없습니다."),
 
     // Order
     PATCH_CANCEL_ORDER_CHECK_STATUS(false, 2040, "배송중에는 취소할 수 없습니다."),

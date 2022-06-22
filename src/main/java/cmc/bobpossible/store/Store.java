@@ -6,6 +6,7 @@ import cmc.bobpossible.member.Address;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.menu_image.MenuImage;
 import cmc.bobpossible.operation_time.OperationTime;
+import cmc.bobpossible.review.Review;
 import lombok.Getter;
 import org.hibernate.annotations.Where;
 
@@ -50,13 +51,17 @@ public class Store extends BaseEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     private List<OperationTime> operationTimes = new ArrayList<>();
 
-    public static Store create(String storeName, Address address, Category category, int tableNum, String representativeMenuName, List<MenuImage> menuImages, List<OperationTime> operationTimes) {
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();
+
+    public static Store create(Member member , String storeName, Address address, Category category, int tableNum, String representativeMenuName, List<MenuImage> menuImages, List<OperationTime> operationTimes) {
         Store store = new Store();
-        store.init( storeName, address, category, tableNum, representativeMenuName, menuImages, operationTimes);
+        store.init( member, storeName, address, category, tableNum, representativeMenuName, menuImages, operationTimes);
         return store;
     }
 
-    private void init(String storeName, Address address, Category category, int tableNum, String representativeMenuName, List<MenuImage> menuImages, List<OperationTime> operationTimes) {
+    private void init(Member member, String storeName, Address address, Category category, int tableNum, String representativeMenuName, List<MenuImage> menuImages, List<OperationTime> operationTimes) {
+        this.member = member;
         this.name = storeName;
         this.address = address;
         this.category = category;
@@ -75,5 +80,9 @@ public class Store extends BaseEntity {
     private void addMenuImage(MenuImage m) {
         menuImages.add(m);
         m.addStore(this);
+    }
+
+    public int getReviewCount() {
+        return reviews.size();
     }
 }

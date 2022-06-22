@@ -23,7 +23,7 @@ public class UserController {
     private final MemberService memberService;
 
     @ApiOperation("고객 회원가입")
-    @PostMapping("/")
+    @PostMapping("")
     public BaseResponse<String> joinUser(@Validated @RequestBody PostUserReq postUserReq, Errors errors) throws BaseException {
 
         //validation

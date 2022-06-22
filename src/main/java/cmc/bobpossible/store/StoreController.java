@@ -22,7 +22,7 @@ public class StoreController {
 
     private final StoreService storeService;
 
-    @ApiOperation("가게 정보 등록 / 운영시간 아직 구현 안됨")
+    @ApiOperation("가게 정보 등록")
     @PostMapping("/")
     public BaseResponse<String> createStore(@Validated @RequestBody PostStoreReq postStoreReq, @RequestPart List<MultipartFile> representativeMenuImages, Errors errors) throws BaseException, IOException {
 

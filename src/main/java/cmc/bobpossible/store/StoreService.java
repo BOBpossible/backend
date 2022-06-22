@@ -3,7 +3,10 @@ package cmc.bobpossible.store;
 import cmc.bobpossible.category.Category;
 import cmc.bobpossible.category.CategoryRepository;
 import cmc.bobpossible.config.BaseException;
+import cmc.bobpossible.config.auth.SecurityUtil;
 import cmc.bobpossible.member.Address;
+import cmc.bobpossible.member.MemberRepository;
+import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.menu_image.MenuImage;
 import cmc.bobpossible.operation_time.OperationTime;
 import cmc.bobpossible.store.dto.PostStoreReq;
@@ -19,6 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static cmc.bobpossible.config.BaseResponseStatus.CHECK_QUIT_USER;
+import static cmc.bobpossible.config.BaseResponseStatus.INVALID_CATEGORY_ID;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -28,12 +32,16 @@ public class StoreService {
     private final StoreRepository storeRepository;
     private final CategoryRepository categoryRepository;
     private final S3Uploader s3Uploader;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public void createStore(PostStoreReq postStoreReq, List<MultipartFile> representativeMenuImages) throws BaseException, IOException {
 
-        Category category = categoryRepository.findById(postStoreReq.getStoreTypeId())
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        Category category = categoryRepository.findById(postStoreReq.getStoreTypeId())
+                .orElseThrow(() -> new BaseException(INVALID_CATEGORY_ID));
 
         // 최대 3번
         List<String> imageURL = new ArrayList<>();
@@ -59,6 +67,7 @@ public class StoreService {
                 .collect(Collectors.toList());
 
         Store store = Store.create(
+                member,
                 postStoreReq.getStoreName(),
                 new Address(postStoreReq.getAddressStreet(), postStoreReq.getAddressDetail(), postStoreReq.getAddressDong()),
                 category,
