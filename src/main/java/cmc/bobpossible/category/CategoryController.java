@@ -18,7 +18,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @ApiOperation("선호하는 음식종류들 조회")
-    @GetMapping("/")
+    @GetMapping("")
     public BaseResponse<List<GetCategoriesRes>> getCategories() {
 
         List<Category> categories = categoryService.getCategories();

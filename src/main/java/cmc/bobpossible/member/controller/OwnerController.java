@@ -23,7 +23,7 @@ public class OwnerController {
     private final MemberService memberService;
 
     @ApiOperation("사장 회원가입")
-    @PostMapping("/")
+    @PostMapping("")
     public BaseResponse<String> joinOwner(@Validated @RequestBody PostOwnerReq postOwnerReq, Errors errors) throws BaseException {
 
         //validation
