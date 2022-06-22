@@ -40,8 +40,8 @@ public enum BaseResponseStatus {
     // aws
     IMAGE_UPLOAD_FAIL(false, 2111, "이미지 업로드에 실패하였습니다."),
 
-    // products/subCategory
-    GET_PRODUCT_SUB_CATEGORY_NOT_EXIST(false, 2121, "id값에 해당하는 subCategory가 없습니다"),
+    //mission
+    INVALID_MISSION_ID(false, 2121, "해당 missionId값과 일치하는 값이 없습니다."),
 
     // carts
     USER_CART_NOT_EXIST(false, 2301, "userId에 해당하는 활성화된 cart가 없습니다"),

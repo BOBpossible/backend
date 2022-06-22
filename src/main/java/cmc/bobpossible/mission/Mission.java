@@ -18,8 +18,9 @@ public class Mission extends BaseEntity {
     @Column(name = "mission_id")
     private Long id;
 
-    @Column(length = 200)
-    private String mission;
+    int missionPrice;
+
+    int reward;
 
     private LocalDateTime expiredDate;
 
@@ -31,6 +32,10 @@ public class Mission extends BaseEntity {
     @JoinColumn(name = "memberId")
     private Member member;
 
-    @Column(length = 20)
-    private String missionStatus;
+    @Enumerated(EnumType.STRING)
+    private MissionStatus missionStatus;
+
+    public void requestComplete() {
+        this.missionStatus = MissionStatus.OWNER_CHECK;
+    }
 }
