@@ -26,7 +26,7 @@ public class ReviewController {
 
     @ApiOperation("리뷰 등록")
     @PostMapping("/me")
-    public BaseResponse<String> createReview(@Validated @RequestBody PostReviewReq postReviewReq, @RequestPart List<MultipartFile> reviewImage, Errors errors) throws BaseException, IOException {
+    public BaseResponse<String> createReview(@Validated @RequestPart PostReviewReq postReviewReq, @RequestPart List<MultipartFile> reviewImage, Errors errors) throws BaseException, IOException {
 
         //validation
         if (errors.hasErrors()) {

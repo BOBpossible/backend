@@ -1,6 +1,7 @@
 package cmc.bobpossible.mission;
 
 import cmc.bobpossible.BaseEntity;
+import cmc.bobpossible.Status;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.store.Store;
 import lombok.Getter;
@@ -37,5 +38,11 @@ public class Mission extends BaseEntity {
 
     public void requestComplete() {
         this.missionStatus = MissionStatus.OWNER_CHECK;
+    }
+
+    public void checkValidation() {
+        if(expiredDate.isBefore(LocalDateTime.now())){
+            this.changeStatus(Status.DELETED);
+        }
     }
 }
