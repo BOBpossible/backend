@@ -56,4 +56,8 @@ public class Review extends BaseEntity {
         reviewImages.add(reviewImage);
         reviewImage.addReview(this);
     }
+
+    public void addReviewImages(List<ReviewImage> reviewImages) {
+        reviewImages.forEach(this::addReviewImage);
+    }
 }

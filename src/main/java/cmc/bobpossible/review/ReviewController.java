@@ -26,14 +26,28 @@ public class ReviewController {
 
     @ApiOperation("리뷰 등록")
     @PostMapping("/me")
-    public BaseResponse<String> createReview(@Validated @RequestPart PostReviewReq postReviewReq, @RequestPart List<MultipartFile> reviewImage, Errors errors) throws BaseException, IOException {
+    public BaseResponse<String> createReview(@Validated @RequestBody PostReviewReq postReviewReq, Errors errors) throws BaseException, IOException {
 
         //validation
         if (errors.hasErrors()) {
             return new BaseResponse<>(RefineError.refine(errors));
         }
 
-        reviewService.createReview(postReviewReq, reviewImage);
+        reviewService.createReview(postReviewReq);
+
+        return new BaseResponse<>("");
+    }
+
+    @ApiOperation("리뷰 이미지 등록")
+    @PostMapping("/me/images/{reviewId}")
+    public BaseResponse<String> createReviewImage(@RequestPart List<MultipartFile> reviewImage, @PathVariable Long reviewId, Errors errors) throws BaseException, IOException {
+
+        //validation
+        if (errors.hasErrors()) {
+            return new BaseResponse<>(RefineError.refine(errors));
+        }
+
+        reviewService.createReviewImage(reviewImage, reviewId);
 
         return new BaseResponse<>("");
     }

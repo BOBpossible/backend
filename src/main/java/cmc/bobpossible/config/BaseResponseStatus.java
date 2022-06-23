@@ -49,8 +49,8 @@ public enum BaseResponseStatus {
     // store
     INVALID_STORE_ID(false, 2030, "해당 storeId값과 일치하는 값이 없습니다."),
 
-    // Order
-    PATCH_CANCEL_ORDER_CHECK_STATUS(false, 2040, "배송중에는 취소할 수 없습니다."),
+    // Review
+    INVALID_REVIEW_ID(false, 2040, "해당 reviewId값과 일치하는 값이 없습니다."),
 
     //Like
     POST_LIKE_EXISTS(false, 2050, "이미 찜이 되어있습니다."),
