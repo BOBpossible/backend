@@ -42,14 +42,12 @@ public class Review extends BaseEntity {
     }
 
     @Builder
-    public Review(Long id, Member member, Store store, double rate, String content, List<ReviewImage> reviewImages) {
+    public Review(Long id, Member member, Store store, double rate, String content) {
         this.id = id;
         this.member = member;
         this.store = store;
         this.rate = rate;
         this.content = content;
-
-        reviewImages.forEach(this::addReviewImage);
     }
 
     private void addReviewImage(ReviewImage reviewImage) {
