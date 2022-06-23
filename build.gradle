@@ -49,6 +49,9 @@ dependencies {
 
 	// jackson localtime
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3'
+
+	// slack logback
+	implementation	'com.github.maricn:logback-slack-appender:1.4.0'
 }
 
 tasks.named('test') {
