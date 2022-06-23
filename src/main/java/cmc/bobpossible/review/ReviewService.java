@@ -19,8 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static cmc.bobpossible.config.BaseResponseStatus.CHECK_QUIT_USER;
-import static cmc.bobpossible.config.BaseResponseStatus.INVALID_STORE_ID;
+import static cmc.bobpossible.config.BaseResponseStatus.*;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -33,7 +32,7 @@ public class ReviewService {
     private final StoreRepository storeRepository;
 
     @Transactional
-    public void createReview(PostReviewReq postReviewReq, List<MultipartFile> reviewImage) throws IOException, BaseException {
+    public void createReview(PostReviewReq postReviewReq) throws IOException, BaseException {
 
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
@@ -41,26 +40,12 @@ public class ReviewService {
         Store store = storeRepository.findById(postReviewReq.getStoreId())
                 .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
 
-        // 최대 3번
-        List<String> imageURL = new ArrayList<>();
-        for (int i = 0; i < reviewImage.size() || i < 3; i++) {
-            imageURL.add( s3Uploader.upload(reviewImage.get(i), "menuImage"));
-        }
-
-        // 메뉴 이미지 엔티티
-        List<ReviewImage> reviewImages = imageURL.stream()
-                .map(i -> ReviewImage.builder().image(i).build())
-                .collect(Collectors.toList());
-
-
-
         reviewRepository.save(
                 Review.builder()
                         .content(postReviewReq.getContent())
                         .member(member)
                         .rate(postReviewReq.getRate())
                         .store(store)
-                        .reviewImages(reviewImages)
                         .build());
 
 
@@ -71,6 +56,26 @@ public class ReviewService {
         return storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
 
+
+    }
+
+    @Transactional
+    public void createReviewImage(List<MultipartFile> reviewImage, Long reviewId) throws IOException, BaseException {
+
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new BaseException(INVALID_REVIEW_ID));
+
+        List<String> imageURL = new ArrayList<>();
+        for (int i = 0; i < reviewImage.size() && i < 3; i++) {
+            imageURL.add( s3Uploader.upload(reviewImage.get(i), "menuImage"));
+        }
+
+        // 메뉴 이미지 엔티티
+        List<ReviewImage> reviewImages = imageURL.stream()
+                .map(i -> ReviewImage.builder().image(i).build())
+                .collect(Collectors.toList());
+
+        review.addReviewImages(reviewImages);
 
     }
 }
