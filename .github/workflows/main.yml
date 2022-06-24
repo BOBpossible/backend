@@ -42,6 +42,7 @@ jobs:
         env:
           spring.datasource.password: ${{secrets.RDS_PASSWORD}}
           spring.datasource.url: ${{secrets.RDS_URL}}
+          logging.slack.webhook-uri: ${{secrets.SLACK_WEBHOOK_URI}}
           jwt.secret: ${{secrets.JWT_SECRET}}
 
       - name: Set aws.yml file
