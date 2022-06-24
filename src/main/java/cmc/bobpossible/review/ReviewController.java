@@ -40,12 +40,7 @@ public class ReviewController {
 
     @ApiOperation("리뷰 이미지 등록")
     @PostMapping("/me/images/{reviewId}")
-    public BaseResponse<String> createReviewImage(@RequestPart List<MultipartFile> reviewImage, @PathVariable Long reviewId, Errors errors) throws BaseException, IOException {
-
-        //validation
-        if (errors.hasErrors()) {
-            return new BaseResponse<>(RefineError.refine(errors));
-        }
+    public BaseResponse<String> createReviewImage(@RequestPart List<MultipartFile> reviewImage, @PathVariable Long reviewId) throws BaseException, IOException {
 
         reviewService.createReviewImage(reviewImage, reviewId);
 
