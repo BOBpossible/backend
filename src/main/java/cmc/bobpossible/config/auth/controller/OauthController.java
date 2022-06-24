@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class OauthController {
 
     private final OauthService oauthService;
-    private final MissionService missionService;
+
     @Value("${jwt.secret}")
     private String value;
 
@@ -58,15 +58,4 @@ public class OauthController {
         return new BaseResponse<>(oauthService.googleLogin(email, name));
     }
 
-    @ApiOperation("나의 현재 미션 조회")
-    @GetMapping("/me")
-    public BaseResponse<List<GetMissionsRes>> getMissions() throws BaseException {
-
-        List<Mission> missions = missionService.getMissions();
-
-        return new BaseResponse<>(
-                missions.stream()
-                        .map(GetMissionsRes::new)
-                        .collect(Collectors.toList()));
-    }
 }
