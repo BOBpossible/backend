@@ -26,16 +26,14 @@ public class ReviewController {
 
     @ApiOperation("리뷰 등록")
     @PostMapping("/me")
-    public BaseResponse<String> createReview(@Validated @RequestBody PostReviewReq postReviewReq, Errors errors) throws BaseException, IOException {
+    public BaseResponse<Long> createReview(@Validated @RequestBody PostReviewReq postReviewReq, Errors errors) throws BaseException, IOException {
 
         //validation
         if (errors.hasErrors()) {
             return new BaseResponse<>(RefineError.refine(errors));
         }
 
-        reviewService.createReview(postReviewReq);
-
-        return new BaseResponse<>("");
+        return new BaseResponse<>(reviewService.createReview(postReviewReq).getId());
     }
 
     @ApiOperation("리뷰 이미지 등록")
