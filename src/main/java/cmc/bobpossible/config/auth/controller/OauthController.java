@@ -4,6 +4,9 @@ import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.RefineError;
 import cmc.bobpossible.config.auth.jwt.TokenDto;
+import cmc.bobpossible.mission.Mission;
+import cmc.bobpossible.mission.MissionService;
+import cmc.bobpossible.mission.dto.GetMissionsRes;
 import cmc.bobpossible.review.ReviewService;
 import cmc.bobpossible.review.dto.GetReviewImagesRes;
 import cmc.bobpossible.review.dto.PostReviewReq;
@@ -18,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -25,7 +29,7 @@ import java.util.List;
 public class OauthController {
 
     private final OauthService oauthService;
-
+    private final MissionService missionService;
     @Value("${jwt.secret}")
     private String value;
 
@@ -54,5 +58,15 @@ public class OauthController {
         return new BaseResponse<>(oauthService.googleLogin(email, name));
     }
 
+    @ApiOperation("나의 현재 미션 조회")
+    @GetMapping("/me")
+    public BaseResponse<List<GetMissionsRes>> getMissions() throws BaseException {
 
+        List<Mission> missions = missionService.getMissions();
+
+        return new BaseResponse<>(
+                missions.stream()
+                        .map(GetMissionsRes::new)
+                        .collect(Collectors.toList()));
+    }
 }
