@@ -32,7 +32,7 @@ public class ReviewService {
     private final StoreRepository storeRepository;
 
     @Transactional
-    public void createReview(PostReviewReq postReviewReq) throws IOException, BaseException {
+    public Review createReview(PostReviewReq postReviewReq) throws IOException, BaseException {
 
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
@@ -40,15 +40,16 @@ public class ReviewService {
         Store store = storeRepository.findById(postReviewReq.getStoreId())
                 .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
 
-        reviewRepository.save(
-                Review.builder()
-                        .content(postReviewReq.getContent())
-                        .member(member)
-                        .rate(postReviewReq.getRate())
-                        .store(store)
-                        .build());
+        Review review = Review.builder()
+                .content(postReviewReq.getContent())
+                .member(member)
+                .rate(postReviewReq.getRate())
+                .store(store)
+                .build();
 
+        reviewRepository.save(review);
 
+        return  review;
     }
 
     public Store getReviews(Long storeId) throws BaseException {
