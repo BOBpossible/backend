@@ -1,4 +1,4 @@
-package cmc.bobpossible.store;
+package cmc.bobpossible.store.dto;
 
 import lombok.Builder;
 import lombok.Data;

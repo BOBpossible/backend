@@ -10,6 +10,8 @@ import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.menu_image.MenuImage;
 import cmc.bobpossible.mission.Mission;
 import cmc.bobpossible.operation_time.OperationTime;
+import cmc.bobpossible.store.dto.GetStoreMapRes;
+import cmc.bobpossible.store.dto.GetStoreRes;
 import cmc.bobpossible.store.dto.PostStoreReq;
 import cmc.bobpossible.utils.DistanceCalculator;
 import cmc.bobpossible.utils.S3Uploader;
@@ -23,8 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static cmc.bobpossible.config.BaseResponseStatus.CHECK_QUIT_USER;
-import static cmc.bobpossible.config.BaseResponseStatus.INVALID_CATEGORY_ID;
+import static cmc.bobpossible.config.BaseResponseStatus.*;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -121,5 +122,13 @@ public class StoreService {
                 }
         ).collect(Collectors.toList());
 
+    }
+
+    public Object getStore(Long storeId) throws BaseException {
+
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
+
+        return new GetStoreRes(store);
     }
 }

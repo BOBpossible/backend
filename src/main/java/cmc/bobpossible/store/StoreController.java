@@ -3,8 +3,9 @@ package cmc.bobpossible.store;
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.RefineError;
-import cmc.bobpossible.member.dto.PostOwnerReq;
-import cmc.bobpossible.review.dto.GetReviewsRes;
+import cmc.bobpossible.store.StoreService;
+import cmc.bobpossible.store.dto.GetStoreMapRes;
+import cmc.bobpossible.store.dto.GetStoreRes;
 import cmc.bobpossible.store.dto.PostStoreReq;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -40,9 +41,13 @@ public class StoreController {
     @ApiOperation("가게 지도 조회")
     @GetMapping("")
     public BaseResponse<List<GetStoreMapRes>> getStoreMap() throws BaseException {
-
-
         return new BaseResponse<>(storeService.getStoreMap());
+    }
+
+    @ApiOperation("가게 상세 조회")
+    @GetMapping("/{storeId}")
+    public BaseResponse<GetStoreRes> getStore(@PathVariable Long storeId) throws BaseException {
+        return new BaseResponse<>(storeService.getStore(storeId));
     }
 
 }
