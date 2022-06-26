@@ -33,4 +33,4 @@ logging:
     org.hibernate.type: trace
 
 jwt:
-  secret:
+  secret: 
