@@ -4,6 +4,7 @@ import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.RefineError;
 import cmc.bobpossible.member.dto.PostOwnerReq;
+import cmc.bobpossible.review.dto.GetReviewsRes;
 import cmc.bobpossible.store.dto.PostStoreReq;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -35,4 +36,6 @@ public class StoreController {
 
         return new BaseResponse<>("");
     }
+
+
 }
