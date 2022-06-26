@@ -8,8 +8,10 @@ import cmc.bobpossible.member.Address;
 import cmc.bobpossible.member.MemberRepository;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.menu_image.MenuImage;
+import cmc.bobpossible.mission.Mission;
 import cmc.bobpossible.operation_time.OperationTime;
 import cmc.bobpossible.store.dto.PostStoreReq;
+import cmc.bobpossible.utils.DistanceCalculator;
 import cmc.bobpossible.utils.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -80,5 +82,44 @@ public class StoreService {
         store.getMember().completeRegister();
 
         storeRepository.save(store);
+    }
+
+    public List<GetStoreMapRes> getStoreMap() throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        List<Store> stores = storeRepository.findByAddressDong(member.getAddress().getDong());
+
+        return stores.stream().map(
+                store-> {
+                    for (Mission mission : member.getMissions()) {
+                        if(mission.getStore() == store){
+                            return GetStoreMapRes.builder()
+                                        .isMission(true)
+                                        .point(mission.getReward())
+                                        .name(store.getName())
+                                        .distance(DistanceCalculator.distance(member.getAddress().getX(), member.getAddress().getY(), store.getAddress().getX(), store.getAddress().getY()))
+                                        .x(store.getAddress().getX())
+                                        .y(store.getAddress().getY())
+                                        .category(store.getCategory().getName())
+                                        .imageUrl("")
+                                        .storeId(store.getId())
+                                        .build();
+                        }
+                    }
+                    return GetStoreMapRes.builder()
+                                .isMission(false)
+                                .name(store.getName())
+                                .distance(DistanceCalculator.distance(member.getAddress().getX(), member.getAddress().getY(), store.getAddress().getX(), store.getAddress().getY()))
+                                .x(store.getAddress().getX())
+                                .y(store.getAddress().getY())
+                                .category(store.getCategory().getName())
+                                .imageUrl("")
+                                .storeId(store.getId())
+                                .build();
+                }
+        ).collect(Collectors.toList());
+
     }
 }

@@ -4,6 +4,7 @@ package cmc.bobpossible.member.entity;
 import cmc.bobpossible.BaseEntity;
 import cmc.bobpossible.member.*;
 import cmc.bobpossible.member_category.MemberCategory;
+import cmc.bobpossible.mission.Mission;
 import cmc.bobpossible.operation_time.OperationTime;
 import cmc.bobpossible.point.Point;
 import lombok.Builder;
@@ -60,6 +61,9 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberCategory> memberCategories = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Mission> missions = new ArrayList<>();
+
     @Builder
     public Member(Long id, String name, String email) {
         this.id = id;
@@ -106,5 +110,9 @@ public class Member extends BaseEntity {
 
     public void completeRegister() {
         this.registerStatus = RegisterStatus.DONE;
+    }
+
+    public void addMission(Mission mission) {
+        missions.add(mission);
     }
 }

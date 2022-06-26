@@ -62,6 +62,7 @@ public class Mission extends BaseEntity {
         this.expiredDate = LocalDateTime.now().plusDays(7);
         this.store = store;
         this.member = member;
+        member.addMission(this);
         this.missionStatus = NEW;
     }
 }

@@ -37,5 +37,12 @@ public class StoreController {
         return new BaseResponse<>("");
     }
 
+    @ApiOperation("가게 지도 조회")
+    @GetMapping("")
+    public BaseResponse<List<GetStoreMapRes>> getStoreMap() throws BaseException {
+
+
+        return new BaseResponse<>(storeService.getStoreMap());
+    }
 
 }
