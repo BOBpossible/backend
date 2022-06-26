@@ -17,6 +17,9 @@ public class GetStoreMapRes {
     private double y;
     private boolean isMission;
 
+    protected GetStoreMapRes() {
+    }
+
     @Builder
     public GetStoreMapRes(Long storeId, int point, String imageUrl, String name, String category, double distance, double x, double y, boolean isMission) {
         this.storeId = storeId;

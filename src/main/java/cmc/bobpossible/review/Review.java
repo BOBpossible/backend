@@ -4,6 +4,7 @@ import cmc.bobpossible.BaseEntity;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.menu_image.MenuImage;
 import cmc.bobpossible.review_image.ReviewImage;
+import cmc.bobpossible.review_reply.ReviewReply;
 import cmc.bobpossible.store.Store;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import java.util.List;
 @Where(clause = "status='ACTIVE'")
 @Getter
 @Entity
-public class Review extends BaseEntity {
+public class Review extends BaseEntity{
 
     @Id @GeneratedValue
     @Column(name = "review_id")
@@ -37,6 +38,9 @@ public class Review extends BaseEntity {
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<ReviewImage> reviewImages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
+    private List<ReviewReply> reviewReplies = new ArrayList<>();
 
     protected Review() {
     }

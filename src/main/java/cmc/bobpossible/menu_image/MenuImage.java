@@ -1,5 +1,6 @@
 package cmc.bobpossible.menu_image;
 
+import cmc.bobpossible.BaseEntity;
 import cmc.bobpossible.store.Store;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Where(clause = "status='ACTIVE'")
 @Getter
 @Entity
-public class MenuImage {
+public class MenuImage extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "menu_image_id")

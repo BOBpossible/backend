@@ -10,12 +10,16 @@ import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.menu_image.MenuImage;
 import cmc.bobpossible.mission.Mission;
 import cmc.bobpossible.operation_time.OperationTime;
-import cmc.bobpossible.store.dto.GetStoreMapRes;
-import cmc.bobpossible.store.dto.GetStoreRes;
-import cmc.bobpossible.store.dto.PostStoreReq;
+import cmc.bobpossible.review.Review;
+import cmc.bobpossible.review.ReviewRepository;
+import cmc.bobpossible.review_image.ReviewImage;
+import cmc.bobpossible.review_image.ReviewImageRepository;
+import cmc.bobpossible.store.dto.*;
 import cmc.bobpossible.utils.DistanceCalculator;
 import cmc.bobpossible.utils.S3Uploader;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,6 +40,8 @@ public class StoreService {
     private final CategoryRepository categoryRepository;
     private final S3Uploader s3Uploader;
     private final MemberRepository memberRepository;
+    private final ReviewImageRepository reviewImageRepository;
+    private final ReviewRepository reviewRepository;
 
     @Transactional
     public void createStore(PostStoreReq postStoreReq, List<MultipartFile> representativeMenuImages) throws BaseException, IOException {
@@ -124,11 +130,31 @@ public class StoreService {
 
     }
 
-    public Object getStore(Long storeId) throws BaseException {
+    public GetStoreRes getStore(Long storeId) throws BaseException {
 
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
 
         return new GetStoreRes(store);
+    }
+
+    public Slice<GetStoreImages> getStoreImages(Long storeId, Pageable pageable) throws BaseException {
+
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
+
+
+        Slice<ReviewImage> images = reviewImageRepository.findByStoreOrderByIdDesc(store, pageable);
+
+        return images.map(GetStoreImages::new);
+    }
+
+    public Slice<GetStoreReviewRes> getStoreReviewRes(Long storeId, Pageable pageable) throws BaseException {
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
+
+        Slice<Review> reviews = reviewRepository.findByStoreOrderByIdDesc(store, pageable);
+
+        return reviews.map(GetStoreReviewRes::new);
     }
 }

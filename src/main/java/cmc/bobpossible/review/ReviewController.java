@@ -3,10 +3,7 @@ package cmc.bobpossible.review;
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.RefineError;
-import cmc.bobpossible.review.dto.GetReviewImagesRes;
-import cmc.bobpossible.review.dto.GetReviewsRes;
 import cmc.bobpossible.review.dto.PostReviewReq;
-import cmc.bobpossible.store.Store;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.Errors;
@@ -45,21 +42,4 @@ public class ReviewController {
         return new BaseResponse<>("");
     }
 
-    @ApiOperation("가게 리뷰 조회")
-    @GetMapping("/{storeId}")
-    public BaseResponse<GetReviewsRes> getReviews(@PathVariable Long storeId) throws BaseException {
-
-        Store store = reviewService.getReviews(storeId);
-
-        return new BaseResponse<>(new GetReviewsRes(store));
-    }
-
-    @ApiOperation("리뷰 사진 조회")
-    @GetMapping("/images/{storeId}")
-    public BaseResponse<GetReviewImagesRes> getReviewImages(@PathVariable Long storeId) throws BaseException {
-
-        Store store = reviewService.getReviews(storeId);
-
-        return new BaseResponse<>(new GetReviewImagesRes(store));
-    }
 }
