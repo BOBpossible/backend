@@ -1,4 +1,4 @@
-package cmc.bobpossible.store;
+package cmc.bobpossible.store.dto;
 
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +16,9 @@ public class GetStoreMapRes {
     private double x;
     private double y;
     private boolean isMission;
+
+    protected GetStoreMapRes() {
+    }
 
     @Builder
     public GetStoreMapRes(Long storeId, int point, String imageUrl, String name, String category, double distance, double x, double y, boolean isMission) {

@@ -32,7 +32,7 @@ public class ReviewService {
     private final StoreRepository storeRepository;
 
     @Transactional
-    public Review createReview(PostReviewReq postReviewReq) throws IOException, BaseException {
+    public Review createReview(PostReviewReq postReviewReq) throws BaseException {
 
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
@@ -52,14 +52,6 @@ public class ReviewService {
         return  review;
     }
 
-    public Store getReviews(Long storeId) throws BaseException {
-
-        return storeRepository.findById(storeId)
-                .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
-
-
-    }
-
     @Transactional
     public void createReviewImage(List<MultipartFile> reviewImage, Long reviewId) throws IOException, BaseException {
 
@@ -73,7 +65,7 @@ public class ReviewService {
 
         // 메뉴 이미지 엔티티
         List<ReviewImage> reviewImages = imageURL.stream()
-                .map(i -> ReviewImage.builder().image(i).build())
+                .map(i -> ReviewImage.builder().image(i).review(review).store(review.getStore()).build())
                 .collect(Collectors.toList());
 
         review.addReviewImages(reviewImages);
