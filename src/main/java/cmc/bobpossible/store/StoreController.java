@@ -5,7 +5,6 @@ import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.RefineError;
 import cmc.bobpossible.store.dto.GetStoreImages;
 import cmc.bobpossible.store.dto.GetStoreMapRes;
-import cmc.bobpossible.store.dto.GetStoreReviewRes;
 import cmc.bobpossible.store.dto.PostStoreReq;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -50,12 +49,6 @@ public class StoreController {
     @GetMapping("images/{storeId}")
     public BaseResponse<Slice<GetStoreImages>> getStoreImages(Pageable pageable, @PathVariable Long storeId) throws BaseException {
         return new BaseResponse<>(storeService.getStoreImages(storeId, pageable));
-    }
-
-    @ApiOperation("가게 리뷰 조회")
-    @GetMapping("reviews/{storeId}")
-    public BaseResponse<Slice<GetStoreReviewRes>> getStoreReviewRes(Pageable pageable, @PathVariable Long storeId) throws BaseException {
-        return new BaseResponse<>(storeService.getStoreReviewRes(storeId, pageable));
     }
 
 }

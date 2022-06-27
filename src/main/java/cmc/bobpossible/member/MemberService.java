@@ -2,6 +2,7 @@ package cmc.bobpossible.member;
 
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.auth.SecurityUtil;
+import cmc.bobpossible.member.dto.GetUser;
 import cmc.bobpossible.member.dto.PostOwnerReq;
 import cmc.bobpossible.member.dto.PostUserReq;
 import cmc.bobpossible.member.entity.Member;
@@ -43,5 +44,13 @@ public class MemberService {
                 postOwnerReq.getBirthDate(),
                 postOwnerReq.getPhone(),
                 new Terms(postOwnerReq.getTermsOfService(),postOwnerReq.getPrivacyPolicy(),postOwnerReq.getLocationInfo(), postOwnerReq.getMarketing()));
+    }
+
+    public GetUser getUser() throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        return new GetUser(member);
     }
 }

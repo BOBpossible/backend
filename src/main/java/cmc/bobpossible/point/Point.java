@@ -21,9 +21,9 @@ public class Point extends BaseEntity {
     @JoinColumn(name = "memberId")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "storeId")
-    private Store store;
+    private String title;
+
+    private String subtitle;
 
     private int point;
 }

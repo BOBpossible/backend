@@ -115,4 +115,15 @@ public class Member extends BaseEntity {
     public void addMission(Mission mission) {
         missions.add(mission);
     }
+
+    public int getTotalPoints() {
+
+        int sum = 0;
+
+        for (Point point : points) {
+            sum += point.getPoint();
+        }
+
+        return sum;
+    }
 }
