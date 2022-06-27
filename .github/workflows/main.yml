@@ -7,8 +7,8 @@ on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+#   pull_request:
+#     branches: [ "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -34,6 +34,20 @@ jobs:
         with:
           java-version: 11
           distribution: corretto
+      
+      - name: action-slack
+        uses: 8398a7/action-slack@v3
+        with:
+        status: ${{ job.status }}
+          author_name: backend
+          fields: repo,commit,message,author # action,eventName,ref,workflow,job,took 추가할 수 있음
+          mention: here
+          if_mention: failure,cancelled
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URI_DEPLOY}} # required
+        if: always() # Pick up events even if the job fails or is canceled.
+          
+      
 
       - name: Set application.yml file
         uses: microsoft/variable-substitution@v1
