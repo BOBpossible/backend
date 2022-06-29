@@ -1,6 +1,7 @@
 package cmc.bobpossible.review;
 
 import cmc.bobpossible.BaseEntity;
+import cmc.bobpossible.Status;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.menu_image.MenuImage;
 import cmc.bobpossible.review_image.ReviewImage;
@@ -64,6 +65,7 @@ public class Review extends BaseEntity{
     }
 
     public void delete() {
+        this.changeStatus(Status.DELETED);
         store.deleteReview(this);
     }
 }
