@@ -6,9 +6,11 @@ import cmc.bobpossible.member.MemberRepository;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.review.dto.PostReviewReq;
 import cmc.bobpossible.review_image.ReviewImage;
+import cmc.bobpossible.review_image.ReviewImageRepository;
 import cmc.bobpossible.store.Store;
 import cmc.bobpossible.store.StoreRepository;
 import cmc.bobpossible.review.dto.GetStoreReviewRes;
+import cmc.bobpossible.store.dto.GetStoreImages;
 import cmc.bobpossible.utils.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +36,7 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
     private final StoreRepository storeRepository;
+    private final ReviewImageRepository reviewImageRepository;
 
     @Transactional
     public Review createReview(PostReviewReq postReviewReq) throws BaseException {
@@ -104,5 +107,16 @@ public class ReviewService {
 
         review.delete();
 
+    }
+
+    public Slice<GetStoreImages> getStoreImages(Long storeId, Pageable pageable) throws BaseException {
+
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
+
+
+        Slice<ReviewImage> images = reviewImageRepository.findByStoreOrderByIdDesc(store, pageable);
+
+        return images.map(GetStoreImages::new);
     }
 }
