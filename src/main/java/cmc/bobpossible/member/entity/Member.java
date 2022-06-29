@@ -126,4 +126,12 @@ public class Member extends BaseEntity {
 
         return sum;
     }
+
+    public void changeImage(String image) {
+        this.profileImage = image;
+    }
+
+    public void changeEmail(String email) {
+        this.email = email;
+    }
 }

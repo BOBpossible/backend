@@ -62,4 +62,8 @@ public class Review extends BaseEntity{
     public void addReviewImages(List<ReviewImage> reviewImages) {
         reviewImages.forEach(this::addReviewImage);
     }
+
+    public void delete() {
+        store.deleteReview(this);
+    }
 }

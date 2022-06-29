@@ -59,4 +59,14 @@ public class ReviewController {
         return new BaseResponse<>(reviewService.getStoreReviewRes(storeId, pageable));
     }
 
+    @ApiOperation("리뷰 삭제")
+    @DeleteMapping("/{reviewId}")
+    public BaseResponse<String> deleteReview(@PathVariable Long reviewId) throws BaseException {
+
+        reviewService.deleteReview(reviewId);
+
+        return new BaseResponse<>("");
+    }
+
+
 }

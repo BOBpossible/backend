@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static cmc.bobpossible.config.BaseResponseStatus.*;
@@ -93,5 +94,15 @@ public class ReviewService {
         Slice<Review> reviews = reviewRepository.findByMemberOrderByIdDesc(member, pageable);
 
         return reviews.map(GetStoreReviewRes::new);
+    }
+
+    public void deleteReview(Long reviewId) throws BaseException {
+
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new BaseException(INVALID_REVIEW_ID));
+
+        review.delete();
+
+        reviewRepository.delete(review);
     }
 }
