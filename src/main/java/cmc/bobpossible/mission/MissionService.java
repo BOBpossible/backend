@@ -4,21 +4,20 @@ import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.auth.SecurityUtil;
 import cmc.bobpossible.member.MemberRepository;
 import cmc.bobpossible.member.entity.Member;
+import cmc.bobpossible.mission.dto.GetHome;
+import cmc.bobpossible.mission.dto.GetMissionMapRes;
 import cmc.bobpossible.store.Store;
 import cmc.bobpossible.store.StoreRepository;
-import cmc.bobpossible.utils.DistanceCalculator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static cmc.bobpossible.config.BaseResponseStatus.CHECK_QUIT_USER;
-import static cmc.bobpossible.config.BaseResponseStatus.INVALID_MISSION_ID;
+import static cmc.bobpossible.config.BaseResponseStatus.*;
 
 @Slf4j
 @Transactional(readOnly = true)
@@ -31,7 +30,7 @@ public class MissionService {
     private final StoreRepository storeRepository;
 
     @Transactional
-    public List<Mission> getMissions() throws BaseException {
+    public GetHome getMissions() throws BaseException {
         Member member = memberRepository.findById(13L)
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
@@ -53,32 +52,39 @@ public class MissionService {
             // 거리 계산
             List<Recommend> recommends = stores.stream().map((Store s) -> new Recommend(s, mem_x, mem_y)).collect(Collectors.toList());
 
+            // 거리 가중치 계산
             recommends.forEach(Recommend::distancePercentage);
 
+            //취향 가중치 계산
             recommends.forEach(r-> r.preference(member.getMemberCategories(), recommends.size()));
 
+            // 최종 확률 계산
             recommends.forEach(Recommend::calculatePercentage);
 
+            //정렬
             recommends.sort(new RecommendPercentageComparator().reversed());
 
             List<Store> res = new ArrayList<>();
 
+            // 배포 가능 가게 0개일 경우
+            if (recommends.size() == 0) {
+                throw new BaseException(NO_AVAILABLE_MISSION);
+            }
 
-            if (recommends.size() < 3) {
-                return recommends.stream()
+            if (recommends.size() < 3) { // 현재 가게 3개 이하 일 경우
+                return new GetHome(member, recommends.stream()
                         .map(
                                 r -> missionRepository.save(
                                         Mission.builder()
                                                 .member(member)
                                                 .store(r.getStore())
                                                 .build()))
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toList()));
             } else {
-                while (res.stream().distinct().count() <= 3) {
+                while (res.stream().distinct().count() <= 3) { //가게가 3개 이상일 때 3개 추첨
                     res.add(WeightedRandom.getRandom(recommends));
-                    System.out.println(res);
                 }
-                return res.stream()
+                return new GetHome(member, res.stream()
                         .distinct()
                         .filter(this::isNotNull)
                         .map(
@@ -87,11 +93,11 @@ public class MissionService {
                                                 .member(member)
                                                 .store(r)
                                                 .build()))
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toList()));
             }
         }
 
-        return missions;
+        return new GetHome(member, missions);
     }
 
     private boolean isNotNull(Store r) {
@@ -119,5 +125,18 @@ public class MissionService {
 
 
         mission.requestComplete();
+    }
+
+    public List<GetMissionMapRes> getMissionsMap() throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        List<Mission> missions = missionRepository.findByMember(member);
+
+        return missions.stream()
+                .map(GetMissionMapRes::new)
+                .collect(Collectors.toList());
+
     }
 }

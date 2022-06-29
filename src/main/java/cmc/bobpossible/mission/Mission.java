@@ -9,6 +9,7 @@ import lombok.Getter;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 import static cmc.bobpossible.mission.MissionStatus.NEW;
@@ -22,9 +23,9 @@ public class Mission extends BaseEntity {
     @Column(name = "mission_id")
     private Long id;
 
-    int missionPrice;
+    String mission;
 
-    int reward;
+    int point;
 
     private LocalDateTime expiredDate;
 
@@ -55,14 +56,17 @@ public class Mission extends BaseEntity {
     }
 
     @Builder
-    public Mission(Long id, int missionPrice, int reward, LocalDateTime expiredDate, Store store, Member member, MissionStatus missionStatus) {
-        this.id = id;
-        this.missionPrice = 10000;
-        this.reward = 500;
+    public Mission( LocalDateTime expiredDate, Store store, Member member, MissionStatus missionStatus) {
+        this.mission = "10,000원 이상의 식사시";
+        this.point = 500;
         this.expiredDate = LocalDateTime.now().plusDays(7);
         this.store = store;
         this.member = member;
         member.addMission(this);
         this.missionStatus = NEW;
+    }
+
+    public long getDoomsDay() {
+        return Duration.between(expiredDate, LocalDateTime.now()).toDays();
     }
 }

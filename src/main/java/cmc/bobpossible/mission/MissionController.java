@@ -2,6 +2,8 @@ package cmc.bobpossible.mission;
 
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
+import cmc.bobpossible.mission.dto.GetHome;
+import cmc.bobpossible.mission.dto.GetMissionMapRes;
 import cmc.bobpossible.mission.dto.GetMissionsRes;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -18,16 +20,18 @@ public class MissionController {
 
     private final MissionService missionService;
 
-    @ApiOperation("나의 현재 미션 조회")
+    @ApiOperation("이번주 미션 조회(홈화면)")
     @GetMapping("/me")
-    public BaseResponse<List<GetMissionsRes>> getMissions() throws BaseException {
+    public BaseResponse<GetHome> getMissions() throws BaseException {
 
-        List<Mission> missions = missionService.getMissions();
+        return new BaseResponse<>(missionService.getMissions());
+    }
 
-        return new BaseResponse<>(
-                missions.stream()
-                        .map(GetMissionsRes::new)
-                        .collect(Collectors.toList()));
+    @ApiOperation("미션 맵(홈화면)")
+    @GetMapping("/map")
+    public BaseResponse<List<GetMissionMapRes>> getMissionsMap() throws BaseException {
+
+        return new BaseResponse<>(missionService.getMissionsMap());
     }
 
     @ApiOperation("나의 현재 진행 미션 조회")
