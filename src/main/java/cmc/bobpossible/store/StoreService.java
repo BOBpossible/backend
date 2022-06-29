@@ -39,8 +39,6 @@ public class StoreService {
     private final CategoryRepository categoryRepository;
     private final S3Uploader s3Uploader;
     private final MemberRepository memberRepository;
-    private final ReviewImageRepository reviewImageRepository;
-    private final ReviewRepository reviewRepository;
 
     @Transactional
     public void createStore(PostStoreReq postStoreReq, List<MultipartFile> representativeMenuImages) throws BaseException, IOException {
@@ -135,16 +133,5 @@ public class StoreService {
                 .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
 
         return new GetStoreRes(store);
-    }
-
-    public Slice<GetStoreImages> getStoreImages(Long storeId, Pageable pageable) throws BaseException {
-
-        Store store = storeRepository.findById(storeId)
-                .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
-
-
-        Slice<ReviewImage> images = reviewImageRepository.findByStoreOrderByIdDesc(store, pageable);
-
-        return images.map(GetStoreImages::new);
     }
 }

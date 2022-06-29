@@ -5,6 +5,7 @@ import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.RefineError;
 import cmc.bobpossible.review.dto.PostReviewReq;
 import cmc.bobpossible.review.dto.GetStoreReviewRes;
+import cmc.bobpossible.store.dto.GetStoreImages;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -69,4 +70,9 @@ public class ReviewController {
     }
 
 
+    @ApiOperation("가게 리뷰 사진 조회")
+    @GetMapping("images/{storeId}")
+    public BaseResponse<Slice<GetStoreImages>> getStoreImages(Pageable pageable, @PathVariable Long storeId) throws BaseException {
+        return new BaseResponse<>(reviewService.getStoreImages(storeId, pageable));
+    }
 }
