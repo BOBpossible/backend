@@ -60,7 +60,7 @@ public class ReviewController {
     }
 
     @ApiOperation("리뷰 삭제")
-    @DeleteMapping("/{reviewId}")
+    @PatchMapping("/status/{reviewId}")
     public BaseResponse<String> deleteReview(@PathVariable Long reviewId) throws BaseException {
 
         reviewService.deleteReview(reviewId);

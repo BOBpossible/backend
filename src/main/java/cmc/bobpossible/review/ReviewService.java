@@ -96,6 +96,7 @@ public class ReviewService {
         return reviews.map(GetStoreReviewRes::new);
     }
 
+    @Transactional
     public void deleteReview(Long reviewId) throws BaseException {
 
         Review review = reviewRepository.findById(reviewId)
@@ -103,6 +104,5 @@ public class ReviewService {
 
         review.delete();
 
-        reviewRepository.delete(review);
     }
 }
