@@ -42,6 +42,7 @@ public enum BaseResponseStatus {
 
     //mission
     INVALID_MISSION_ID(false, 2121, "해당 missionId값과 일치하는 값이 없습니다."),
+    NO_AVAILABLE_MISSION(false, 2122, "현재 배포가능한 미션이 없습니다."),
 
     // Category
     INVALID_CATEGORY_ID(false, 2301, "해당 categoryId값과 일치하는 값이 없습니다."),

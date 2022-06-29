@@ -7,6 +7,7 @@ import cmc.bobpossible.member_category.MemberCategory;
 import cmc.bobpossible.mission.Mission;
 import cmc.bobpossible.operation_time.OperationTime;
 import cmc.bobpossible.point.Point;
+import cmc.bobpossible.reward.Reward;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.Where;
@@ -63,6 +64,10 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Mission> missions = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "rewardId")
+    private Reward reward;
 
     @Builder
     public Member(Long id, String name, String email) {

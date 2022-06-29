@@ -10,7 +10,6 @@ import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.menu_image.MenuImage;
 import cmc.bobpossible.mission.Mission;
 import cmc.bobpossible.operation_time.OperationTime;
-import cmc.bobpossible.review.Review;
 import cmc.bobpossible.review.ReviewRepository;
 import cmc.bobpossible.review_image.ReviewImage;
 import cmc.bobpossible.review_image.ReviewImageRepository;
@@ -104,7 +103,7 @@ public class StoreService {
                         if(mission.getStore() == store){
                             return GetStoreMapRes.builder()
                                         .isMission(true)
-                                        .point(mission.getReward())
+                                        .point(mission.getPoint())
                                         .name(store.getName())
                                         .distance(DistanceCalculator.distance(member.getAddress().getX(), member.getAddress().getY(), store.getAddress().getX(), store.getAddress().getY()))
                                         .x(store.getAddress().getX())

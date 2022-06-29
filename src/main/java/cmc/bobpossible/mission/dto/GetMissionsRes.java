@@ -10,16 +10,16 @@ public class GetMissionsRes {
     private Long missionId;
     private String storeName;
     private String storeCategory;
-    private int missionPrice;
-    private int reward;
+    private String mission;
+    private int point;
     private MissionStatus missionStatus;
 
     public GetMissionsRes(Mission mission) {
         this.missionId = mission.getId();
         this.storeName = mission.getStore().getName();
         this.storeCategory = mission.getStore().getCategory().getName();
-        this.missionPrice = mission.getMissionPrice();
-        this.reward = mission.getReward();
+        this.mission = mission.getMission();
+        this.point = mission.getPoint();
         this.missionStatus = mission.getMissionStatus();
     }
 }
