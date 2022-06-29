@@ -1,4 +1,4 @@
-package cmc.bobpossible.store.dto;
+package cmc.bobpossible.review.dto;
 
 import cmc.bobpossible.review_reply.ReviewReply;
 import lombok.Data;

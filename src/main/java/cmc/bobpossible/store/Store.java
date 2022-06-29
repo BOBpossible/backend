@@ -116,4 +116,8 @@ public class Store extends BaseEntity {
         }
         return StoreStatus.CLOSED;
     }
+
+    public void deleteReview(Review review) {
+        this.reviews.remove(review);
+    }
 }

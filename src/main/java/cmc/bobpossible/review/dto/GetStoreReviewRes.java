@@ -1,7 +1,6 @@
-package cmc.bobpossible.store.dto;
+package cmc.bobpossible.review.dto;
 
 import cmc.bobpossible.review.Review;
-import cmc.bobpossible.review.dto.ImageDto;
 import lombok.Data;
 
 import java.time.LocalDateTime;

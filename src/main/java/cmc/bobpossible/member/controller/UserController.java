@@ -5,15 +5,16 @@ import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.RefineError;
 import cmc.bobpossible.member.MemberService;
+import cmc.bobpossible.member.dto.GetUser;
 import cmc.bobpossible.member.dto.PostUserReq;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
@@ -34,4 +35,30 @@ public class UserController {
         memberService.joinUser(postUserReq);
         return new BaseResponse<>("");
     }
+
+    @ApiOperation("내 정보 조회(마이페이지)")
+    @PostMapping("/me")
+    public BaseResponse<GetUser> getUser() throws BaseException {
+
+        return new BaseResponse<>(memberService.getUser());
+    }
+
+    @ApiOperation("내 정보 수정(마이페이지)")
+    @PatchMapping("/me")
+    public BaseResponse<String> patchUser(@RequestParam String email) throws BaseException {
+
+        memberService.patchUser(email);
+
+        return new BaseResponse<>("");
+    }
+
+    @ApiOperation("내 정보 수정(마이페이지)")
+    @PatchMapping("image/me")
+    public BaseResponse<String> patchUserImage(@RequestPart MultipartFile profileImage) throws BaseException, IOException {
+
+        memberService.patchUserImage(profileImage);
+
+        return new BaseResponse<>("");
+    }
+
 }

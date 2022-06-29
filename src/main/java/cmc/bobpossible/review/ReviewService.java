@@ -8,8 +8,11 @@ import cmc.bobpossible.review.dto.PostReviewReq;
 import cmc.bobpossible.review_image.ReviewImage;
 import cmc.bobpossible.store.Store;
 import cmc.bobpossible.store.StoreRepository;
+import cmc.bobpossible.review.dto.GetStoreReviewRes;
 import cmc.bobpossible.utils.S3Uploader;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static cmc.bobpossible.config.BaseResponseStatus.*;
@@ -70,5 +74,35 @@ public class ReviewService {
 
         review.addReviewImages(reviewImages);
 
+    }
+
+    public Slice<GetStoreReviewRes> getStoreReviewRes(Long storeId, Pageable pageable) throws BaseException {
+
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
+
+        Slice<Review> reviews = reviewRepository.findByStoreOrderByIdDesc(store, pageable);
+
+        return reviews.map(GetStoreReviewRes::new);
+    }
+
+    public Slice<GetStoreReviewRes> getMyReviews(Pageable pageable) throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        Slice<Review> reviews = reviewRepository.findByMemberOrderByIdDesc(member, pageable);
+
+        return reviews.map(GetStoreReviewRes::new);
+    }
+
+    public void deleteReview(Long reviewId) throws BaseException {
+
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new BaseException(INVALID_REVIEW_ID));
+
+        review.delete();
+
+        reviewRepository.delete(review);
     }
 }

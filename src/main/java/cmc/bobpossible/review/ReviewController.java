@@ -4,8 +4,11 @@ import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.RefineError;
 import cmc.bobpossible.review.dto.PostReviewReq;
+import cmc.bobpossible.review.dto.GetStoreReviewRes;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +36,14 @@ public class ReviewController {
         return new BaseResponse<>(reviewService.createReview(postReviewReq).getId());
     }
 
+    @ApiOperation("나의 리뷰 조회")
+    @GetMapping("/me")
+    public BaseResponse<Slice<GetStoreReviewRes>> getMyReviews(Pageable pageable) throws BaseException {
+
+        return new BaseResponse<>(reviewService.getMyReviews(pageable));
+    }
+
+
     @ApiOperation("리뷰 이미지 등록")
     @PostMapping("/me/images/{reviewId}")
     public BaseResponse<String> createReviewImage(@RequestPart List<MultipartFile> reviewImage, @PathVariable Long reviewId) throws BaseException, IOException {
@@ -41,5 +52,21 @@ public class ReviewController {
 
         return new BaseResponse<>("");
     }
+
+    @ApiOperation("가게 리뷰 조회")
+    @GetMapping("/{storeId}")
+    public BaseResponse<Slice<GetStoreReviewRes>> getStoreReviewRes(Pageable pageable, @PathVariable Long storeId) throws BaseException {
+        return new BaseResponse<>(reviewService.getStoreReviewRes(storeId, pageable));
+    }
+
+    @ApiOperation("리뷰 삭제")
+    @DeleteMapping("/{reviewId}")
+    public BaseResponse<String> deleteReview(@PathVariable Long reviewId) throws BaseException {
+
+        reviewService.deleteReview(reviewId);
+
+        return new BaseResponse<>("");
+    }
+
 
 }

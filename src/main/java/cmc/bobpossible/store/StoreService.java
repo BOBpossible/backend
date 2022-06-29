@@ -148,13 +148,4 @@ public class StoreService {
 
         return images.map(GetStoreImages::new);
     }
-
-    public Slice<GetStoreReviewRes> getStoreReviewRes(Long storeId, Pageable pageable) throws BaseException {
-        Store store = storeRepository.findById(storeId)
-                .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
-
-        Slice<Review> reviews = reviewRepository.findByStoreOrderByIdDesc(store, pageable);
-
-        return reviews.map(GetStoreReviewRes::new);
-    }
 }
