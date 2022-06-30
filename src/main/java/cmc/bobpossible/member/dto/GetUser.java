@@ -9,12 +9,12 @@ public class GetUser {
     private String name;
     private String email;
     private int point;
-    private boolean authentication;
+    private boolean isAuthentication;
 
     public GetUser(Member member) {
         this.name = member.getName();
         this.email = member.getEmail();
         this.point = member.getTotalPoints();
-        this.authentication = false;
+        this.isAuthentication = false;
     }
 }
