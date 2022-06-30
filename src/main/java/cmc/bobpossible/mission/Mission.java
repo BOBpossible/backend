@@ -57,7 +57,7 @@ public class Mission extends BaseEntity {
 
     @Builder
     public Mission( LocalDateTime expiredDate, Store store, Member member, MissionStatus missionStatus) {
-        this.mission = "10,000원 이상의 식사시";
+        this.mission = "10,000원 이상";
         this.point = 500;
         this.expiredDate = LocalDateTime.now().plusDays(7);
         this.store = store;
