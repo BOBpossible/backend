@@ -3,6 +3,7 @@ package cmc.bobpossible.store.dto;
 import cmc.bobpossible.member.Address;
 import cmc.bobpossible.review.dto.ImageDto;
 import cmc.bobpossible.store.Store;
+import cmc.bobpossible.store.StoreAddress;
 import cmc.bobpossible.store.StoreStatus;
 import lombok.Data;
 
@@ -17,7 +18,7 @@ public class GetStoreRes {
     private String category;
     private StoreStatus storeStatus;
     private double averageRate;
-    private Address address;
+    private StoreAddress address;
     private int reviewCount;
 
     public GetStoreRes(Store store) {

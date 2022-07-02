@@ -7,6 +7,7 @@ import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.menu_image.MenuImage;
 import cmc.bobpossible.operation_time.OperationTime;
 import cmc.bobpossible.review.Review;
+import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.Where;
 
@@ -36,7 +37,7 @@ public class Store extends BaseEntity {
     private String intro;
 
     @Embedded
-    private Address address;
+    private StoreAddress address;
 
     private int tableNum;
 
@@ -56,15 +57,33 @@ public class Store extends BaseEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
-    public static Store create(Member member , String storeName, Address address, Category category, int tableNum, String representativeMenuName, List<MenuImage> menuImages, List<OperationTime> operationTimes) {
+    protected Store() {
+    }
+
+    @Builder
+    public Store( Member member, String name, String intro, StoreAddress address, int tableNum, String representativeMenuName, Category category, List<MenuImage> menuImages, List<OperationTime> operationTimes, List<Review> reviews) {
+        this.member = member;
+        this.name = name;
+        this.intro = intro;
+        this.address = address;
+        this.tableNum = tableNum;
+        this.representativeMenuName = representativeMenuName;
+        this.category = category;
+        this.menuImages = menuImages;
+        this.operationTimes = operationTimes;
+        this.reviews = reviews;
+    }
+
+    public static Store create(Member member , String storeName, String intro, StoreAddress address, Category category, int tableNum, String representativeMenuName, List<MenuImage> menuImages, List<OperationTime> operationTimes) {
         Store store = new Store();
-        store.init( member, storeName, address, category, tableNum, representativeMenuName, menuImages, operationTimes);
+        store.init( member, storeName, intro, address, category, tableNum, representativeMenuName, menuImages, operationTimes);
         return store;
     }
 
-    private void init(Member member, String storeName, Address address, Category category, int tableNum, String representativeMenuName, List<MenuImage> menuImages, List<OperationTime> operationTimes) {
+    private void init(Member member, String storeName, String intro, StoreAddress address, Category category, int tableNum, String representativeMenuName, List<MenuImage> menuImages, List<OperationTime> operationTimes) {
         this.member = member;
         this.name = storeName;
+        this.intro = intro;
         this.address = address;
         this.category = category;
         this.tableNum = tableNum;

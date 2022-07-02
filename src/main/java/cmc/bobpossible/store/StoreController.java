@@ -28,14 +28,14 @@ public class StoreController {
 
     @ApiOperation("가게 정보 등록")
     @PostMapping("")
-    public BaseResponse<String> createStore(@Validated @RequestBody PostStoreReq postStoreReq, @RequestPart List<MultipartFile> representativeMenuImages, Errors errors) throws BaseException, IOException {
+    public BaseResponse<String> createStore(@Validated @RequestPart PostStoreReq postStoreReq, Errors errors) throws BaseException, IOException {
 
         //validation
         if (errors.hasErrors()) {
             return new BaseResponse<>(RefineError.refine(errors));
         }
 
-        storeService.createStore(postStoreReq, representativeMenuImages);
+        storeService.createStore(postStoreReq);
 
         return new BaseResponse<>("");
     }
