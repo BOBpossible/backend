@@ -14,6 +14,7 @@ import cmc.bobpossible.review.ReviewRepository;
 import cmc.bobpossible.review_image.ReviewImage;
 import cmc.bobpossible.review_image.ReviewImageRepository;
 import cmc.bobpossible.store.dto.*;
+import cmc.bobpossible.store_image.StoreImage;
 import cmc.bobpossible.utils.DistanceCalculator;
 import cmc.bobpossible.utils.S3Uploader;
 import lombok.RequiredArgsConstructor;
@@ -134,5 +135,42 @@ public class StoreService {
                 .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
 
         return new GetStoreRes(store);
+    }
+
+    @Transactional
+    public void postRepresentativeMenuImages(List<MultipartFile> representativeMenuImages, Long storeId) throws IOException, BaseException {
+
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
+
+        List<String> imageURL = new ArrayList<>();
+        for (int i = 0; i < representativeMenuImages.size() || i < 3; i++) {
+            imageURL.add( s3Uploader.upload(representativeMenuImages.get(i), "menuImage"));
+        }
+
+        // 메뉴 이미지 엔티티
+        List<MenuImage> menuImages = imageURL.stream()
+                .map(i -> MenuImage.builder().image(i).build())
+                .collect(Collectors.toList());
+
+        store.addMenuImages(menuImages);
+    }
+
+    @Transactional
+    public void postStoreImages(List<MultipartFile> storeImages, Long storeId) throws BaseException, IOException {
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
+
+        List<String> imageURL = new ArrayList<>();
+        for (int i = 0; i < storeImages.size() || i < 3; i++) {
+            imageURL.add( s3Uploader.upload(storeImages.get(i), "storeImage"));
+        }
+
+        // 이미지 엔티티
+        List<StoreImage> storeImage = imageURL.stream()
+                .map(i -> StoreImage.builder().image(i).build())
+                .collect(Collectors.toList());
+
+        store.addStoreImages(storeImage);
     }
 }

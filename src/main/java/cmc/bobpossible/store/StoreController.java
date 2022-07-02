@@ -40,6 +40,24 @@ public class StoreController {
         return new BaseResponse<>("");
     }
 
+    @ApiOperation("대표메뉴 사진 등록")
+    @PostMapping("/representative-menu-images/{storeId}")
+    public BaseResponse<String> postRepresentativeMenuImages(@RequestPart List<MultipartFile> representativeMenuImages, @PathVariable Long storeId) throws BaseException, IOException {
+
+        storeService.postRepresentativeMenuImages(representativeMenuImages, storeId);
+
+        return new BaseResponse<>("");
+    }
+
+    @ApiOperation("가게 사진 등록")
+    @PostMapping("/store-images/{storeId}")
+    public BaseResponse<String> postStoreImages(@RequestPart List<MultipartFile> storeImages, @PathVariable Long storeId) throws BaseException, IOException {
+
+        storeService.postStoreImages(storeImages, storeId);
+
+        return new BaseResponse<>("");
+    }
+
     @ApiOperation("가게 지도 조회")
     @GetMapping("")
     public BaseResponse<List<GetStoreMapRes>> getStoreMap() throws BaseException {

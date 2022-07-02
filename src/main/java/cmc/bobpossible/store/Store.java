@@ -7,6 +7,7 @@ import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.menu_image.MenuImage;
 import cmc.bobpossible.operation_time.OperationTime;
 import cmc.bobpossible.review.Review;
+import cmc.bobpossible.store_image.StoreImage;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.Where;
@@ -52,6 +53,9 @@ public class Store extends BaseEntity {
     private List<MenuImage> menuImages = new ArrayList<>();
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    private List<StoreImage> storeImages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     private List<OperationTime> operationTimes = new ArrayList<>();
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
@@ -61,7 +65,7 @@ public class Store extends BaseEntity {
     }
 
     @Builder
-    public Store( Member member, String name, String intro, StoreAddress address, int tableNum, String representativeMenuName, Category category, List<MenuImage> menuImages, List<OperationTime> operationTimes, List<Review> reviews) {
+    public Store( Member member, String name, String intro, StoreAddress address, int tableNum, String representativeMenuName, Category category, List<OperationTime> operationTimes, List<Review> reviews) {
         this.member = member;
         this.name = name;
         this.intro = intro;
@@ -69,29 +73,30 @@ public class Store extends BaseEntity {
         this.tableNum = tableNum;
         this.representativeMenuName = representativeMenuName;
         this.category = category;
-        this.menuImages = menuImages;
-        this.operationTimes = operationTimes;
+//        this.menuImages = menuImages;
+//        this.operationTimes = operationTimes;
+        operationTimes.forEach(this::addOperationTime);
         this.reviews = reviews;
     }
 
-    public static Store create(Member member , String storeName, String intro, StoreAddress address, Category category, int tableNum, String representativeMenuName, List<MenuImage> menuImages, List<OperationTime> operationTimes) {
-        Store store = new Store();
-        store.init( member, storeName, intro, address, category, tableNum, representativeMenuName, menuImages, operationTimes);
-        return store;
-    }
-
-    private void init(Member member, String storeName, String intro, StoreAddress address, Category category, int tableNum, String representativeMenuName, List<MenuImage> menuImages, List<OperationTime> operationTimes) {
-        this.member = member;
-        this.name = storeName;
-        this.intro = intro;
-        this.address = address;
-        this.category = category;
-        this.tableNum = tableNum;
-        this.representativeMenuName = representativeMenuName;
-
-        menuImages.forEach(this::addMenuImage);
-        operationTimes.forEach(this::addOperationTime);
-    }
+//    public static Store create(Member member , String storeName, String intro, StoreAddress address, Category category, int tableNum, String representativeMenuName, List<MenuImage> menuImages, List<OperationTime> operationTimes) {
+//        Store store = new Store();
+//        store.init( member, storeName, intro, address, category, tableNum, representativeMenuName, menuImages, operationTimes);
+//        return store;
+//    }
+//
+//    private void init(Member member, String storeName, String intro, StoreAddress address, Category category, int tableNum, String representativeMenuName, List<MenuImage> menuImages, List<OperationTime> operationTimes) {
+//        this.member = member;
+//        this.name = storeName;
+//        this.intro = intro;
+//        this.address = address;
+//        this.category = category;
+//        this.tableNum = tableNum;
+//        this.representativeMenuName = representativeMenuName;
+//
+//        menuImages.forEach(this::addMenuImage);
+//        operationTimes.forEach(this::addOperationTime);
+//    }
 
     private void addOperationTime(OperationTime operationTime) {
         operationTimes.add(operationTime);
@@ -100,6 +105,11 @@ public class Store extends BaseEntity {
 
     private void addMenuImage(MenuImage m) {
         menuImages.add(m);
+        m.addStore(this);
+    }
+
+    private void addStoreImage(StoreImage m) {
+        storeImages.add(m);
         m.addStore(this);
     }
 
@@ -138,5 +148,13 @@ public class Store extends BaseEntity {
 
     public void deleteReview(Review review) {
         this.reviews.remove(review);
+    }
+
+    public void addMenuImages(List<MenuImage> menuImages) {
+        menuImages.forEach(this::addMenuImage);
+    }
+
+    public void addStoreImages(List<StoreImage> storeImages) {
+        storeImages.forEach(this::addStoreImage);
     }
 }
