@@ -14,6 +14,7 @@ import cmc.bobpossible.review.ReviewRepository;
 import cmc.bobpossible.review_image.ReviewImage;
 import cmc.bobpossible.review_image.ReviewImageRepository;
 import cmc.bobpossible.store.dto.*;
+import cmc.bobpossible.store_image.StoreImage;
 import cmc.bobpossible.utils.DistanceCalculator;
 import cmc.bobpossible.utils.S3Uploader;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,7 @@ public class StoreService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public void createStore(PostStoreReq postStoreReq, List<MultipartFile> representativeMenuImages) throws BaseException, IOException {
+    public void createStore(PostStoreReq postStoreReq) throws BaseException, IOException {
 
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
@@ -50,15 +51,15 @@ public class StoreService {
                 .orElseThrow(() -> new BaseException(INVALID_CATEGORY_ID));
 
         // 최대 3번
-        List<String> imageURL = new ArrayList<>();
-        for (int i = 0; i < representativeMenuImages.size() || i < 3; i++) {
-            imageURL.add( s3Uploader.upload(representativeMenuImages.get(i), "menuImage"));
-        }
+//        List<String> imageURL = new ArrayList<>();
+//        for (int i = 0; i < representativeMenuImages.size() || i < 3; i++) {
+//            imageURL.add( s3Uploader.upload(representativeMenuImages.get(i), "menuImage"));
+//        }
 
         // 메뉴 이미지 엔티티
-        List<MenuImage> menuImages = imageURL.stream()
-                .map(i -> MenuImage.builder().image(i).build())
-                .collect(Collectors.toList());
+//        List<MenuImage> menuImages = imageURL.stream()
+//                .map(i -> MenuImage.builder().image(i).build())
+//                .collect(Collectors.toList());
 
 
         List<OperationTime> operationTimes = postStoreReq.getOperationTimeVO().stream()
@@ -72,16 +73,17 @@ public class StoreService {
                                 .build())
                 .collect(Collectors.toList());
 
-        Store store = Store.create(
-                member,
-                postStoreReq.getStoreName(),
-                new Address (postStoreReq.getAddressStreet(),  postStoreReq.getAddressDong(), postStoreReq.getX(), postStoreReq.getY()),
-                category,
-                postStoreReq.getTableNum(),
-                postStoreReq.getRepresentativeMenuName(),
-                menuImages,
-                operationTimes
-        );
+        Store store = Store.builder()
+                .member(member)
+                .name(postStoreReq.getStoreName())
+                .intro(postStoreReq.getIntro())
+                .address(new StoreAddress(postStoreReq.getAddressStreet(), postStoreReq.getAddressDetail(),  postStoreReq.getAddressDong(), postStoreReq.getX(), postStoreReq.getY()))
+                .category(category)
+                .tableNum(postStoreReq.getTableNum())
+                .representativeMenuName(postStoreReq.getRepresentativeMenuName())
+ //               .menuImages(menuImages)
+                .operationTimes(operationTimes)
+                .build();
 
         store.getMember().completeRegister();
 
@@ -133,5 +135,42 @@ public class StoreService {
                 .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
 
         return new GetStoreRes(store);
+    }
+
+    @Transactional
+    public void postRepresentativeMenuImages(List<MultipartFile> representativeMenuImages, Long storeId) throws IOException, BaseException {
+
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
+
+        List<String> imageURL = new ArrayList<>();
+        for (int i = 0; i < representativeMenuImages.size() || i < 3; i++) {
+            imageURL.add( s3Uploader.upload(representativeMenuImages.get(i), "menuImage"));
+        }
+
+        // 메뉴 이미지 엔티티
+        List<MenuImage> menuImages = imageURL.stream()
+                .map(i -> MenuImage.builder().image(i).build())
+                .collect(Collectors.toList());
+
+        store.addMenuImages(menuImages);
+    }
+
+    @Transactional
+    public void postStoreImages(List<MultipartFile> storeImages, Long storeId) throws BaseException, IOException {
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
+
+        List<String> imageURL = new ArrayList<>();
+        for (int i = 0; i < storeImages.size() || i < 3; i++) {
+            imageURL.add( s3Uploader.upload(storeImages.get(i), "storeImage"));
+        }
+
+        // 이미지 엔티티
+        List<StoreImage> storeImage = imageURL.stream()
+                .map(i -> StoreImage.builder().image(i).build())
+                .collect(Collectors.toList());
+
+        store.addStoreImages(storeImage);
     }
 }

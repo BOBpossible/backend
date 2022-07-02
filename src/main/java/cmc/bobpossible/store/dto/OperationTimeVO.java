@@ -19,4 +19,7 @@ public class OperationTimeVO {
     private LocalTime breakStartTime;
     @Pattern(regexp = "^(2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$", message = "time 형식 오류 hh:mm:ss")
     private LocalTime breakEndTime;
+
+    private boolean hasOperationTime;
+    private boolean hasBreak;
 }

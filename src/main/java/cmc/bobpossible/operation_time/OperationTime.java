@@ -31,16 +31,21 @@ public class OperationTime {
     private LocalTime breakStartTime;
     private LocalTime breakEndTime;
 
+    private boolean hasOperationTime;
+    private boolean hasBreak;
+
     protected OperationTime() {
     }
 
     @Builder
-    public OperationTime(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime, LocalTime breakStartTime, LocalTime breakEndTime) {
+    public OperationTime(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime, LocalTime breakStartTime, LocalTime breakEndTime, boolean hasOperationTime, boolean hasBreak) {
         this.dayOfWeek = dayOfWeek;
         this.startTime = startTime;
         this.endTime = endTime;
         this.breakStartTime = breakStartTime;
         this.breakEndTime = breakEndTime;
+        this.hasOperationTime = hasOperationTime;
+        this.hasBreak = hasBreak;
     }
 
     public void addStore(Store store) {

@@ -28,14 +28,32 @@ public class StoreController {
 
     @ApiOperation("가게 정보 등록")
     @PostMapping("")
-    public BaseResponse<String> createStore(@Validated @RequestBody PostStoreReq postStoreReq, @RequestPart List<MultipartFile> representativeMenuImages, Errors errors) throws BaseException, IOException {
+    public BaseResponse<String> createStore(@Validated @RequestPart PostStoreReq postStoreReq, Errors errors) throws BaseException, IOException {
 
         //validation
         if (errors.hasErrors()) {
             return new BaseResponse<>(RefineError.refine(errors));
         }
 
-        storeService.createStore(postStoreReq, representativeMenuImages);
+        storeService.createStore(postStoreReq);
+
+        return new BaseResponse<>("");
+    }
+
+    @ApiOperation("대표메뉴 사진 등록")
+    @PostMapping("/representative-menu-images/{storeId}")
+    public BaseResponse<String> postRepresentativeMenuImages(@RequestPart List<MultipartFile> representativeMenuImages, @PathVariable Long storeId) throws BaseException, IOException {
+
+        storeService.postRepresentativeMenuImages(representativeMenuImages, storeId);
+
+        return new BaseResponse<>("");
+    }
+
+    @ApiOperation("가게 사진 등록")
+    @PostMapping("/store-images/{storeId}")
+    public BaseResponse<String> postStoreImages(@RequestPart List<MultipartFile> storeImages, @PathVariable Long storeId) throws BaseException, IOException {
+
+        storeService.postStoreImages(storeImages, storeId);
 
         return new BaseResponse<>("");
     }
