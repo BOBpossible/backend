@@ -1,6 +1,7 @@
 package cmc.bobpossible.mission;
 
 import cmc.bobpossible.member_category.MemberCategory;
+import cmc.bobpossible.mission_group.MissionGroup;
 import cmc.bobpossible.store.Store;
 import cmc.bobpossible.utils.DistanceCalculator;
 import lombok.Data;
@@ -11,6 +12,8 @@ import java.util.List;
 public class Recommend {
 
     private  Store store;
+
+    private MissionGroup missionGroup;
 
     private  double percentage;
 
@@ -27,9 +30,22 @@ public class Recommend {
 
     public Recommend(Store s, double x, double y) {
         this.store = s;
+        this.missionGroup = addMissionGroup(s.getMissionGroups());
         this.percentage = 0;
         this.distance = DistanceCalculator.distance(x, y , s.getAddress().getX(), s.getAddress().getY());
         Recommend.distanceSum += distance;
+    }
+
+    private MissionGroup addMissionGroup(List<MissionGroup> missionGroups) {
+        double percentage = 1.0 / missionGroups.size();
+        while (true) {
+            double random = Math.random() / percentage;
+            int i = (int) Math.floor(random);
+            if( i < missionGroups.size()){
+                return missionGroups.get(i);
+            }
+
+        }
     }
 
     public void distancePercentage() {

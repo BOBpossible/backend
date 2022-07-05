@@ -16,13 +16,13 @@ public class GetMissionMapRes {
     private double y;
 
     public GetMissionMapRes(Mission mission) {
-        this.storeId = mission.getStore().getId();
+        this.storeId = mission.getMissionGroup().getStore().getId();
         this.missionId = mission.getId();
-        this.point = mission.getPoint();
-        this.name = mission.getStore().getName();
-        this.category = mission.getStore().getCategory().getName();
-        this.mission = mission.getMission();
-        this.x = mission.getStore().getAddress().getX();
-        this.y = mission.getStore().getAddress().getY();
+        this.point = mission.getMissionGroup().getPoint();
+        this.name = mission.getMissionGroup().getStore().getName();
+        this.category = mission.getMissionGroup().getStore().getCategory().getName();
+        this.mission = mission.getMissionGroup().getMissionContent();
+        this.x = mission.getMissionGroup().getStore().getAddress().getX();
+        this.y = mission.getMissionGroup().getStore().getAddress().getY();
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 public class WeightedRandom {
 
 
-    public static Store getRandom(List<Recommend> recommends) {
+    public static Recommend getRandom(List<Recommend> recommends) {
 
         final double pivot = Math.random();
 
@@ -17,7 +17,7 @@ public class WeightedRandom {
             acc += recommend.getPercentage();
 
             if (pivot <= acc) {
-                return recommend.getStore();
+                return recommend;
             }
         }
         return null;

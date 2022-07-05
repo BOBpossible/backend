@@ -9,6 +9,8 @@ import cmc.bobpossible.member.MemberRepository;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.menu_image.MenuImage;
 import cmc.bobpossible.mission.Mission;
+import cmc.bobpossible.mission_group.MissionGroup;
+import cmc.bobpossible.mission_group.MissionGroupRepository;
 import cmc.bobpossible.operation_time.OperationTime;
 import cmc.bobpossible.review.ReviewRepository;
 import cmc.bobpossible.review_image.ReviewImage;
@@ -40,6 +42,7 @@ public class StoreService {
     private final CategoryRepository categoryRepository;
     private final S3Uploader s3Uploader;
     private final MemberRepository memberRepository;
+    private final MissionGroupRepository missionGroupRepository;
 
     @Transactional
     public void createStore(PostStoreReq postStoreReq) throws BaseException, IOException {
@@ -85,7 +88,23 @@ public class StoreService {
                 .operationTimes(operationTimes)
                 .build();
 
+        List<MissionGroup> missionGroups = new ArrayList<>();
+
+        missionGroups.add(MissionGroup.builder()
+                .missionContent("10,000원 이상")
+                .point(500)
+                .store(store)
+                .build());
+
+        missionGroups.add(MissionGroup.builder()
+                .missionContent("대표메뉴 " + store.getRepresentativeMenuName())
+                .point(500)
+                .store(store)
+                .build());
+
         store.getMember().completeRegister();
+
+        missionGroupRepository.saveAll(missionGroups);
 
         storeRepository.save(store);
     }
@@ -100,10 +119,10 @@ public class StoreService {
         return stores.stream().map(
                 store-> {
                     for (Mission mission : member.getMissions()) {
-                        if(mission.getStore() == store){
+                        if(mission.getMissionGroup().getStore() == store){
                             return GetStoreMapRes.builder()
                                         .isMission(true)
-                                        .point(mission.getPoint())
+                                        .point(mission.getMissionGroup().getPoint())
                                         .name(store.getName())
                                         .distance(DistanceCalculator.distance(member.getAddress().getX(), member.getAddress().getY(), store.getAddress().getX(), store.getAddress().getY()))
                                         .x(store.getAddress().getX())
