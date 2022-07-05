@@ -71,8 +71,8 @@ public class MissionController {
 
     //사장
 
-    @ApiOperation("사장 진행중 미션 조회")
-    @GetMapping("/me/complete")
+    @ApiOperation("사장 진행중 미션 조회(사장)")
+    @GetMapping("/owners/progress")
     public BaseResponse<GetOwnerMissionRes> getOwnersMissionOndProgress() throws BaseException {
 
         return new BaseResponse<>(missionService.getOwnersMissionOndProgress());
