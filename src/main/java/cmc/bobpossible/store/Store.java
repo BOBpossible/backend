@@ -28,7 +28,7 @@ public class Store extends BaseEntity {
     @Column(name = "store_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "memberId")
     private Member member;
 
@@ -71,6 +71,7 @@ public class Store extends BaseEntity {
     @Builder
     public Store( Member member, String name, String intro, StoreAddress address, int tableNum, String representativeMenuName, Category category, List<OperationTime> operationTimes, List<Review> reviews) {
         this.member = member;
+        member.addStore(this);
         this.name = name;
         this.intro = intro;
         this.address = address;

@@ -5,6 +5,7 @@ import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.mission.dto.GetHome;
 import cmc.bobpossible.mission.dto.GetMissionMapRes;
 import cmc.bobpossible.mission.dto.GetMissionsRes;
+import cmc.bobpossible.mission.dto.GetOwnerMissionRes;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -59,7 +60,7 @@ public class MissionController {
     }
 
     @ApiOperation("미션 성공 요청(고객)")
-    @PatchMapping("/users/mission-status/{missionId}")
+    @PatchMapping("/users/success/{missionId}")
     public BaseResponse<String> postRequestCompleteMission(@PathVariable Long missionId) throws BaseException {
 
         missionService.postRequestCompleteMission(missionId);
@@ -68,4 +69,12 @@ public class MissionController {
     }
 
 
+    //사장
+
+    @ApiOperation("사장 진행중 미션 조회")
+    @GetMapping("/me/complete")
+    public BaseResponse<GetOwnerMissionRes> getOwnersMissionOndProgress() throws BaseException {
+
+        return new BaseResponse<>(missionService.getOwnersMissionOndProgress());
+    }
 }

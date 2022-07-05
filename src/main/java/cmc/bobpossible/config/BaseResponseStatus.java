@@ -53,8 +53,8 @@ public enum BaseResponseStatus {
     // Review
     INVALID_REVIEW_ID(false, 2040, "해당 reviewId값과 일치하는 값이 없습니다."),
 
-    //Like
-    POST_LIKE_EXISTS(false, 2050, "이미 찜이 되어있습니다."),
+    //Owners
+    STORE_NOT_OWN(false, 2050, "소유하신 가게가 없습니다."),
     DELETE_LIKE_EXISTS(false, 2050, "이미 찜이 삭제 되어있습니다."),
 
     //auth
