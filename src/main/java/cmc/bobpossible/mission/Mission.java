@@ -3,6 +3,7 @@ package cmc.bobpossible.mission;
 import cmc.bobpossible.BaseEntity;
 import cmc.bobpossible.Status;
 import cmc.bobpossible.member.entity.Member;
+import cmc.bobpossible.mission_group.MissionGroup;
 import cmc.bobpossible.store.Store;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,6 +12,8 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static cmc.bobpossible.mission.MissionStatus.NEW;
 
@@ -23,15 +26,7 @@ public class Mission extends BaseEntity {
     @Column(name = "mission_id")
     private Long id;
 
-    String mission;
-
-    int point;
-
     private LocalDateTime expiredDate;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "storeId")
-    private Store store;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId")
@@ -39,6 +34,10 @@ public class Mission extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private MissionStatus missionStatus;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "missionGroupId")
+    private MissionGroup missionGroup;
 
     public void requestComplete() {
         this.missionStatus = MissionStatus.OWNER_CHECK;
@@ -56,14 +55,13 @@ public class Mission extends BaseEntity {
     }
 
     @Builder
-    public Mission( LocalDateTime expiredDate, Store store, Member member, MissionStatus missionStatus) {
-        this.mission = "10,000원 이상";
-        this.point = 500;
+    public Mission(Member member, MissionGroup missionGroup ) {
         this.expiredDate = LocalDateTime.now().plusDays(7);
-        this.store = store;
         this.member = member;
         member.addMission(this);
         this.missionStatus = NEW;
+        this.missionGroup = missionGroup;
+        missionGroup.addMission(this);
     }
 
     public long getDoomsDay() {

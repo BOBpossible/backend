@@ -31,7 +31,7 @@ public class MissionService {
 
     @Transactional
     public GetHome getMissions() throws BaseException {
-        Member member = memberRepository.findById(13L)
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
         List<Mission> missions = missionRepository.findByMember(member);
@@ -64,7 +64,7 @@ public class MissionService {
             //정렬
             recommends.sort(new RecommendPercentageComparator().reversed());
 
-            List<Store> res = new ArrayList<>();
+            List<Recommend> res = new ArrayList<>();
 
             // 배포 가능 가게 0개일 경우
             if (recommends.size() == 0) {
@@ -77,7 +77,7 @@ public class MissionService {
                                 r -> missionRepository.save(
                                         Mission.builder()
                                                 .member(member)
-                                                .store(r.getStore())
+                                                .missionGroup(r.getMissionGroup())
                                                 .build()))
                         .collect(Collectors.toList()));
             } else {
@@ -91,7 +91,7 @@ public class MissionService {
                                 r ->  missionRepository.save(
                                         Mission.builder()
                                                 .member(member)
-                                                .store(r)
+                                                .missionGroup(r.getMissionGroup())
                                                 .build()))
                         .collect(Collectors.toList()));
             }
@@ -100,7 +100,7 @@ public class MissionService {
         return new GetHome(member, missions);
     }
 
-    private boolean isNotNull(Store r) {
+    private boolean isNotNull(Recommend r) {
         return r != null;
     }
 

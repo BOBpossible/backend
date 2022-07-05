@@ -16,10 +16,10 @@ public class GetMissionsRes {
 
     public GetMissionsRes(Mission mission) {
         this.missionId = mission.getId();
-        this.storeName = mission.getStore().getName();
-        this.storeCategory = mission.getStore().getCategory().getName();
-        this.mission = mission.getMission();
-        this.point = mission.getPoint();
+        this.storeName = mission.getMissionGroup().getStore().getName();
+        this.storeCategory = mission.getMissionGroup().getStore().getCategory().getName();
+        this.mission = mission.getMissionGroup().getMissionContent();
+        this.point = mission.getMissionGroup().getPoint();
         this.missionStatus = mission.getMissionStatus();
     }
 }

@@ -5,6 +5,7 @@ import cmc.bobpossible.category.Category;
 import cmc.bobpossible.member.Address;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.menu_image.MenuImage;
+import cmc.bobpossible.mission_group.MissionGroup;
 import cmc.bobpossible.operation_time.OperationTime;
 import cmc.bobpossible.review.Review;
 import cmc.bobpossible.store_image.StoreImage;
@@ -60,6 +61,9 @@ public class Store extends BaseEntity {
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    private List<MissionGroup> missionGroups = new ArrayList<>();
 
     protected Store() {
     }
