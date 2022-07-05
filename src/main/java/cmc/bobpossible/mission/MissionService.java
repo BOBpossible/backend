@@ -6,6 +6,9 @@ import cmc.bobpossible.member.MemberRepository;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.mission.dto.GetHome;
 import cmc.bobpossible.mission.dto.GetMissionMapRes;
+import cmc.bobpossible.mission.dto.GetOwnerMissionRes;
+import cmc.bobpossible.mission_group.MissionGroup;
+import cmc.bobpossible.mission_group.MissionGroupRepository;
 import cmc.bobpossible.store.Store;
 import cmc.bobpossible.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +31,7 @@ public class MissionService {
     private final MissionRepository missionRepository;
     private final MemberRepository memberRepository;
     private final StoreRepository storeRepository;
+    private final MissionGroupRepository missionGroupRepository;
 
     @Transactional
     public GetHome getMissions() throws BaseException {
@@ -138,5 +142,18 @@ public class MissionService {
                 .map(GetMissionMapRes::new)
                 .collect(Collectors.toList());
 
+    }
+
+    public GetOwnerMissionRes getOwnersMissionOndProgress() throws BaseException {
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        List<MissionGroup> groups = missionGroupRepository.findByStore(member.getStore());
+
+        List<Mission> missions = new ArrayList<>();
+
+        groups.forEach(g -> missions.addAll(missionRepository.findByMissionGroup(g)));
+
+        return new GetOwnerMissionRes(missions);
     }
 }

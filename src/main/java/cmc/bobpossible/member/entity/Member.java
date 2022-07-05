@@ -8,6 +8,7 @@ import cmc.bobpossible.mission.Mission;
 import cmc.bobpossible.operation_time.OperationTime;
 import cmc.bobpossible.point.Point;
 import cmc.bobpossible.reward.Reward;
+import cmc.bobpossible.store.Store;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.Where;
@@ -64,6 +65,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Mission> missions = new ArrayList<>();
+
+    @OneToOne(mappedBy = "member")
+    private Store store;
 
     @OneToOne
     @JoinColumn(name = "rewardId")
@@ -138,5 +142,9 @@ public class Member extends BaseEntity {
 
     public void changeEmail(String email) {
         this.email = email;
+    }
+
+    public void addStore(Store store) {
+        this.store = store;
     }
 }
