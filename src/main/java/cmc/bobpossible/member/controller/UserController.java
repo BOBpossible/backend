@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @ApiOperation("내 정보 조회(마이페이지)")
-    @PostMapping("/me")
+    @GetMapping("/me")
     public BaseResponse<GetUser> getUser() throws BaseException {
 
         return new BaseResponse<>(memberService.getUser());
