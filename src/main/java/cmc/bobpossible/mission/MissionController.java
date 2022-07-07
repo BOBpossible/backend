@@ -2,10 +2,7 @@ package cmc.bobpossible.mission;
 
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
-import cmc.bobpossible.mission.dto.GetHome;
-import cmc.bobpossible.mission.dto.GetMissionMapRes;
-import cmc.bobpossible.mission.dto.GetMissionsRes;
-import cmc.bobpossible.mission.dto.GetOwnerMissionRes;
+import cmc.bobpossible.mission.dto.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -28,34 +25,27 @@ public class MissionController {
         return new BaseResponse<>(missionService.getMissions());
     }
 
-    @ApiOperation("미션 맵(홈화면)")
-    @GetMapping("/map")
-    public BaseResponse<List<GetMissionMapRes>> getMissionsMap() throws BaseException {
-
-        return new BaseResponse<>(missionService.getMissionsMap());
-    }
-
     @ApiOperation("나의 현재 진행 미션 조회")
     @GetMapping("/me/progress")
-    public BaseResponse<List<GetMissionsRes>> getMissionOnProgress() throws BaseException {
+    public BaseResponse<List<GetMissionRes>> getMissionOnProgress() throws BaseException {
 
         List<Mission> missions = missionService.getMissionOnProgress();
 
         return new BaseResponse<>(
                 missions.stream()
-                        .map(GetMissionsRes::new)
+                        .map(GetMissionRes::new)
                         .collect(Collectors.toList()));
     }
 
     @ApiOperation("나의 완료 미션 조회")
     @GetMapping("/me/complete")
-    public BaseResponse<List<GetMissionsRes>> getCompleteMission() throws BaseException {
+    public BaseResponse<List<GetMissionsCompleteRes>> getCompleteMission() throws BaseException {
 
         List<Mission> missions = missionService.getCompleteMission();
 
         return new BaseResponse<>(
                 missions.stream()
-                        .map(GetMissionsRes::new)
+                        .map(GetMissionsCompleteRes::new)
                         .collect(Collectors.toList()));
     }
 
@@ -73,8 +63,15 @@ public class MissionController {
 
     @ApiOperation("사장 진행중 미션 조회(사장)")
     @GetMapping("/owners/progress")
-    public BaseResponse<GetOwnerMissionRes> getOwnersMissionOndProgress() throws BaseException {
+    public BaseResponse<GetOwnerMissionRes> getOwnersMissionOnProgress() throws BaseException {
 
-        return new BaseResponse<>(missionService.getOwnersMissionOndProgress());
+        return new BaseResponse<>(missionService.getOwnersMissionOnProgress());
+    }
+
+    @ApiOperation("사장 성공요청 미션 조회(사장)")
+    @GetMapping("/owners/success")
+    public BaseResponse<List<OwnerMissionDto>> getOwnersMissionOnSuccess() throws BaseException {
+
+        return new BaseResponse<>(missionService.getOwnersMissionOnSuccess());
     }
 }

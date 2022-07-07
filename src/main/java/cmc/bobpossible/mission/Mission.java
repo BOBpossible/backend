@@ -35,6 +35,8 @@ public class Mission extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private MissionStatus missionStatus;
 
+    private LocalDateTime missionSuccessDate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "missionGroupId")
     private MissionGroup missionGroup;

@@ -6,6 +6,7 @@ import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.RefineError;
 import cmc.bobpossible.member.MemberService;
 import cmc.bobpossible.member.dto.GetUser;
+import cmc.bobpossible.member.dto.GetUserRegisterStatus;
 import cmc.bobpossible.member.dto.PostUserReq;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,13 @@ public class UserController {
     public BaseResponse<GetUser> getUser() throws BaseException {
 
         return new BaseResponse<>(memberService.getUser());
+    }
+
+    @ApiOperation("등록상태 조회")
+    @GetMapping("/me/register-status")
+    public BaseResponse<GetUserRegisterStatus> getUserRegisterStatus() throws BaseException {
+
+        return new BaseResponse<>(memberService.getUserRegisterStatus());
     }
 
     @ApiOperation("내 정보 수정(마이페이지)")

@@ -3,6 +3,7 @@ package cmc.bobpossible.member;
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.auth.SecurityUtil;
 import cmc.bobpossible.member.dto.GetUser;
+import cmc.bobpossible.member.dto.GetUserRegisterStatus;
 import cmc.bobpossible.member.dto.PostOwnerReq;
 import cmc.bobpossible.member.dto.PostUserReq;
 import cmc.bobpossible.member.entity.Member;
@@ -77,5 +78,13 @@ public class MemberService {
         String image = s3Uploader.upload(profileImage, "profileImage");
 
         member.changeImage(image);
+    }
+
+    public GetUserRegisterStatus getUserRegisterStatus() throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        return new GetUserRegisterStatus(member);
     }
 }

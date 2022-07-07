@@ -1,8 +1,8 @@
 package cmc.bobpossible.store;
 
 import cmc.bobpossible.BaseEntity;
+import cmc.bobpossible.Status;
 import cmc.bobpossible.category.Category;
-import cmc.bobpossible.member.Address;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.menu_image.MenuImage;
 import cmc.bobpossible.mission_group.MissionGroup;
@@ -69,7 +69,7 @@ public class Store extends BaseEntity {
     }
 
     @Builder
-    public Store( Member member, String name, String intro, StoreAddress address, int tableNum, String representativeMenuName, Category category, List<OperationTime> operationTimes, List<Review> reviews) {
+    public Store( Member member, String name, String intro, StoreAddress address, int tableNum, String representativeMenuName, Category category, List<OperationTime> operationTimes) {
         this.member = member;
         member.addStore(this);
         this.name = name;
@@ -81,7 +81,6 @@ public class Store extends BaseEntity {
 //        this.menuImages = menuImages;
 //        this.operationTimes = operationTimes;
         operationTimes.forEach(this::addOperationTime);
-        this.reviews = reviews;
     }
 
 //    public static Store create(Member member , String storeName, String intro, StoreAddress address, Category category, int tableNum, String representativeMenuName, List<MenuImage> menuImages, List<OperationTime> operationTimes) {
@@ -161,5 +160,30 @@ public class Store extends BaseEntity {
 
     public void addStoreImages(List<StoreImage> storeImages) {
         storeImages.forEach(this::addStoreImage);
+    }
+
+    public void update(String name, String intro, StoreAddress address, int tableNum, String representativeMenuName, Category category) {
+        member.addStore(this);
+        this.name = name;
+        this.intro = intro;
+        this.address = address;
+        this.tableNum = tableNum;
+        this.representativeMenuName = representativeMenuName;
+        this.category = category;
+
+
+//        operationTimes.forEach(this::addOperationTime);
+
+
+    }
+
+    public void deleteMenuImage(MenuImage menuImage) {
+        menuImage.changeStatus(Status.DELETED);
+        menuImages.remove(menuImage);
+    }
+
+    public void deleteStoreImage(StoreImage storeImage) {
+        storeImage.changeStatus(Status.DELETED);
+        storeImages.remove(storeImage);
     }
 }

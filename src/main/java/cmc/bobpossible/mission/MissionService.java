@@ -7,6 +7,7 @@ import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.mission.dto.GetHome;
 import cmc.bobpossible.mission.dto.GetMissionMapRes;
 import cmc.bobpossible.mission.dto.GetOwnerMissionRes;
+import cmc.bobpossible.mission.dto.OwnerMissionDto;
 import cmc.bobpossible.mission_group.MissionGroup;
 import cmc.bobpossible.mission_group.MissionGroupRepository;
 import cmc.bobpossible.store.Store;
@@ -131,20 +132,17 @@ public class MissionService {
         mission.requestComplete();
     }
 
-    public List<GetMissionMapRes> getMissionsMap() throws BaseException {
+    public GetMissionMapRes getMissionsMap(Long missionId) throws BaseException {
 
-        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
-                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+        Mission mission = missionRepository.findById(missionId)
+                .orElseThrow(() -> new BaseException(INVALID_MISSION_ID));
 
-        List<Mission> missions = missionRepository.findByMember(member);
-
-        return missions.stream()
-                .map(GetMissionMapRes::new)
-                .collect(Collectors.toList());
+        return new GetMissionMapRes(mission);
 
     }
 
-    public GetOwnerMissionRes getOwnersMissionOndProgress() throws BaseException {
+    public GetOwnerMissionRes getOwnersMissionOnProgress() throws BaseException {
+
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
@@ -152,8 +150,24 @@ public class MissionService {
 
         List<Mission> missions = new ArrayList<>();
 
-        groups.forEach(g -> missions.addAll(missionRepository.findByMissionGroup(g)));
+        groups.forEach(g -> missions.addAll(missionRepository.findByMissionGroupAndMissionStatus(g, MissionStatus.PROGRESS)));
 
         return new GetOwnerMissionRes(missions);
+    }
+
+    public List<OwnerMissionDto> getOwnersMissionOnSuccess() throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        List<MissionGroup> groups = missionGroupRepository.findByStore(member.getStore());
+
+        List<Mission> missions = new ArrayList<>();
+
+        groups.forEach(g -> missions.addAll(missionRepository.findByMissionGroupAndMissionStatus(g, MissionStatus.OWNER_CHECK)));
+
+        return missions.stream()
+                .map(OwnerMissionDto::new)
+                .collect(Collectors.toList());
     }
 }

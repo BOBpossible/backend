@@ -32,7 +32,7 @@ public class PointService {
         return new GetMyPoints(points, member.getTotalPoints());
     }
 
-    public GetTotalPorints getTotalPoints(Pageable pageable) throws BaseException {
+    public GetTotalPorints getTotalPoints() throws BaseException {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 

@@ -13,23 +13,23 @@ public class GetStoreMapRes {
     private String name;
     private String category;
     private double distance;
-    private double x;
-    private double y;
+    private String addressStreet;
+    private String addressDetail;
     private boolean isMission;
 
     protected GetStoreMapRes() {
     }
 
     @Builder
-    public GetStoreMapRes(Long storeId, int point, String imageUrl, String name, String category, double distance, double x, double y, boolean isMission) {
+    public GetStoreMapRes(Long storeId, int point, String imageUrl, String name, String category, double distance, String addressStreet, String addressDetail, boolean isMission) {
         this.storeId = storeId;
         this.point = point;
         this.imageUrl = imageUrl;
         this.name = name;
         this.category = category;
         this.distance = distance;
-        this.x = x;
-        this.y = y;
+        this.addressStreet = addressStreet;
+        this.addressDetail = addressDetail;
         this.isMission = isMission;
     }
 }

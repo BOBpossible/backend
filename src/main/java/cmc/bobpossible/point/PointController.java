@@ -28,8 +28,8 @@ public class PointController {
 
     @ApiOperation("나의 포인트 조회")
     @GetMapping("/me")
-    public BaseResponse<GetTotalPorints> getTotalPoints(Pageable pageable) throws BaseException {
+    public BaseResponse<GetTotalPorints> getTotalPoints() throws BaseException {
 
-        return new BaseResponse<>(pointService.getTotalPoints(pageable));
+        return new BaseResponse<>(pointService.getTotalPoints());
     }
 }
