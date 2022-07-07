@@ -68,6 +68,10 @@ public enum BaseResponseStatus {
     INVALID_STORE_IMAGE_ID(false,2080,"해당 storeImageId값과 일치하는 값이 없습니다."),
     CHECK_INVALID_QUESTION_OR_PRODUCT_ID(false,2081,"questionIdx 또는 productIdx를 확인해 주세요"),
 
+    //storeImage
+    INVALID_OPERATION_TIME_ID(false,2090,"해당 operationTimeId값과 일치하는 값이 없습니다."),
+
+
 
     /**
      * 3000 : Response 오류

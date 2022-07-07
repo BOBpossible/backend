@@ -2,6 +2,7 @@ package cmc.bobpossible.review_reply;
 
 import cmc.bobpossible.BaseEntity;
 import cmc.bobpossible.review.Review;
+import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.Where;
 
@@ -22,4 +23,18 @@ public class ReviewReply extends BaseEntity {
 
     @Column(length = 300)
     private String reply;
+
+    @Builder
+    public ReviewReply(Long id, Review review, String reply) {
+        this.id = id;
+        this.review = review;
+        this.reply = reply;
+    }
+
+    protected ReviewReply() {
+    }
+
+    public void addReview(Review review) {
+        this.review = review;
+    }
 }

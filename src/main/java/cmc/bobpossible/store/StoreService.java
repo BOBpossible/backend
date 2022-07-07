@@ -11,6 +11,7 @@ import cmc.bobpossible.menu_image.MenuImageRepository;
 import cmc.bobpossible.mission.Mission;
 import cmc.bobpossible.mission_group.MissionGroup;
 import cmc.bobpossible.mission_group.MissionGroupRepository;
+import cmc.bobpossible.operation_time.OperationTImeRepository;
 import cmc.bobpossible.operation_time.OperationTime;
 import cmc.bobpossible.store.dto.*;
 import cmc.bobpossible.store_image.StoreImage;
@@ -41,6 +42,7 @@ public class StoreService {
     private final MissionGroupRepository missionGroupRepository;
     private final MenuImageRepository menuImageRepository;
     private final StoreImageRepository storeImageRepository;
+    private final OperationTImeRepository operationTImeRepository;
 
     @Transactional
     public void createStore(PostStoreReq postStoreReq) throws BaseException, IOException {
@@ -226,5 +228,15 @@ public class StoreService {
                 .orElseThrow(() -> new BaseException(INVALID_STORE_IMAGE_ID));
 
         member.getStore().deleteStoreImage(storeImage);
+    }
+
+    @Transactional
+    public void updateOperationTime(OperationTimeVO operationTime, Long operationTimeId) throws BaseException {
+
+        OperationTime ot = operationTImeRepository.findById(operationTimeId)
+                .orElseThrow(() -> new BaseException(INVALID_OPERATION_TIME_ID));
+
+        ot.update(operationTime.getDayOfWeek(), operationTime.getStartTime(), operationTime.getEndTime(), operationTime.getBreakStartTime(), operationTime.getBreakEndTime(), operationTime.isHasOperationTime(), operationTime.isHasBreak());
+
     }
 }

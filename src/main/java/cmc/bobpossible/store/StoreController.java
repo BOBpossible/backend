@@ -85,6 +85,20 @@ public class StoreController {
         return new BaseResponse<>("");
     }
 
+    @ApiOperation("점포관리 수정")
+    @PutMapping("/operation-time/{operationTimeId}")
+    public BaseResponse<String> updateOperationTime(@Validated OperationTimeVO operationTime, Errors errors, @PathVariable Long operationTimeId) throws BaseException {
+
+        //validation
+        if (errors.hasErrors()) {
+            return new BaseResponse<>(RefineError.refine(errors));
+        }
+
+        storeService.updateOperationTime(operationTime, operationTimeId);
+
+        return new BaseResponse<>("");
+    }
+
 
     @ApiOperation("가게 상세 정보 조회")
     @GetMapping("/{storeId}")

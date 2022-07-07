@@ -71,8 +71,22 @@ public class ReviewController {
 
 
     @ApiOperation("가게 리뷰 사진 조회")
-    @GetMapping("images/{storeId}")
+    @GetMapping("/images/{storeId}")
     public BaseResponse<Slice<GetStoreImages>> getStoreImages(Pageable pageable, @PathVariable Long storeId) throws BaseException {
         return new BaseResponse<>(reviewService.getStoreImages(storeId, pageable));
+    }
+
+    @ApiOperation("사장 리뷰 답글")
+    @PostMapping("/reply/{reviewId}")
+    public BaseResponse<String> postReviewReply(@PathVariable Long reviewId, @RequestBody PostReviewReq postReviewReq, Errors errors) throws BaseException {
+
+        //validation
+        if (errors.hasErrors()) {
+            return new BaseResponse<>(RefineError.refine(errors));
+        }
+
+        reviewService.postReviewReply(reviewId, postReviewReq);
+
+        return new BaseResponse<>("");
     }
 }
