@@ -13,14 +13,14 @@ public class GetHome {
     private int point;
     private int rewards;
     private long dDay;
-    private List<GetMissionsRes> missions;
+    private List<GetMissionsCompleteRes> missions;
 
     public GetHome(Member member, List<Mission> missions) {
         this.point = member.getTotalPoints();
         this.rewards = member.getReward().getCounter();
         this.dDay = missions.get(0).getDoomsDay();
         this.missions = missions.stream()
-                .map(GetMissionsRes::new)
+                .map(GetMissionsCompleteRes::new)
                 .collect(Collectors.toList());
     }
 }

@@ -25,9 +25,11 @@ public class MissionGroup extends BaseEntity {
     @JoinColumn(name = "storeId")
     private Store store;
 
-    String missionContent;
+    private String missionContent;
 
-    int point;
+    private int point;
+
+    private boolean hasImage;
 
     @OneToMany(mappedBy = "missionGroup", cascade = CascadeType.ALL)
     private List<Mission> missions = new ArrayList<>();
@@ -40,9 +42,10 @@ public class MissionGroup extends BaseEntity {
     }
 
     @Builder
-    public MissionGroup( Store store, String missionContent, int point) {
+    public MissionGroup( Store store, String missionContent, int point, boolean hasImage) {
         this.store = store;
         this.missionContent = missionContent;
         this.point = point;
+        this.hasImage = hasImage;
     }
 }

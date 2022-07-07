@@ -56,7 +56,7 @@ public class OauthService {
     }
 
     @Transactional
-    public TokenDto googleLogin(String email, String name) {
+    public TokenDto login(String email, String name) {
 
         Member member = memberRepository.findByEmail(email)
                 .orElse(Member.create(email, name));

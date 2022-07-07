@@ -3,14 +3,9 @@ package cmc.bobpossible.store;
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.RefineError;
-import cmc.bobpossible.store.dto.GetStoreImages;
-import cmc.bobpossible.store.dto.GetStoreMapRes;
-import cmc.bobpossible.store.dto.GetStoreRes;
-import cmc.bobpossible.store.dto.PostStoreReq;
+import cmc.bobpossible.store.dto.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +23,7 @@ public class StoreController {
 
     @ApiOperation("가게 정보 등록")
     @PostMapping("")
-    public BaseResponse<String> createStore(@Validated @RequestPart PostStoreReq postStoreReq, Errors errors) throws BaseException, IOException {
+    public BaseResponse<String> createStore(@Validated PostStoreReq postStoreReq, Errors errors) throws BaseException, IOException {
 
         //validation
         if (errors.hasErrors()) {
@@ -49,6 +44,15 @@ public class StoreController {
         return new BaseResponse<>("");
     }
 
+    @ApiOperation("대표메뉴 사진 삭제")
+    @PatchMapping("/representative-menu-images/{menuImageId}")
+    public BaseResponse<String> deleteMenuImage(@PathVariable Long menuImageId) throws BaseException {
+
+        storeService.deleteMenuImage(menuImageId);
+
+        return new BaseResponse<>("");
+    }
+
     @ApiOperation("가게 사진 등록")
     @PostMapping("/store-images/{storeId}")
     public BaseResponse<String> postStoreImages(@RequestPart List<MultipartFile> storeImages, @PathVariable Long storeId) throws BaseException, IOException {
@@ -58,11 +62,29 @@ public class StoreController {
         return new BaseResponse<>("");
     }
 
-    @ApiOperation("가게 지도 조회")
-    @GetMapping("")
-    public BaseResponse<List<GetStoreMapRes>> getStoreMap() throws BaseException {
-        return new BaseResponse<>(storeService.getStoreMap());
+    @ApiOperation("가게 사진 삭제")
+    @PatchMapping("/store-images/{storeImageId}")
+    public BaseResponse<String> deleteStoreImage(@PathVariable Long storeImageId) throws BaseException, IOException {
+
+        storeService.deleteStoreImage(storeImageId);
+
+        return new BaseResponse<>("");
     }
+
+    @ApiOperation("점포관리 수정")
+    @PutMapping("/me")
+    public BaseResponse<String> updateStore(@Validated UpdateStoreReq updateStoreReq, Errors errors) throws BaseException {
+
+        //validation
+        if (errors.hasErrors()) {
+            return new BaseResponse<>(RefineError.refine(errors));
+        }
+
+        storeService.updateStore(updateStoreReq);
+
+        return new BaseResponse<>("");
+    }
+
 
     @ApiOperation("가게 상세 정보 조회")
     @GetMapping("/{storeId}")

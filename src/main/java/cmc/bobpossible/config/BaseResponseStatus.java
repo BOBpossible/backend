@@ -60,12 +60,12 @@ public enum BaseResponseStatus {
     //auth
     CHECK_INVALID_PHONE(false, 2060, "휴대폰 형식을 확인해주세요."),
 
-    //searchKeyword
-    CHECK_INVALID_SEARCH_KEYWORD(false,2070,"searchIdx에 해당하는 값이 없습니다"),
+    //menuImage
+    INVALID_MENU_IMAGE_ID(false,2070,"해당 menuImageId값과 일치하는 값이 없습니다."),
     CHECK_NULL_SEARCH_KEYWORD(false,2071,"키워드가 비어있습니다"),
 
-    //question
-    CHECK_INVALID_PRODUCT_ID(false,2080,"productIdx에 해당하는 값이 없습니다"),
+    //storeImage
+    INVALID_STORE_IMAGE_ID(false,2080,"해당 storeImageId값과 일치하는 값이 없습니다."),
     CHECK_INVALID_QUESTION_OR_PRODUCT_ID(false,2081,"questionIdx 또는 productIdx를 확인해 주세요"),
 
 

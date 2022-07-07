@@ -4,24 +4,20 @@ import cmc.bobpossible.category.Category;
 import cmc.bobpossible.category.CategoryRepository;
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.auth.SecurityUtil;
-import cmc.bobpossible.member.Address;
 import cmc.bobpossible.member.MemberRepository;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.menu_image.MenuImage;
+import cmc.bobpossible.menu_image.MenuImageRepository;
 import cmc.bobpossible.mission.Mission;
 import cmc.bobpossible.mission_group.MissionGroup;
 import cmc.bobpossible.mission_group.MissionGroupRepository;
 import cmc.bobpossible.operation_time.OperationTime;
-import cmc.bobpossible.review.ReviewRepository;
-import cmc.bobpossible.review_image.ReviewImage;
-import cmc.bobpossible.review_image.ReviewImageRepository;
 import cmc.bobpossible.store.dto.*;
 import cmc.bobpossible.store_image.StoreImage;
+import cmc.bobpossible.store_image.StoreImageRepository;
 import cmc.bobpossible.utils.DistanceCalculator;
 import cmc.bobpossible.utils.S3Uploader;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,6 +39,8 @@ public class StoreService {
     private final S3Uploader s3Uploader;
     private final MemberRepository memberRepository;
     private final MissionGroupRepository missionGroupRepository;
+    private final MenuImageRepository menuImageRepository;
+    private final StoreImageRepository storeImageRepository;
 
     @Transactional
     public void createStore(PostStoreReq postStoreReq) throws BaseException, IOException {
@@ -100,6 +98,7 @@ public class StoreService {
                 .missionContent("대표메뉴 " + store.getRepresentativeMenuName())
                 .point(500)
                 .store(store)
+                .hasImage(true)
                 .build());
 
         store.getMember().completeRegister();
@@ -109,9 +108,9 @@ public class StoreService {
         storeRepository.save(store);
     }
 
-    public List<GetStoreMapRes> getStoreMap() throws BaseException {
+    public List<GetStoreMapRes> getStoreMap(Long userId) throws BaseException {
 
-        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+        Member member = memberRepository.findById(userId)
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
         List<Store> stores = storeRepository.findByAddressDong(member.getAddress().getDong());
@@ -125,8 +124,8 @@ public class StoreService {
                                         .point(mission.getMissionGroup().getPoint())
                                         .name(store.getName())
                                         .distance(DistanceCalculator.distance(member.getAddress().getX(), member.getAddress().getY(), store.getAddress().getX(), store.getAddress().getY()))
-                                        .x(store.getAddress().getX())
-                                        .y(store.getAddress().getY())
+                                        .addressStreet(mission.getMissionGroup().getStore().getAddress().getStreet())
+                                        .addressDetail(mission.getMissionGroup().getStore().getAddress().getDetail())
                                         .category(store.getCategory().getName())
                                         .imageUrl("")
                                         .storeId(store.getId())
@@ -137,8 +136,8 @@ public class StoreService {
                                 .isMission(false)
                                 .name(store.getName())
                                 .distance(DistanceCalculator.distance(member.getAddress().getX(), member.getAddress().getY(), store.getAddress().getX(), store.getAddress().getY()))
-                                .x(store.getAddress().getX())
-                                .y(store.getAddress().getY())
+                                .addressStreet(store.getAddress().getStreet())
+                                .addressDetail(store.getAddress().getDetail())
                                 .category(store.getCategory().getName())
                                 .imageUrl("")
                                 .storeId(store.getId())
@@ -191,5 +190,41 @@ public class StoreService {
                 .collect(Collectors.toList());
 
         store.addStoreImages(storeImage);
+    }
+
+    @Transactional
+    public void updateStore(UpdateStoreReq updateStoreReq) throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        Category category = categoryRepository.findById(updateStoreReq.getStoreTypeId())
+                .orElseThrow(() -> new BaseException(INVALID_CATEGORY_ID));
+
+        member.getStore().update(updateStoreReq.getStoreName(), updateStoreReq.getIntro(), new StoreAddress(updateStoreReq.getAddressStreet(), updateStoreReq.getAddressDetail() ,updateStoreReq.getAddressDong(), updateStoreReq.getX(), updateStoreReq.getY()), updateStoreReq.getTableNum(), updateStoreReq.getRepresentativeMenuName(), category);
+    }
+
+    @Transactional
+    public void deleteMenuImage(Long menuImageId) throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        MenuImage menuImage = menuImageRepository.findById(menuImageId)
+                .orElseThrow(() -> new BaseException(INVALID_MENU_IMAGE_ID));
+
+        member.getStore().deleteMenuImage(menuImage);
+    }
+
+    @Transactional
+    public void deleteStoreImage(Long storeImageId) throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        StoreImage storeImage = storeImageRepository.findById(storeImageId)
+                .orElseThrow(() -> new BaseException(INVALID_STORE_IMAGE_ID));
+
+        member.getStore().deleteStoreImage(storeImage);
     }
 }
