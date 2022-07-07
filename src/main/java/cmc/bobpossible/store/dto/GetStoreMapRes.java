@@ -1,5 +1,6 @@
 package cmc.bobpossible.store.dto;
 
+import cmc.bobpossible.mission.Mission;
 import lombok.Builder;
 import lombok.Data;
 
@@ -31,5 +32,10 @@ public class GetStoreMapRes {
         this.addressStreet = addressStreet;
         this.addressDetail = addressDetail;
         this.isMission = isMission;
+    }
+
+    public void changeToHasMission(Mission mission) {
+        this.isMission = true;
+        this.point = mission.getMissionGroup().getPoint();
     }
 }

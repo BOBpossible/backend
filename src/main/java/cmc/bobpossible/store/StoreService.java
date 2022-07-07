@@ -117,36 +117,28 @@ public class StoreService {
 
         List<Store> stores = storeRepository.findByAddressDong(member.getAddress().getDong());
 
-        return stores.stream().map(
-                store-> {
-                    for (Mission mission : member.getMissions()) {
-                        if(mission.getMissionGroup().getStore() == store){
-                            return GetStoreMapRes.builder()
-                                        .isMission(true)
-                                        .point(mission.getMissionGroup().getPoint())
-                                        .name(store.getName())
-                                        .distance(DistanceCalculator.distance(member.getAddress().getX(), member.getAddress().getY(), store.getAddress().getX(), store.getAddress().getY()))
-                                        .addressStreet(mission.getMissionGroup().getStore().getAddress().getStreet())
-                                        .addressDetail(mission.getMissionGroup().getStore().getAddress().getDetail())
-                                        .category(store.getCategory().getName())
-                                        .imageUrl("")
-                                        .storeId(store.getId())
-                                        .build();
-                        }
-                    }
-                    return GetStoreMapRes.builder()
-                                .isMission(false)
-                                .name(store.getName())
-                                .distance(DistanceCalculator.distance(member.getAddress().getX(), member.getAddress().getY(), store.getAddress().getX(), store.getAddress().getY()))
-                                .addressStreet(store.getAddress().getStreet())
-                                .addressDetail(store.getAddress().getDetail())
-                                .category(store.getCategory().getName())
-                                .imageUrl("")
-                                .storeId(store.getId())
-                                .build();
-                }
-        ).collect(Collectors.toList());
+        List<GetStoreMapRes> res = new ArrayList<>();
 
+        stores.forEach(store -> {
+            //기본값
+            GetStoreMapRes value = GetStoreMapRes.builder()
+                    .isMission(false)
+                    .name(store.getName())
+                    .distance(DistanceCalculator.distance(member.getAddress().getX(), member.getAddress().getY(), store.getAddress().getX(), store.getAddress().getY()))
+                    .addressStreet(store.getAddress().getStreet())
+                    .addressDetail(store.getAddress().getDetail())
+                    .category(store.getCategory().getName())
+                    .imageUrl("")
+                    .storeId(store.getId())
+                    .build();
+            for (Mission mission : member.getMissions()) {
+                if(mission.getMissionGroup().getStore() == store){
+                    value.changeToHasMission(mission);
+                }
+            }
+        });
+
+        return res;
     }
 
     public GetStoreRes getStore(Long storeId) throws BaseException {

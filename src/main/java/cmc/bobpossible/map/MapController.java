@@ -18,8 +18,8 @@ import java.util.List;
 @RestController
 public class MapController {
 
-    StoreService storeService;
-    MissionService missionService;
+    private final StoreService storeService;
+    private final MissionService missionService;
 
     @ApiOperation("가게 지도 조회")
     @GetMapping("/stores/{userId}")
