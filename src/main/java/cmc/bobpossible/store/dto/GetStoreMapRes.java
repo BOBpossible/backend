@@ -17,12 +17,14 @@ public class GetStoreMapRes {
     private String addressStreet;
     private String addressDetail;
     private boolean isMission;
+    private double userX;
+    private double userY;
 
     protected GetStoreMapRes() {
     }
 
     @Builder
-    public GetStoreMapRes(Long storeId, int point, String imageUrl, String name, String category, double distance, String addressStreet, String addressDetail, boolean isMission) {
+    public GetStoreMapRes(Long storeId, int point, String imageUrl, String name, String category, double distance, String addressStreet, String addressDetail, boolean isMission, double userX, double userY) {
         this.storeId = storeId;
         this.point = point;
         this.imageUrl = imageUrl;
@@ -32,6 +34,8 @@ public class GetStoreMapRes {
         this.addressStreet = addressStreet;
         this.addressDetail = addressDetail;
         this.isMission = isMission;
+        this.userX = userX;
+        this.userY = userY;
     }
 
     public void changeToHasMission(Mission mission) {

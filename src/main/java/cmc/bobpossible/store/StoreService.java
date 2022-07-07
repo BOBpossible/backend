@@ -130,12 +130,15 @@ public class StoreService {
                     .category(store.getCategory().getName())
                     .imageUrl("")
                     .storeId(store.getId())
+                    .userX(member.getAddress().getX())
+                    .userY(member.getAddress().getY())
                     .build();
             for (Mission mission : member.getMissions()) {
                 if(mission.getMissionGroup().getStore() == store){
                     value.changeToHasMission(mission);
                 }
             }
+            res.add(value);
         });
 
         return res;
