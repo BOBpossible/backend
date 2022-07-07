@@ -2,10 +2,7 @@ package cmc.bobpossible.member;
 
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.auth.SecurityUtil;
-import cmc.bobpossible.member.dto.GetUser;
-import cmc.bobpossible.member.dto.GetUserRegisterStatus;
-import cmc.bobpossible.member.dto.PostOwnerReq;
-import cmc.bobpossible.member.dto.PostUserReq;
+import cmc.bobpossible.member.dto.*;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.utils.S3Uploader;
 import lombok.RequiredArgsConstructor;
@@ -86,5 +83,14 @@ public class MemberService {
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
         return new GetUserRegisterStatus(member);
+    }
+
+    @Transactional
+    public void patchUserAddress(AddressDto addressDto) throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        member.getAddress().changeAddress(addressDto.getAddressDong(), addressDto.getAddressStreet());;
     }
 }

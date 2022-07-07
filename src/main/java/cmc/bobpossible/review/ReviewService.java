@@ -7,6 +7,7 @@ import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.review.dto.PostReviewReq;
 import cmc.bobpossible.review_image.ReviewImage;
 import cmc.bobpossible.review_image.ReviewImageRepository;
+import cmc.bobpossible.review_reply.ReviewReply;
 import cmc.bobpossible.store.Store;
 import cmc.bobpossible.store.StoreRepository;
 import cmc.bobpossible.review.dto.GetStoreReviewRes;
@@ -118,5 +119,19 @@ public class ReviewService {
         Slice<ReviewImage> images = reviewImageRepository.findByStoreOrderByIdDesc(store, pageable);
 
         return images.map(GetStoreImages::new);
+    }
+
+    @Transactional
+    public void postReviewReply(Long reviewId, PostReviewReq postReviewReq) throws BaseException {
+
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new BaseException(INVALID_REVIEW_ID));
+
+        ReviewReply reviewReply = ReviewReply.builder()
+                .reply(postReviewReq.getContent())
+                .review(review)
+                .build();
+
+        review.addReviewReply(reviewReply);
     }
 }

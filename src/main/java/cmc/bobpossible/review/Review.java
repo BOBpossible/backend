@@ -68,4 +68,10 @@ public class Review extends BaseEntity{
         this.changeStatus(Status.DELETED);
         store.deleteReview(this);
     }
+
+    public void addReviewReply(ReviewReply reviewReply) {
+
+        reviewReply.addReview(this);
+        reviewReplies.add(reviewReply);
+    }
 }

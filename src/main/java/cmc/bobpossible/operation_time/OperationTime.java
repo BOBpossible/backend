@@ -51,4 +51,14 @@ public class OperationTime {
     public void addStore(Store store) {
         this.store = store;
     }
+
+    public void update(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime, LocalTime breakStartTime, LocalTime breakEndTime, boolean hasOperationTime, boolean hasBreak) {
+        this.dayOfWeek = dayOfWeek;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.breakStartTime = breakStartTime;
+        this.breakEndTime = breakEndTime;
+        this.hasOperationTime = hasOperationTime;
+        this.hasBreak = hasBreak;
+    }
 }

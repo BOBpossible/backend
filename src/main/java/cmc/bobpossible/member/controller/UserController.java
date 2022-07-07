@@ -5,6 +5,7 @@ import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.RefineError;
 import cmc.bobpossible.member.MemberService;
+import cmc.bobpossible.member.dto.AddressDto;
 import cmc.bobpossible.member.dto.GetUser;
 import cmc.bobpossible.member.dto.GetUserRegisterStatus;
 import cmc.bobpossible.member.dto.PostUserReq;
@@ -69,4 +70,18 @@ public class UserController {
         return new BaseResponse<>("");
     }
 
+
+    @ApiOperation("내 주소 수정")
+    @PatchMapping("me/address")
+    public BaseResponse<String> patchUserAddress(@Validated @RequestBody AddressDto addressDto, Errors errors) throws BaseException, IOException {
+
+        //validation
+        if (errors.hasErrors()) {
+            return new BaseResponse<>(RefineError.refine(errors));
+        }
+
+        memberService.patchUserAddress(addressDto);
+
+        return new BaseResponse<>("");
+    }
 }

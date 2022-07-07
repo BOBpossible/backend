@@ -30,4 +30,9 @@ public class Address {
         this.x = x;
         this.y = y;
     }
+
+    public void changeAddress(String addressDong, String addressStreet) {
+        this.street = addressStreet;
+        this.dong = addressDong;
+    }
 }
