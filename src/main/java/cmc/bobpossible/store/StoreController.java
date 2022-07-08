@@ -23,7 +23,7 @@ public class StoreController {
 
     @ApiOperation("가게 정보 등록")
     @PostMapping("")
-    public BaseResponse<String> createStore(@Validated PostStoreReq postStoreReq, Errors errors) throws BaseException, IOException {
+    public BaseResponse<String> createStore(@Validated @RequestBody PostStoreReq postStoreReq, Errors errors) throws BaseException, IOException {
 
         //validation
         if (errors.hasErrors()) {
@@ -67,6 +67,15 @@ public class StoreController {
     public BaseResponse<String> deleteStoreImage(@PathVariable Long storeImageId) throws BaseException, IOException {
 
         storeService.deleteStoreImage(storeImageId);
+
+        return new BaseResponse<>("");
+    }
+
+    @ApiOperation("점포 인증 등록")
+    @PostMapping("/store-authentication-images")
+    public BaseResponse<String> postStoreAuthenticationImages(@RequestPart List<MultipartFile> storeAuthenticationImages) throws BaseException, IOException {
+
+        storeService.postStoreAuthenticationImages(storeAuthenticationImages);
 
         return new BaseResponse<>("");
     }
