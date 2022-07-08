@@ -8,6 +8,7 @@ import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.refreshToken.RefreshToken;
 import cmc.bobpossible.refreshToken.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,6 +19,7 @@ import java.util.Collections;
 
 import static cmc.bobpossible.config.BaseResponseStatus.*;
 
+@Slf4j
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
@@ -61,6 +63,8 @@ public class OauthService {
         Member member = memberRepository.findByEmail(email)
                 .orElse(Member.create(email, name));
 
+        memberRepository.save(member);
+
         Authentication auth = new UsernamePasswordAuthenticationToken(member.getId(), "", Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
 
         TokenDto token = tokenProvider.generateTokenDto(auth);
@@ -71,7 +75,6 @@ public class OauthService {
                 .build();
 
         refreshTokenRepository.save(refreshToken);
-        memberRepository.save(member);
 
         return TokenDto.builder()
                 .grantType(token.getGrantType())
