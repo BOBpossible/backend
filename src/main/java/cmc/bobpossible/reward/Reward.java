@@ -26,4 +26,14 @@ public class Reward extends BaseEntity {
     public Reward(int counter) {
         this.counter = counter;
     }
+
+    public void addCounter() {
+        counter++;
+        if(counter == 10){
+            //포인트 1000 추가
+
+            //0으로 초기화
+            counter = 0;
+        }
+    }
 }
