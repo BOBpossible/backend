@@ -88,6 +88,7 @@ public class Member extends BaseEntity {
 
     public static Member create(String email, String name) {
 
+        //리워드 생성
         Reward reward = Reward.builder()
                 .counter(0)
                 .build();
