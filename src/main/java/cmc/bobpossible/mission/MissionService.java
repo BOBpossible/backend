@@ -50,13 +50,11 @@ public class MissionService {
             // 미션할당
             // 같은 동 가게 목록
             List<Store> stores = storeRepository.findByAddressDong(member.getAddress().getDong());
-
             //x,y
             double mem_x = member.getAddress().getX();
             double mem_y = member.getAddress().getY();
             // 거리 계산
-            List<Recommend> recommends = stores.stream().map((Store s) -> new Recommend(s, mem_x, mem_y)).collect(Collectors.toList());
-
+            List<Recommend> recommends = stores.stream().map( s -> new Recommend(s, mem_x, mem_y)).collect(Collectors.toList());
             // 거리 가중치 계산
             recommends.forEach(Recommend::distancePercentage);
 

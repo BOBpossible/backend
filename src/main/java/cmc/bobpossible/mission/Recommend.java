@@ -5,9 +5,11 @@ import cmc.bobpossible.mission_group.MissionGroup;
 import cmc.bobpossible.store.Store;
 import cmc.bobpossible.utils.DistanceCalculator;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+@Slf4j
 @Data
 public class Recommend {
 
@@ -32,6 +34,7 @@ public class Recommend {
         this.store = s;
         this.missionGroup = addMissionGroup(s.getMissionGroups());
         this.percentage = 0;
+        log.info("왜안돼11111111111111111111111111111111");
         this.distance = DistanceCalculator.distance(x, y , s.getAddress().getX(), s.getAddress().getY());
         Recommend.distanceSum += distance;
     }
