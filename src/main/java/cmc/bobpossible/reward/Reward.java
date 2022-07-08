@@ -2,6 +2,7 @@ package cmc.bobpossible.reward;
 
 import cmc.bobpossible.BaseEntity;
 import cmc.bobpossible.member.entity.Member;
+import cmc.bobpossible.store.Store;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.Where;
@@ -19,6 +20,10 @@ public class Reward extends BaseEntity {
 
     private int counter;
 
+    @OneToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     protected Reward() {
     }
 
@@ -35,5 +40,9 @@ public class Reward extends BaseEntity {
             //0으로 초기화
             counter = 0;
         }
+    }
+
+    public void addMember(Member member) {
+        this.member = member;
     }
 }
