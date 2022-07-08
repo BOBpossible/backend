@@ -9,8 +9,6 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn
 @Where(clause = "status='ACTIVE'")
 @Getter
 @Entity

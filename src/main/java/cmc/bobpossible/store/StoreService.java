@@ -76,6 +76,8 @@ public class StoreService {
                                 .endTime(o.getEndTime())
                                 .breakStartTime(o.getBreakStartTime())
                                 .breakEndTime(o.getBreakEndTime())
+                                .hasBreak(o.isHasBreak())
+                                .hasOperationTime(o.isHasOperationTime())
                                 .build())
                 .collect(Collectors.toList());
 
@@ -123,6 +125,11 @@ public class StoreService {
         List<GetStoreMapRes> res = new ArrayList<>();
 
         stores.forEach(store -> {
+            String imageUrl = "";
+            if (store.getStoreImages().size() > 0) {
+                imageUrl = store.getStoreImages().get(0).getImage();
+            }
+
             //기본값
             GetStoreMapRes value = GetStoreMapRes.builder()
                     .isMission(false)
@@ -131,7 +138,7 @@ public class StoreService {
                     .addressStreet(store.getAddress().getStreet())
                     .addressDetail(store.getAddress().getDetail())
                     .category(store.getCategory().getName())
-                    .imageUrl("")
+                    .imageUrl(imageUrl)
                     .storeId(store.getId())
                     .userX(member.getAddress().getX())
                     .userY(member.getAddress().getY())
