@@ -8,6 +8,7 @@ import cmc.bobpossible.store.StoreStatus;
 import lombok.Data;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class GetStoreRes {
@@ -23,7 +24,7 @@ public class GetStoreRes {
 
     public GetStoreRes(Store store) {
         this.storeId = store.getId();
-        this.images = null;
+        this.images = store.getStoreImages().stream().map(ImageDto::new).collect(Collectors.toList());
         this.name = store.getName();
         this.category = store.getCategory().getName();
         this.storeStatus = store.getStoreStatus();

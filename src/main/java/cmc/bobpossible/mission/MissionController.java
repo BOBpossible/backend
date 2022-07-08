@@ -23,7 +23,6 @@ public class MissionController {
     @GetMapping("/me")
     public BaseResponse<GetHome> getMissions() throws BaseException {
 
-        log.info("들어옴");
         return new BaseResponse<>(missionService.getMissions());
     }
 

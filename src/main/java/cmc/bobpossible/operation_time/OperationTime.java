@@ -1,5 +1,6 @@
 package cmc.bobpossible.operation_time;
 
+import cmc.bobpossible.BaseEntity;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.store.Store;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import java.time.LocalTime;
 @Where(clause = "status='ACTIVE'")
 @Getter
 @Entity
-public class OperationTime {
+public class OperationTime extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "operation_time_id")

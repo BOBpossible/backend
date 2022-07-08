@@ -34,7 +34,6 @@ public class Recommend {
         this.store = s;
         this.missionGroup = addMissionGroup(s.getMissionGroups());
         this.percentage = 0;
-        log.info("왜안돼11111111111111111111111111111111");
         this.distance = DistanceCalculator.distance(x, y , s.getAddress().getX(), s.getAddress().getY());
         Recommend.distanceSum += distance;
     }
