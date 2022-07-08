@@ -8,6 +8,7 @@ import cmc.bobpossible.menu_image.MenuImage;
 import cmc.bobpossible.mission_group.MissionGroup;
 import cmc.bobpossible.operation_time.OperationTime;
 import cmc.bobpossible.review.Review;
+import cmc.bobpossible.store_authentication.StoreAuthentication;
 import cmc.bobpossible.store_image.StoreImage;
 import lombok.Builder;
 import lombok.Getter;

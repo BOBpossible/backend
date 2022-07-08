@@ -14,6 +14,8 @@ import cmc.bobpossible.mission_group.MissionGroupRepository;
 import cmc.bobpossible.operation_time.OperationTImeRepository;
 import cmc.bobpossible.operation_time.OperationTime;
 import cmc.bobpossible.store.dto.*;
+import cmc.bobpossible.store_authentication.StoreAuthentication;
+import cmc.bobpossible.store_authentication.StoreAuthenticationRepository;
 import cmc.bobpossible.store_image.StoreImage;
 import cmc.bobpossible.store_image.StoreImageRepository;
 import cmc.bobpossible.utils.DistanceCalculator;
@@ -43,6 +45,7 @@ public class StoreService {
     private final MenuImageRepository menuImageRepository;
     private final StoreImageRepository storeImageRepository;
     private final OperationTImeRepository operationTImeRepository;
+    private final StoreAuthenticationRepository storeAuthenticationRepository;
 
     @Transactional
     public void createStore(PostStoreReq postStoreReq) throws BaseException, IOException {
@@ -233,5 +236,25 @@ public class StoreService {
 
         ot.update(operationTime.getDayOfWeek(), operationTime.getStartTime(), operationTime.getEndTime(), operationTime.getBreakStartTime(), operationTime.getBreakEndTime(), operationTime.isHasOperationTime(), operationTime.isHasBreak());
 
+    }
+
+    @Transactional
+    public void postStoreAuthenticationImages(List<MultipartFile> storeAuthenticationImages) throws BaseException, IOException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        List<String> imageURL = new ArrayList<>();
+
+        for (int i = 0; i < storeAuthenticationImages.size() || i < 3; i++) {
+            imageURL.add( s3Uploader.upload(storeAuthenticationImages.get(i), "storeImage"));
+        }
+
+        // 이미지 엔티티
+        List<StoreAuthentication> storeAuthenticationImage = imageURL.stream()
+                .map(i -> StoreAuthentication.builder().member(member).image(i).build())
+                .collect(Collectors.toList());
+
+        member.addStoreAuthenticationImages(storeAuthenticationImage);
     }
 }

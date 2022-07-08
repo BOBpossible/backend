@@ -5,16 +5,15 @@ import cmc.bobpossible.BaseEntity;
 import cmc.bobpossible.member.*;
 import cmc.bobpossible.member_category.MemberCategory;
 import cmc.bobpossible.mission.Mission;
-import cmc.bobpossible.operation_time.OperationTime;
 import cmc.bobpossible.point.Point;
 import cmc.bobpossible.reward.Reward;
 import cmc.bobpossible.store.Store;
+import cmc.bobpossible.store_authentication.StoreAuthentication;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +65,9 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Mission> missions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<StoreAuthentication> storeAuthentications = new ArrayList<>();
+
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Store store;
 
@@ -99,7 +101,6 @@ public class Member extends BaseEntity {
         this.birthDate = birthDate;
         this.address = address;
         this.phone = phone;
-        this.registerStatus = RegisterStatus.JOIN;
         this.terms = terms;
 
         //리워드 생성
@@ -154,5 +155,14 @@ public class Member extends BaseEntity {
 
     public void addStore(Store store) {
         this.store = store;
+    }
+
+    public void addStoreAuthenticationImages(List<StoreAuthentication> storeAuthenticationImage) {
+        storeAuthenticationImage.forEach(this::addStoreAuthenticationImage);
+    }
+
+    public void addStoreAuthenticationImage(StoreAuthentication storeAuthentication) {
+        storeAuthentication.addMember(this);
+        storeAuthentications.add(storeAuthentication);
     }
 }

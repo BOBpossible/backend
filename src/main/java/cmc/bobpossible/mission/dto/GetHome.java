@@ -18,9 +18,11 @@ public class GetHome {
     public GetHome(Member member, List<Mission> missions) {
         this.point = member.getTotalPoints();
         this.rewards = member.getReward().getCounter();
-        this.dDay = missions.get(0).getDoomsDay();
-        this.missions = missions.stream()
-                .map(GetMissionRes::new)
-                .collect(Collectors.toList());
+        if (missions.size() > 0) {
+            this.dDay = missions.get(0).getDoomsDay();
+            this.missions = missions.stream()
+                    .map(GetMissionRes::new)
+                    .collect(Collectors.toList());
+        }
     }
 }

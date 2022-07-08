@@ -69,10 +69,10 @@ public class MissionService {
 
             List<Recommend> res = new ArrayList<>();
 
-            // 배포 가능 가게 0개일 경우
-            if (recommends.size() == 0) {
-                throw new BaseException(NO_AVAILABLE_MISSION);
-            }
+//            // 배포 가능 가게 0개일 경우
+//            if (recommends.size() == 0) {
+//                throw new BaseException(NO_AVAILABLE_MISSION);
+//            }
 
             if (recommends.size() < 3) { // 현재 가게 3개 이하 일 경우
                 return new GetHome(member, recommends.stream()
