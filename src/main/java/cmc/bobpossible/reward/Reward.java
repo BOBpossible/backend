@@ -2,6 +2,7 @@ package cmc.bobpossible.reward;
 
 import cmc.bobpossible.BaseEntity;
 import cmc.bobpossible.member.entity.Member;
+import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.Where;
 
@@ -17,4 +18,12 @@ public class Reward extends BaseEntity {
     private Long id;
 
     private int counter;
+
+    protected Reward() {
+    }
+
+    @Builder
+    public Reward(int counter) {
+        this.counter = counter;
+    }
 }

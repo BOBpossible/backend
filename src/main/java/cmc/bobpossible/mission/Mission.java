@@ -58,7 +58,7 @@ public class Mission extends BaseEntity {
 
     @Builder
     public Mission(Member member, MissionGroup missionGroup ) {
-        this.expiredDate = LocalDateTime.now().plusDays(7);
+        this.expiredDate = LocalDateTime.now().plusDays(8).minusSeconds(1);
         this.member = member;
         member.addMission(this);
         this.missionStatus = NEW;
@@ -67,6 +67,6 @@ public class Mission extends BaseEntity {
     }
 
     public long getDoomsDay() {
-        return Duration.between(expiredDate, LocalDateTime.now()).toDays();
+        return Duration.between( LocalDateTime.now(), expiredDate).toDays();
     }
 }

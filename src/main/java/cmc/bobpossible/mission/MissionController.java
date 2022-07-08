@@ -5,12 +5,13 @@ import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.mission.dto.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@Slf4j
 @RequestMapping("/api/v1/missions")
 @RequiredArgsConstructor
 @RestController
@@ -22,6 +23,7 @@ public class MissionController {
     @GetMapping("/me")
     public BaseResponse<GetHome> getMissions() throws BaseException {
 
+        log.info("들어옴");
         return new BaseResponse<>(missionService.getMissions());
     }
 

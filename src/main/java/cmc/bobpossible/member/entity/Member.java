@@ -74,10 +74,11 @@ public class Member extends BaseEntity {
     private Reward reward;
 
     @Builder
-    public Member(Long id, String name, String email) {
+    public Member(Long id, String name, String email, Reward reward) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.reward = reward;
         registerStatus = RegisterStatus.NEW;
     }
 
@@ -86,9 +87,15 @@ public class Member extends BaseEntity {
     }
 
     public static Member create(String email, String name) {
+
+        Reward reward = Reward.builder()
+                .counter(0)
+                .build();
+
         return Member.builder()
                         .email(email)
                         .name(name)
+                        .reward(reward)
                         .build();
     }
 
