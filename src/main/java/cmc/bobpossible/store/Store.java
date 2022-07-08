@@ -128,7 +128,11 @@ public class Store extends BaseEntity {
             sum += review.getRate();
         }
 
-        return sum / reviews.size();
+        if (sum == 0) {
+            return 0;
+        } else {
+            return sum / reviews.size();
+        }
     }
 
     // 현재 영업중인지
