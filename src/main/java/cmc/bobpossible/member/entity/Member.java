@@ -66,19 +66,17 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Mission> missions = new ArrayList<>();
 
-    @OneToOne(mappedBy = "member")
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Store store;
 
-    @OneToOne
-    @JoinColumn(name = "rewardId")
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Reward reward;
 
     @Builder
-    public Member(Long id, String name, String email, Reward reward) {
+    public Member(Long id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.reward = reward;
         registerStatus = RegisterStatus.NEW;
     }
 
@@ -88,15 +86,9 @@ public class Member extends BaseEntity {
 
     public static Member create(String email, String name) {
 
-        //리워드 생성
-        Reward reward = Reward.builder()
-                .counter(0)
-                .build();
-
         return Member.builder()
                         .email(email)
                         .name(name)
-                        .reward(reward)
                         .build();
     }
 
@@ -109,6 +101,14 @@ public class Member extends BaseEntity {
         this.phone = phone;
         this.registerStatus = RegisterStatus.JOIN;
         this.terms = terms;
+
+        //리워드 생성
+        Reward reward = Reward.builder()
+                .counter(0)
+                .build();
+
+        reward.addMember(this);
+        this.reward = reward;
     }
 
     public void joinOwner(String name, Gender gender, LocalDate birthDate, String phone, Terms terms) {
