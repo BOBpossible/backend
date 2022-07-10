@@ -80,6 +80,9 @@ jobs:
           spring.security.oauth2.client.registration.naver.client-secret: ${{secrets.NAVER_CLIENT_SECRET}}
           spring.security.oauth2.client.registration.kakao.client-id: ${{secrets.KAKAO_CLIENT_ID}}
 
+      - name: Grant decrypt_secret.sh
+        run: chmod +x ./scripts/decrypt_secret.sh
+        shell: bash
 
       - name: Decrypt large secret
         run: ./scripts/decrypt_secret.sh
