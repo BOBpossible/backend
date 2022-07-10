@@ -69,4 +69,8 @@ public class Mission extends BaseEntity {
     public long getDoomsDay() {
         return Duration.between( LocalDateTime.now(), expiredDate).toDays();
     }
+
+    public void challengeMission() {
+        this.missionStatus = MissionStatus.PROGRESS;
+    }
 }

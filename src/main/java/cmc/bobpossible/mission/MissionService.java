@@ -168,4 +168,13 @@ public class MissionService {
                 .map(OwnerMissionDto::new)
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public void missionChallenge(Long missionId) throws BaseException {
+
+        Mission mission = missionRepository.findById(missionId)
+                .orElseThrow(() -> new BaseException(INVALID_MISSION_ID));
+
+        mission.challengeMission();
+    }
 }
