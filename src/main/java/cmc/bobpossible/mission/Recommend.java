@@ -73,7 +73,11 @@ public class Recommend {
         Recommend.preferenceResSum += res;
     }
 
-    public void calculatePercentage() {
-        this.percentage = distanceRes / (distanceResSum + preferenceResSum);
+    public double getCalculatePercentage() {
+        return this.percentage = distanceRes / (distanceResSum + preferenceResSum);
+    }
+
+    public void delete() {
+        distanceResSum -= distanceRes;
     }
 }
