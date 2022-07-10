@@ -62,7 +62,7 @@ public class MissionService {
             recommends.forEach(r-> r.preference(member.getMemberCategories(), recommends.size()));
 
             // 최종 확률 계산
-            recommends.forEach(Recommend::calculatePercentage);
+            recommends.forEach(Recommend::getCalculatePercentage);
 
             //정렬
             recommends.sort(new RecommendPercentageComparator().reversed());
@@ -84,8 +84,13 @@ public class MissionService {
                                                 .build()))
                         .collect(Collectors.toList()));
             } else {
-                while (res.stream().distinct().count() <= 3) { //가게가 3개 이상일 때 3개 추첨
-                    res.add(WeightedRandom.getRandom(recommends));
+                while (res.stream().distinct().count() < 3) { //가게가 3개 이상일 때 3개 추첨
+                    Recommend random = WeightedRandom.getRandom(recommends);
+                    if (random != null) {
+                        res.add(random);
+                        random.delete();
+                        recommends.remove(random);
+                    }
                 }
                 return new GetHome(member, res.stream()
                         .distinct()

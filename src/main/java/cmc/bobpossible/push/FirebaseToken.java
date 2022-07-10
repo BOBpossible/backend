@@ -1,4 +1,4 @@
-package cmc.bobpossible.refreshToken;
+package cmc.bobpossible.push;
 
 import cmc.bobpossible.BaseEntity;
 import lombok.Builder;
@@ -12,26 +12,25 @@ import javax.persistence.Id;
 @Where(clause = "status='ACTIVE'")
 @Getter
 @Entity
-public class RefreshToken extends BaseEntity {
+public class FirebaseToken  extends BaseEntity {
 
     @Id
-    @Column(name = "rt_key")
-    private String key;
+    @Column(name = "fb_key")
+    private Long key;
 
-    @Column(name = "rt_value")
+    @Column(name = "fb_value")
     private String value;
 
+    protected FirebaseToken() {
+    }
+
     @Builder
-    public RefreshToken(String key, String value) {
+    public FirebaseToken(Long key, String value) {
         this.key = key;
         this.value = value;
     }
 
-    public RefreshToken() {
-
-    }
-
-    public void updateValue(String refreshToken) {
-        this.value = refreshToken;
+    public void update(String value) {
+        this.value = value;
     }
 }

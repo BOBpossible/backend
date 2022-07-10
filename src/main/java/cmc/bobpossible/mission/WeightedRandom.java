@@ -14,7 +14,7 @@ public class WeightedRandom {
 
         double acc = 0;
         for (Recommend recommend : recommends) {
-            acc += recommend.getPercentage();
+            acc += recommend.getCalculatePercentage();
 
             if (pivot <= acc) {
                 return recommend;

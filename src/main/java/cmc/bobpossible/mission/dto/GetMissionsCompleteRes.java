@@ -19,6 +19,7 @@ public class GetMissionsCompleteRes {
     private LocalDateTime successDate;
     private DayOfWeek dayOfWeek;
     private MissionStatus missionStatus;
+    private boolean hasMission;
 
     public GetMissionsCompleteRes(Mission mission) {
         this.missionId = mission.getId();
@@ -30,5 +31,10 @@ public class GetMissionsCompleteRes {
         this.successDate = mission.getMissionSuccessDate();
         this.dayOfWeek = mission.getMissionSuccessDate().getDayOfWeek();
         this.missionStatus = mission.getMissionStatus();
+        if (mission.getMissionGroup().getStore().getReviews().size() > 0) {
+            this.hasMission = true;
+        } else {
+            this.hasMission = false;
+        }
     }
 }

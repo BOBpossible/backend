@@ -1,4 +1,4 @@
-package cmc.bobpossible.refreshToken;
+package cmc.bobpossible.review.refreshToken;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
