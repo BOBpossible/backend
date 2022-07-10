@@ -93,4 +93,12 @@ public class MemberService {
 
         member.getAddress().changeAddress(addressDto.getAddressDong(), addressDto.getAddressStreet());;
     }
+
+    public GetAddressRes getUserAddress() throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        return new GetAddressRes(member.getAddress());
+    }
 }

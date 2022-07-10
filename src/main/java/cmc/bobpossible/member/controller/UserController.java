@@ -5,10 +5,7 @@ import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.RefineError;
 import cmc.bobpossible.member.MemberService;
-import cmc.bobpossible.member.dto.AddressDto;
-import cmc.bobpossible.member.dto.GetUser;
-import cmc.bobpossible.member.dto.GetUserRegisterStatus;
-import cmc.bobpossible.member.dto.PostUserReq;
+import cmc.bobpossible.member.dto.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.Errors;
@@ -70,6 +67,12 @@ public class UserController {
         return new BaseResponse<>("");
     }
 
+    @ApiOperation("주소 조회")
+    @GetMapping("/me/address")
+    public BaseResponse<GetAddressRes> getUserAddress() throws BaseException {
+
+        return new BaseResponse<>(memberService.getUserAddress());
+    }
 
     @ApiOperation("내 주소 수정")
     @PatchMapping("me/address")
