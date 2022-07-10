@@ -83,7 +83,7 @@ jobs:
       - name: Decrypt secrets
         uses: zgosalvez/github-actions-decrypt-secrets@v1
         with:
-            secrets_file: ./scripts/decrypt_secret.sh
+            secrets_file: ./src/main/resources/firebase/bobpossible-67a56-firebase-adminsdk-vvgfz-4eb266607b.json.gpg
             map: 'SECRET_PASSWORD=PASSWORD,PASSPHRASE=passphrase'
         env:
             GPG_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
