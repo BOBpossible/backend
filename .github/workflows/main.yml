@@ -81,7 +81,10 @@ jobs:
           spring.security.oauth2.client.registration.kakao.client-id: ${{secrets.KAKAO_CLIENT_ID}}
 
 
-    
+      - name: Decrypt large secret
+        run: ./scripts/decrypt_secret.sh
+        env:
+          LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
           
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
