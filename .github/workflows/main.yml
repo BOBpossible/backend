@@ -79,24 +79,6 @@ jobs:
           spring.security.oauth2.client.registration.naver.client-id: ${{secrets.NAVER_CLIENT_ID}}
           spring.security.oauth2.client.registration.naver.client-secret: ${{secrets.NAVER_CLIENT_SECRET}}
           spring.security.oauth2.client.registration.kakao.client-id: ${{secrets.KAKAO_CLIENT_ID}}
-      
-      - name: Decrypt secrets
-        uses: zgosalvez/github-actions-decrypt-secrets@v1
-        with:
-            secrets_file: ./src/main/resources/firebase/bobpossible-67a56-firebase-adminsdk-vvgfz-4eb266607b.json.gpg
-            map: 'SECRET_PASSWORD=PASSWORD,PASSPHRASE=passphrase'
-        env:
-            GPG_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
-
-
-      - name: Grant decrypt_secret.sh
-        run: chmod +x ./scripts/decrypt_secret.sh
-        shell: bash
-
-      - name: Decrypt large secret
-        run: ./scripts/decrypt_secret.sh
-        env:
-          LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
           
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
