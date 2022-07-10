@@ -177,4 +177,13 @@ public class MissionService {
 
         mission.challengeMission();
     }
+
+    @Transactional
+    public void cancelMission(Long missionId) throws BaseException {
+
+        Mission mission = missionRepository.findById(missionId)
+                .orElseThrow(() -> new BaseException(INVALID_MISSION_ID));
+
+        mission.cancelMission();
+    }
 }

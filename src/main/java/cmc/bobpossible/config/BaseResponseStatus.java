@@ -39,6 +39,7 @@ public enum BaseResponseStatus {
 
     // aws
     IMAGE_UPLOAD_FAIL(false, 2111, "이미지 업로드에 실패하였습니다."),
+    IO_EXCEPTION(false, 2112, "IOException."),
 
     //mission
     INVALID_MISSION_ID(false, 2121, "해당 missionId값과 일치하는 값이 없습니다."),

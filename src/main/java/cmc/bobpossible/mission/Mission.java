@@ -73,4 +73,8 @@ public class Mission extends BaseEntity {
     public void challengeMission() {
         this.missionStatus = MissionStatus.PROGRESS;
     }
+
+    public void cancelMission() {
+        this.missionStatus = NEW;
+    }
 }

@@ -59,6 +59,15 @@ public class MissionController {
         return new BaseResponse<>("");
     }
 
+    @ApiOperation("미션 취소")
+    @PatchMapping("/users/cancel/{missionId}")
+    public BaseResponse<String> cancelMission(@PathVariable Long missionId) throws BaseException {
+
+        missionService.cancelMission(missionId);
+
+        return new BaseResponse<>("");
+    }
+
     @ApiOperation("미션 도전(고객)")
     @PatchMapping("/challenge/{missionId}")
     public BaseResponse<String> missionChallenge(@PathVariable Long missionId) throws BaseException {

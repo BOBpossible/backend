@@ -51,7 +51,11 @@ dependencies {
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3'
 
 	// slack logback
-	implementation	'com.github.maricn:logback-slack-appender:1.4.0'
+	implementation 'com.github.maricn:logback-slack-appender:1.6.1'
+
+	//firebase
+	implementation 'com.google.firebase:firebase-admin:8.2.0'
+	implementation("com.squareup.okhttp3:okhttp:4.10.0")
 }
 
 tasks.named('test') {
