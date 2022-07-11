@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,13 @@ public class MissionController {
 
         List<Mission> missions = missionService.getCompleteMission();
 
+        // 3일 이내 리뷰 validation check
+        missions.forEach(m -> {
+            if (m.getMissionSuccessDate().plusDays(3).isBefore(LocalDateTime.now())) {
+                m.reviewDone();
+            }
+        });
+
         return new BaseResponse<>(
                 missions.stream()
                         .map(GetMissionsCompleteRes::new)
@@ -51,7 +59,7 @@ public class MissionController {
     }
 
     @ApiOperation("미션 성공 요청(고객)")
-    @PatchMapping("/users/success/{missionId}")
+    @PatchMapping("/users/success-request/{missionId}")
     public BaseResponse<String> postRequestCompleteMission(@PathVariable Long missionId) throws BaseException {
 
         missionService.postRequestCompleteMission(missionId);
@@ -73,6 +81,15 @@ public class MissionController {
     public BaseResponse<String> missionChallenge(@PathVariable Long missionId) throws BaseException {
 
         missionService.missionChallenge(missionId);
+
+        return new BaseResponse<>("");
+    }
+
+    @ApiOperation("미션 성공")
+    @PatchMapping("/success/{missionId}")
+    public BaseResponse<String> missionSuccess(@PathVariable Long missionId) throws BaseException {
+
+        missionService.missionSuccess(missionId);
 
         return new BaseResponse<>("");
     }

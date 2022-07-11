@@ -74,6 +74,22 @@ public class UserController {
         return new BaseResponse<>(memberService.getUserAddress());
     }
 
+    @ApiOperation("알림 설정 조회")
+    @GetMapping("/me/notification")
+    public BaseResponse<GetNotificationRes> getUserNotification() throws BaseException {
+
+        return new BaseResponse<>(memberService.getUserNotification());
+    }
+
+    @ApiOperation("알림 설정 수정")
+    @PatchMapping("/me/notification")
+    public BaseResponse<String> patchUserNotification(@RequestBody PatchUserNotificationReq patchUserNotificationReq) throws BaseException {
+
+        memberService.patchUserNotification(patchUserNotificationReq);
+
+        return new BaseResponse<>("");
+    }
+
     @ApiOperation("내 주소 수정")
     @PatchMapping("me/address")
     public BaseResponse<String> patchUserAddress(@Validated @RequestBody AddressDto addressDto, Errors errors) throws BaseException, IOException {
@@ -87,4 +103,5 @@ public class UserController {
 
         return new BaseResponse<>("");
     }
+
 }

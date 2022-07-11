@@ -32,4 +32,8 @@ public class StoreAddress {
         this.x = x;
         this.y = y;
     }
+
+    public void changeDong(String dong) {
+        this.dong = dong;
+    }
 }

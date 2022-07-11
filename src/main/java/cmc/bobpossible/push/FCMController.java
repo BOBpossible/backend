@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @Slf4j
 @RequestMapping("/api/v1/fcm")
 @RequiredArgsConstructor
@@ -16,11 +18,20 @@ public class FCMController {
 
     private final FirebaseTokenService firebaseTokenService;
 
-    @ApiOperation("이번주 미션 조회(홈화면)")
+    @ApiOperation("fcm 토큰 등록")
     @PostMapping("/me")
-    public BaseResponse<String> postFCMToken(@RequestBody String token) throws BaseException {
+    public BaseResponse<String> postFCMToken(@RequestBody FcmToken token) throws BaseException {
 
         firebaseTokenService.postFCMToken(token);
+
+        return new BaseResponse<>("");
+    }
+
+    @ApiOperation("fcm test")
+    @PostMapping("/test")
+    public BaseResponse<String> test() throws BaseException, IOException {
+
+        firebaseTokenService.test();
 
         return new BaseResponse<>("");
     }

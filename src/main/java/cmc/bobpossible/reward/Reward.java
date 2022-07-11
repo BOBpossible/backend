@@ -2,6 +2,7 @@ package cmc.bobpossible.reward;
 
 import cmc.bobpossible.BaseEntity;
 import cmc.bobpossible.member.entity.Member;
+import cmc.bobpossible.point.Point;
 import cmc.bobpossible.store.Store;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,7 +37,11 @@ public class Reward extends BaseEntity {
         counter++;
         if(counter == 10){
             //포인트 1000 추가
-
+            member.addPoint(Point.builder()
+                    .point(1000)
+                    .title("리워드")
+                    .subtitle("미션 10개 달성")
+                    .build());
             //0으로 초기화
             counter = 0;
         }

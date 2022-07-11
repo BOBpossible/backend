@@ -4,6 +4,8 @@ import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.auth.SecurityUtil;
 import cmc.bobpossible.member.MemberRepository;
 import cmc.bobpossible.member.entity.Member;
+import cmc.bobpossible.mission.Mission;
+import cmc.bobpossible.mission.MissionRepository;
 import cmc.bobpossible.review.dto.PostReviewReq;
 import cmc.bobpossible.review_image.ReviewImage;
 import cmc.bobpossible.review_image.ReviewImageRepository;
@@ -38,6 +40,7 @@ public class ReviewService {
     private final MemberRepository memberRepository;
     private final StoreRepository storeRepository;
     private final ReviewImageRepository reviewImageRepository;
+    private final MissionRepository missionRepository;
 
     @Transactional
     public Review createReview(PostReviewReq postReviewReq) throws BaseException {
@@ -47,6 +50,11 @@ public class ReviewService {
 
         Store store = storeRepository.findById(postReviewReq.getStoreId())
                 .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
+
+        Mission mission = missionRepository.findById(postReviewReq.getMissionId())
+                .orElseThrow(() -> new BaseException(INVALID_MISSION_ID));
+
+        mission.reviewDone();
 
         Review review = Review.builder()
                 .content(postReviewReq.getContent())

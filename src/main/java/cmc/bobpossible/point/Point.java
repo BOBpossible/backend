@@ -3,6 +3,7 @@ package cmc.bobpossible.point;
 import cmc.bobpossible.BaseEntity;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.store.Store;
+import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.Where;
 
@@ -26,4 +27,20 @@ public class Point extends BaseEntity {
     private String subtitle;
 
     private int point;
+
+    protected Point() {
+    }
+
+    @Builder
+    public Point(Long id, Member member, String title, String subtitle, int point) {
+        this.id = id;
+        this.member = member;
+        this.title = title;
+        this.subtitle = subtitle;
+        this.point = point;
+    }
+
+    public void addMember(Member member) {
+        this.member = member;
+    }
 }

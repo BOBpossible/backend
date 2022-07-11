@@ -15,5 +15,6 @@ public class PostReviewReq {
     private double rate;
     @NotNull
     private Long storeId;
-
+    @NotNull
+    private Long missionId;
 }

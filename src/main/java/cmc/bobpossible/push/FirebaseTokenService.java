@@ -9,6 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.util.Optional;
+
 import static cmc.bobpossible.config.BaseResponseStatus.CHECK_QUIT_USER;
 
 @Slf4j
@@ -19,9 +22,10 @@ public class FirebaseTokenService {
 
     private final FirebaseTokenRepository firebaseTokenRepository;
     private final MemberRepository memberRepository;
+    private final FCMService fcmService;
 
     @Transactional
-    public void postFCMToken(String token) throws BaseException {
+    public void postFCMToken(FcmToken token) throws BaseException {
 
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
@@ -30,8 +34,18 @@ public class FirebaseTokenService {
                 .key(member.getId())
                 .build());
 
-        firebaseToken.update(token);
+        firebaseToken.update(token.getToken());
 
         firebaseTokenRepository.save(firebaseToken);
+    }
+
+    public void test() throws BaseException, IOException {
+
+        Optional<FirebaseToken> byKey = firebaseTokenRepository.findByKey(25L);
+
+        FirebaseToken firebaseToken = byKey.get();
+
+
+        fcmService.sendMessageTo(firebaseToken.getValue(),"test", "hi");
     }
 }

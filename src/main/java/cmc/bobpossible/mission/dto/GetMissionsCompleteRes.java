@@ -2,6 +2,7 @@ package cmc.bobpossible.mission.dto;
 
 import cmc.bobpossible.mission.Mission;
 import cmc.bobpossible.mission.MissionStatus;
+import cmc.bobpossible.mission.ReviewStatus;
 import lombok.Data;
 
 import java.time.DayOfWeek;
@@ -19,7 +20,7 @@ public class GetMissionsCompleteRes {
     private LocalDateTime successDate;
     private DayOfWeek dayOfWeek;
     private MissionStatus missionStatus;
-    private boolean hasMission;
+    private ReviewStatus reviewStatus;
 
     public GetMissionsCompleteRes(Mission mission) {
         this.missionId = mission.getId();
@@ -31,10 +32,6 @@ public class GetMissionsCompleteRes {
         this.successDate = mission.getMissionSuccessDate();
         this.dayOfWeek = mission.getMissionSuccessDate().getDayOfWeek();
         this.missionStatus = mission.getMissionStatus();
-        if (mission.getMissionGroup().getStore().getReviews().size() > 0) {
-            this.hasMission = true;
-        } else {
-            this.hasMission = false;
-        }
+        this.reviewStatus = mission.getReviewStatus();
     }
 }

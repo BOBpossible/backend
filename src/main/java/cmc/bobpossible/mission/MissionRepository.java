@@ -15,4 +15,6 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
     List<Mission> findByMissionGroup(MissionGroup missionGroup);
 
     List<Mission> findByMissionGroupAndMissionStatus(MissionGroup missionGroup, MissionStatus progress);
+
+    List<Mission> findByMemberAndOnProgress(Member member, boolean onProgress);
 }

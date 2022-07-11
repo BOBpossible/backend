@@ -56,18 +56,6 @@ public class StoreService {
         Category category = categoryRepository.findById(postStoreReq.getStoreTypeId())
                 .orElseThrow(() -> new BaseException(INVALID_CATEGORY_ID));
 
-        // 최대 3번
-//        List<String> imageURL = new ArrayList<>();
-//        for (int i = 0; i < representativeMenuImages.size() || i < 3; i++) {
-//            imageURL.add( s3Uploader.upload(representativeMenuImages.get(i), "menuImage"));
-//        }
-
-        // 메뉴 이미지 엔티티
-//        List<MenuImage> menuImages = imageURL.stream()
-//                .map(i -> MenuImage.builder().image(i).build())
-//                .collect(Collectors.toList());
-
-
         List<OperationTime> operationTimes = postStoreReq.getOperationTimeVO().stream()
                 .map(
                         o -> OperationTime.builder()
@@ -89,9 +77,10 @@ public class StoreService {
                 .category(category)
                 .tableNum(postStoreReq.getTableNum())
                 .representativeMenuName(postStoreReq.getRepresentativeMenuName())
- //               .menuImages(menuImages)
                 .operationTimes(operationTimes)
                 .build();
+
+        store.trimAddressDong();
 
         List<MissionGroup> missionGroups = new ArrayList<>();
 
@@ -209,6 +198,8 @@ public class StoreService {
                 .orElseThrow(() -> new BaseException(INVALID_CATEGORY_ID));
 
         member.getStore().update(updateStoreReq.getStoreName(), updateStoreReq.getIntro(), new StoreAddress(updateStoreReq.getAddressStreet(), updateStoreReq.getAddressDetail() ,updateStoreReq.getAddressDong(), updateStoreReq.getX(), updateStoreReq.getY()), updateStoreReq.getTableNum(), updateStoreReq.getRepresentativeMenuName(), category);
+
+        member.getStore().trimAddressDong();
     }
 
     @Transactional

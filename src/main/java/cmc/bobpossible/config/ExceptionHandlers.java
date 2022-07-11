@@ -20,6 +20,6 @@ public class ExceptionHandlers {
 
     @ExceptionHandler(IOException.class)
     private BaseResponse<String> handleException(IOException e) {
-        return new BaseResponse<>(IO_EXCEPTION);
+        return new BaseResponse<>(e.getMessage());
     }
 }

@@ -10,6 +10,8 @@ import cmc.bobpossible.mission.dto.GetOwnerMissionRes;
 import cmc.bobpossible.mission.dto.OwnerMissionDto;
 import cmc.bobpossible.mission_group.MissionGroup;
 import cmc.bobpossible.mission_group.MissionGroupRepository;
+import cmc.bobpossible.point.Point;
+import cmc.bobpossible.push.FCMService;
 import cmc.bobpossible.store.Store;
 import cmc.bobpossible.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,7 @@ public class MissionService {
     private final MemberRepository memberRepository;
     private final StoreRepository storeRepository;
     private final MissionGroupRepository missionGroupRepository;
+    private final FCMService fcmService;
 
     @Transactional
     public GetHome getMissions() throws BaseException {
@@ -68,11 +71,6 @@ public class MissionService {
             recommends.sort(new RecommendPercentageComparator().reversed());
 
             List<Recommend> res = new ArrayList<>();
-
-//            // 배포 가능 가게 0개일 경우
-//            if (recommends.size() == 0) {
-//                throw new BaseException(NO_AVAILABLE_MISSION);
-//            }
 
             if (recommends.size() < 3) { // 현재 가게 3개 이하 일 경우
                 return new GetHome(member, recommends.stream()
@@ -116,7 +114,7 @@ public class MissionService {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
-        return missionRepository.findByMemberAndMissionStatus(member, MissionStatus.PROGRESS);
+        return missionRepository.findByMemberAndOnProgress(member, true);
     }
 
     public List<Mission> getCompleteMission() throws BaseException {
@@ -131,6 +129,9 @@ public class MissionService {
         Mission mission = missionRepository.findById(missionId)
                 .orElseThrow(() -> new BaseException(INVALID_MISSION_ID));
 
+        //사장 푸시 알림
+        // 알림여부 체크
+//        fcmService.sendMessageTo();
 
         mission.requestComplete();
     }
@@ -167,7 +168,7 @@ public class MissionService {
 
         List<Mission> missions = new ArrayList<>();
 
-        groups.forEach(g -> missions.addAll(missionRepository.findByMissionGroupAndMissionStatus(g, MissionStatus.OWNER_CHECK)));
+        groups.forEach(g -> missions.addAll(missionRepository.findByMissionGroupAndMissionStatus(g, MissionStatus.CHECKING)));
 
         return missions.stream()
                 .map(OwnerMissionDto::new)
@@ -176,6 +177,15 @@ public class MissionService {
 
     @Transactional
     public void missionChallenge(Long missionId) throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        List<Mission> valid = missionRepository.findByMemberAndOnProgress(member, true);
+
+        if (valid.size() > 1) {
+            throw  new BaseException(MISSION_ON_PROGRESS_EXIST);
+        }
 
         Mission mission = missionRepository.findById(missionId)
                 .orElseThrow(() -> new BaseException(INVALID_MISSION_ID));
@@ -190,5 +200,30 @@ public class MissionService {
                 .orElseThrow(() -> new BaseException(INVALID_MISSION_ID));
 
         mission.cancelMission();
+    }
+
+    @Transactional
+    public void missionSuccess(Long missionId) throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        Mission mission = missionRepository.findById(missionId)
+                .orElseThrow(() -> new BaseException(INVALID_MISSION_ID));
+
+        mission.successMission();
+
+        //포인트적립
+        member.addPoint(Point.builder()
+                .point(mission.getMissionGroup().getPoint())
+                .title(mission.getMissionGroup().getStore().getName())
+                .subtitle(mission.getMissionGroup().getMissionContent())
+                .build());
+
+        //리워드 증가
+        member.getReward().addCounter();
+
+        // 리뷰 작성 (푸시 알림) 알림여부 체크
+//        fcmService.sendMessageTo();
     }
 }

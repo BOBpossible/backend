@@ -79,29 +79,9 @@ public class Store extends BaseEntity {
         this.tableNum = tableNum;
         this.representativeMenuName = representativeMenuName;
         this.category = category;
-//        this.menuImages = menuImages;
-//        this.operationTimes = operationTimes;
+
         operationTimes.forEach(this::addOperationTime);
     }
-
-//    public static Store create(Member member , String storeName, String intro, StoreAddress address, Category category, int tableNum, String representativeMenuName, List<MenuImage> menuImages, List<OperationTime> operationTimes) {
-//        Store store = new Store();
-//        store.init( member, storeName, intro, address, category, tableNum, representativeMenuName, menuImages, operationTimes);
-//        return store;
-//    }
-//
-//    private void init(Member member, String storeName, String intro, StoreAddress address, Category category, int tableNum, String representativeMenuName, List<MenuImage> menuImages, List<OperationTime> operationTimes) {
-//        this.member = member;
-//        this.name = storeName;
-//        this.intro = intro;
-//        this.address = address;
-//        this.category = category;
-//        this.tableNum = tableNum;
-//        this.representativeMenuName = representativeMenuName;
-//
-//        menuImages.forEach(this::addMenuImage);
-//        operationTimes.forEach(this::addOperationTime);
-//    }
 
     private void addOperationTime(OperationTime operationTime) {
         operationTimes.add(operationTime);
@@ -176,10 +156,6 @@ public class Store extends BaseEntity {
         this.representativeMenuName = representativeMenuName;
         this.category = category;
 
-
-//        operationTimes.forEach(this::addOperationTime);
-
-
     }
 
     public void deleteMenuImage(MenuImage menuImage) {
@@ -190,5 +166,16 @@ public class Store extends BaseEntity {
     public void deleteStoreImage(StoreImage storeImage) {
         storeImage.changeStatus(Status.DELETED);
         storeImages.remove(storeImage);
+    }
+
+    public void trimAddressDong() {
+
+        String dong = this.address.getDong();
+
+        int target = dong.indexOf("동");
+
+        if (target > 0) {
+            this.address.changeDong( dong.substring(0, target + 1));
+        }
     }
 }

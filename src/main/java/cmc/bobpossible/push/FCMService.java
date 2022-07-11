@@ -57,10 +57,11 @@ public class FCMService {
     }
 
     private String getAccessToken() throws IOException {
-        String firebaseConfigPath = "resources/firebase/bobpossible-67a56-firebase-adminsdk-vvgfz-4eb266607b.json";
+        String firebaseConfigPath = "firebase/bobpossible-67a56-firebase-adminsdk-vvgfz-4eb266607b.json";
         GoogleCredentials googleCredentials = GoogleCredentials
                 .fromStream(new ClassPathResource(firebaseConfigPath).getInputStream())
                 .createScoped(List.of("https://www.googleapis.com/auth/cloud-platform"));
+
         googleCredentials.refreshIfExpired();
         return googleCredentials.getAccessToken().getTokenValue();
     }

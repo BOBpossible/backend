@@ -34,6 +34,8 @@ public class MemberService {
                 new Address(postUserReq.getAddressStreet(),postUserReq.getAddressDong(), postUserReq.getX(), postUserReq.getY()),
                 new Terms(postUserReq.getTermsOfService(),postUserReq.getPrivacyPolicy(),postUserReq.getLocationInfo(), postUserReq.getMarketing()));
 
+        member.trimAddressDong();
+
     }
 
     @Transactional
@@ -91,7 +93,9 @@ public class MemberService {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
-        member.getAddress().changeAddress(addressDto.getAddressDong(), addressDto.getAddressStreet());;
+        member.getAddress().changeAddress(addressDto.getAddressDong(), addressDto.getAddressStreet());
+
+        member.trimAddressDong();
     }
 
     public GetAddressRes getUserAddress() throws BaseException {
@@ -100,5 +104,21 @@ public class MemberService {
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
         return new GetAddressRes(member.getAddress());
+    }
+
+    public GetNotificationRes getUserNotification() throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        return new GetNotificationRes(member);
+    }
+
+    @Transactional
+    public void patchUserNotification(PatchUserNotificationReq patchUserNotificationReq) throws BaseException {
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        member.updateUserNotification(patchUserNotificationReq.getEvent(), patchUserNotificationReq.getQuestion(), patchUserNotificationReq.getReview());
     }
 }
