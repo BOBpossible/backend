@@ -15,6 +15,7 @@ public class GetMissionRes {
     private String storeName;
     private String storeCategory;
     private String mission;
+    private MissionStatus missionStatus;
     private int point;
 
     @Builder
@@ -24,5 +25,6 @@ public class GetMissionRes {
         this.storeCategory = mission.getMissionGroup().getStore().getCategory().getName();
         this.mission = mission.getMissionGroup().getMissionContent();
         this.point = mission.getMissionGroup().getPoint();
+        this.missionStatus = mission.getMissionStatus();
     }
 }

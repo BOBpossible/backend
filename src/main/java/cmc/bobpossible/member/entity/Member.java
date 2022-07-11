@@ -56,6 +56,9 @@ public class Member extends BaseEntity {
     @Embedded
     private Terms terms;
 
+    @Embedded
+    private Notification notification;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Point> points = new ArrayList<>();
 
@@ -102,6 +105,7 @@ public class Member extends BaseEntity {
         this.address = address;
         this.phone = phone;
         this.terms = terms;
+        this.notification.init();
 
         //리워드 생성
         Reward reward = Reward.builder()
@@ -164,5 +168,25 @@ public class Member extends BaseEntity {
     public void addStoreAuthenticationImage(StoreAuthentication storeAuthentication) {
         storeAuthentication.addMember(this);
         storeAuthentications.add(storeAuthentication);
+    }
+
+    public void addPoint(Point point) {
+        point.addMember(this);
+        this.points.add(point);
+    }
+
+    public void trimAddressDong() {
+
+        String dong = this.address.getDong();
+
+        int target = dong.indexOf("동");
+
+        if (target > 0) {
+            this.address.changeDong( dong.substring(0, target + 1));
+        }
+    }
+
+    public void updateUserNotification(Boolean event, Boolean question, Boolean review) {
+        this.notification.update(event, question, review);
     }
 }

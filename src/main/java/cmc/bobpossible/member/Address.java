@@ -35,4 +35,8 @@ public class Address {
         this.street = addressStreet;
         this.dong = addressDong;
     }
+
+    public void changeDong(String dong) {
+        this.dong = dong;
+    }
 }
