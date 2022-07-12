@@ -42,7 +42,7 @@ public class MissionService {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
-        List<Mission> missions = missionRepository.findByMember(member);
+        List<Mission> missions = missionRepository.findByMemberAndMissionStatus(member, MissionStatus.NEW);
 
 
         // 현재 미션들의 만료일 체크
@@ -120,6 +120,10 @@ public class MissionService {
     public List<Mission> getCompleteMission() throws BaseException {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        List<Mission> byMemberAndMissionStatus = missionRepository.findByMemberAndMissionStatus(member, MissionStatus.DONE);
+
+        log.info(String.valueOf(byMemberAndMissionStatus.size()));
 
         return missionRepository.findByMemberAndMissionStatus(member, MissionStatus.DONE);
     }
