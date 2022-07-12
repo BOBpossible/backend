@@ -46,6 +46,6 @@ public class FirebaseTokenService {
         FirebaseToken firebaseToken = byKey.get();
 
 
-        fcmService.sendMessageTo(firebaseToken.getValue(),"test", "hi");
+        fcmService.sendMessageTo(firebaseToken.getValue(),"success", "success", "미션에 성공하였습니다.", "");
     }
 }

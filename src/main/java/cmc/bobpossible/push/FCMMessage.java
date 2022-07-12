@@ -16,6 +16,7 @@ public class FCMMessage {
     @Getter
     public static class Message {
         private Notification notification; // 모든 mobile os를 아우를수 있는 Notification
+        private Data data;
         private String token; // 특정 device에 알림을 보내기위해 사용
     }
 
@@ -26,6 +27,14 @@ public class FCMMessage {
         private String title;
         private String body;
         private String image;
+    }
+
+    @Builder
+    @AllArgsConstructor
+    @Getter
+    public static class Data {
+        private String title;
+        private String body;
     }
 
 }

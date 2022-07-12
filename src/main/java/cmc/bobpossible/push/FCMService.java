@@ -21,8 +21,8 @@ public class FCMService {
     private String API_URL = "https://fcm.googleapis.com/v1/projects/bobpossible-67a56/messages:send";
     private final ObjectMapper objectMapper;
 
-    public void sendMessageTo(String targetToken, String title, String body) throws IOException {
-        String message = makeMessage(targetToken, title, body);
+    public void sendMessageTo(String targetToken, String title, String body, String dTitle, String dBody) throws IOException {
+        String message = makeMessage(targetToken, title, body, dTitle, dBody);
 
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
@@ -39,7 +39,7 @@ public class FCMService {
     }
 
     // 파라미터를 FCM이 요구하는 body 형태로 만들어준다.
-    private String makeMessage(String targetToken, String title, String body) throws JsonProcessingException {
+    private String makeMessage(String targetToken, String title, String body, String dTitle, String dBody) throws JsonProcessingException {
         FCMMessage fcmMessage = FCMMessage.builder()
                 .message(FCMMessage.Message.builder()
                         .token(targetToken)
@@ -47,6 +47,11 @@ public class FCMService {
                                 .title(title)
                                 .body(body)
                                 .image(null)
+                                .build()
+                        )
+                        .data(FCMMessage.Data.builder()
+                                .title(dTitle)
+                                .body(dBody)
                                 .build()
                         )
                         .build()
