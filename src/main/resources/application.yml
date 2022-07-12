@@ -34,3 +34,7 @@ logging:
 
 jwt:
   secret: 
+
+sms:
+  api:
+  secret:
