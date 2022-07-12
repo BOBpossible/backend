@@ -6,10 +6,13 @@ import cmc.bobpossible.member.MemberRepository;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.mission.Mission;
 import cmc.bobpossible.mission.MissionRepository;
+import cmc.bobpossible.review.dto.PostReportReq;
 import cmc.bobpossible.review.dto.PostReviewReq;
 import cmc.bobpossible.review_image.ReviewImage;
 import cmc.bobpossible.review_image.ReviewImageRepository;
 import cmc.bobpossible.review_reply.ReviewReply;
+import cmc.bobpossible.review_report.ReviewReport;
+import cmc.bobpossible.review_report.ReviewReportRepository;
 import cmc.bobpossible.store.Store;
 import cmc.bobpossible.store.StoreRepository;
 import cmc.bobpossible.review.dto.GetStoreReviewRes;
@@ -41,6 +44,7 @@ public class ReviewService {
     private final StoreRepository storeRepository;
     private final ReviewImageRepository reviewImageRepository;
     private final MissionRepository missionRepository;
+    private final ReviewReportRepository reviewReportRepository;
 
     @Transactional
     public Review createReview(PostReviewReq postReviewReq) throws BaseException {
@@ -141,5 +145,23 @@ public class ReviewService {
                 .build();
 
         review.addReviewReply(reviewReply);
+    }
+
+    @Transactional
+    public void postReviewReport(Long reviewId, PostReportReq postReviewReq) throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new BaseException(INVALID_REVIEW_ID));
+
+        ReviewReport report = ReviewReport.builder()
+                .content(postReviewReq.getContent())
+                .member(member)
+                .review(review)
+                .build();
+
+        reviewReportRepository.save(report);
     }
 }
