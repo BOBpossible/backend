@@ -73,6 +73,9 @@ public enum BaseResponseStatus {
     //storeImage
     INVALID_OPERATION_TIME_ID(false,2090,"해당 operationTimeId값과 일치하는 값이 없습니다."),
 
+    //question
+    INVALID_QUESTION_ID(false,2095,"해당 questionId값과 일치하는 값이 없습니다."),
+
 
 
     /**
