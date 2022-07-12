@@ -6,6 +6,7 @@ import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.menu_image.MenuImage;
 import cmc.bobpossible.review_image.ReviewImage;
 import cmc.bobpossible.review_reply.ReviewReply;
+import cmc.bobpossible.review_report.ReviewReport;
 import cmc.bobpossible.store.Store;
 import lombok.Builder;
 import lombok.Getter;

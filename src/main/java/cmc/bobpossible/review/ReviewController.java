@@ -3,6 +3,7 @@ package cmc.bobpossible.review;
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.RefineError;
+import cmc.bobpossible.review.dto.PostReportReq;
 import cmc.bobpossible.review.dto.PostReviewReq;
 import cmc.bobpossible.review.dto.GetStoreReviewRes;
 import cmc.bobpossible.store.dto.GetStoreImages;
@@ -10,7 +11,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -87,6 +87,20 @@ public class ReviewController {
         }
 
         reviewService.postReviewReply(reviewId, postReviewReq);
+
+        return new BaseResponse<>("");
+    }
+
+    @ApiOperation("사장 리뷰 답글")
+    @PostMapping("/report/{reviewId}")
+    public BaseResponse<String> postReviewReport(@PathVariable Long reviewId, @RequestBody PostReportReq postReviewReq, Errors errors) throws BaseException {
+
+        //validation
+        if (errors.hasErrors()) {
+            return new BaseResponse<>(RefineError.refine(errors));
+        }
+
+        reviewService.postReviewReport(reviewId, postReviewReq);
 
         return new BaseResponse<>("");
     }
