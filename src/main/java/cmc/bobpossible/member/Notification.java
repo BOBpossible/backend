@@ -22,12 +22,6 @@ public class Notification {
         this.question = question;
     }
 
-    public void init() {
-        this.event = true;
-        this.review = true;
-        this.question = true;
-    }
-
     public void update(Boolean event, Boolean question, Boolean review) {
         this.event = event;
         this.review = review;

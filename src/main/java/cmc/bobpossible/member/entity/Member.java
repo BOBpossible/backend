@@ -105,7 +105,11 @@ public class Member extends BaseEntity {
         this.address = address;
         this.phone = phone;
         this.terms = terms;
-        this.notification.init();
+        this.notification = Notification.builder()
+                .event(true)
+                .question(true)
+                .review(true)
+                .build();
 
         //리워드 생성
         Reward reward = Reward.builder()

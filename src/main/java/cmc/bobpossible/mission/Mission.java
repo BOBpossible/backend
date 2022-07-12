@@ -86,6 +86,7 @@ public class Mission extends BaseEntity {
 
     public void cancelMission() {
         this.missionStatus = NEW;
+        this.onProgress = false;
     }
 
     public void successMission() {
