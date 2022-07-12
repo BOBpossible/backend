@@ -48,14 +48,14 @@ public class QuestionController {
     }
 
     @ApiOperation("1대1 문의 내역")
-    @PostMapping("/me")
+    @GetMapping("/me")
     public BaseResponse<List<GetQuestionsRes>> getQuestions() throws BaseException {
 
         return new BaseResponse<>( questionService.getQuestions());
     }
 
     @ApiOperation("1대1 문의 상세조회")
-    @PostMapping("/{questionId}")
+    @GetMapping("/{questionId}")
     public BaseResponse<GetQuestionRes> getQuestion(@PathVariable Long questionId) throws BaseException {
 
         return new BaseResponse<>( questionService.getQuestion(questionId));
