@@ -22,9 +22,6 @@ public class StoreImage extends BaseEntity {
     @JoinColumn(name = "storeId")
     private Store store;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberId")
-    private Member member;
 
     @Column(columnDefinition = "TEXT")
     private String image;
@@ -33,10 +30,9 @@ public class StoreImage extends BaseEntity {
     }
 
     @Builder
-    public StoreImage(Long id, Store store, Member member, String image) {
+    public StoreImage(Long id, Store store, String image) {
         this.id = id;
         this.store = store;
-        this.member = member;
         this.image = image;
     }
 

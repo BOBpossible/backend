@@ -1,5 +1,6 @@
 package cmc.bobpossible.mission;
 
+import cmc.bobpossible.Status;
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.auth.SecurityUtil;
 import cmc.bobpossible.member.MemberRepository;
@@ -42,8 +43,7 @@ public class MissionService {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
-        List<Mission> missions = missionRepository.findByMemberAndMissionStatus(member, MissionStatus.NEW);
-
+        List<Mission> missions = missionRepository.findByMember(member);
 
         // 현재 미션들의 만료일 체크
         missions.removeIf(Mission::checkValidation);
@@ -102,7 +102,6 @@ public class MissionService {
                         .collect(Collectors.toList()));
             }
         }
-
         return new GetHome(member, missions);
     }
 
@@ -121,7 +120,7 @@ public class MissionService {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
-        List<Mission> byMemberAndMissionStatus = missionRepository.findByMemberAndMissionStatus(member, MissionStatus.DONE);
+        List<Mission> byMemberAndMissionStatus = missionRepository.findByMemberAndMissionStatusAndStatus(member, MissionStatus.DONE, Status.EXPIRED);
 
         log.info(String.valueOf(byMemberAndMissionStatus.size()));
 

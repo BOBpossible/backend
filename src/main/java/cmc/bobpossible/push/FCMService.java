@@ -54,6 +54,12 @@ public class FCMService {
                                 .body(dBody)
                                 .build()
                         )
+                        .apns(FCMMessage.Apns.builder()
+                                        .payload(
+                                                FCMMessage.Payload.builder()
+                                                        .aps(FCMMessage.Aps.builder().sound("default").build())
+                                                        .build())
+                                        .build())
                         .build()
                 )
                 .validate_only(false)
