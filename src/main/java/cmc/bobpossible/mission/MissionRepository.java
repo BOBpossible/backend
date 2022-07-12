@@ -1,5 +1,6 @@
 package cmc.bobpossible.mission;
 
+import cmc.bobpossible.Status;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.mission_group.MissionGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,6 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
     List<Mission> findByMissionGroupAndMissionStatus(MissionGroup missionGroup, MissionStatus progress);
 
     List<Mission> findByMemberAndOnProgress(Member member, boolean onProgress);
+
+    List<Mission> findByMemberAndMissionStatusAndStatus(Member member, MissionStatus done, Status expired);
 }

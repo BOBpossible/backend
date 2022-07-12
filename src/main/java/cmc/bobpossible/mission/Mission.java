@@ -53,7 +53,7 @@ public class Mission extends BaseEntity {
 
     public boolean checkValidation() {
         if(expiredDate.isBefore(LocalDateTime.now())){
-            this.changeStatus(Status.DELETED);
+            changeStatus(Status.EXPIRED);
             return true;
         }
         return false;
