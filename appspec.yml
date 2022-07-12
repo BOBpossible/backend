@@ -10,7 +10,7 @@ permissions:
     pattern: "**"
     owner: ec2-user
     group: ec2-user
-    mode: 770
+    mode: 777
 
 hooks:
   ApplicationStart:
