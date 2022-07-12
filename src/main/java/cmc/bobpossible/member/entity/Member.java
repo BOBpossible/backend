@@ -6,6 +6,7 @@ import cmc.bobpossible.member.*;
 import cmc.bobpossible.member_category.MemberCategory;
 import cmc.bobpossible.mission.Mission;
 import cmc.bobpossible.point.Point;
+import cmc.bobpossible.question.Question;
 import cmc.bobpossible.reward.Reward;
 import cmc.bobpossible.store.Store;
 import cmc.bobpossible.store_authentication.StoreAuthentication;
@@ -70,6 +71,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<StoreAuthentication> storeAuthentications = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Question> questions = new ArrayList<>();
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Store store;
@@ -192,5 +196,10 @@ public class Member extends BaseEntity {
 
     public void updateUserNotification(Boolean event, Boolean question, Boolean review) {
         this.notification.update(event, question, review);
+    }
+
+    public void addQuestion(Question question) {
+        question.addMember(this);
+        this.questions.add(question);
     }
 }
