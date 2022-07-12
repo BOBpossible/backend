@@ -59,6 +59,8 @@ jobs:
           logging.slack.webhook-uri: ${{secrets.SLACK_WEBHOOK_URI}}
           jpa.hibernate.ddl-auto: update
           jwt.secret: ${{secrets.JWT_SECRET}}
+          sms.api: ${{secrets.SMS_API}}
+          sms.secret: ${{secrets.SMS_SECRET}}
 
       - name: Set aws.yml file
         uses: microsoft/variable-substitution@v1
