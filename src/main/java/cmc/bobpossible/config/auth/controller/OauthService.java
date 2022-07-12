@@ -41,7 +41,6 @@ public class OauthService {
     @Value("${sms.secret}")
     String api_secret;
 
-
     @Transactional
     public TokenDto reissueToken(String accessToken, String refreshToken) throws BaseException {
         // Refresh Token 검증
