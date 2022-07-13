@@ -1,10 +1,9 @@
 package cmc.bobpossible.member;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Column;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class Address {
@@ -31,9 +30,11 @@ public class Address {
         this.y = y;
     }
 
-    public void changeAddress(String addressDong, String addressStreet) {
+    public void changeAddress(String addressDong, String addressStreet, @NotNull double x, @NotNull double y) {
         this.street = addressStreet;
         this.dong = addressDong;
+        this.x = x;
+        this.y = y;
     }
 
     public void changeDong(String dong) {
