@@ -93,7 +93,7 @@ public class MemberService {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
-        member.getAddress().changeAddress(addressDto.getAddressDong(), addressDto.getAddressStreet());
+        member.getAddress().changeAddress(addressDto.getAddressDong(), addressDto.getAddressStreet(), addressDto.getX(), addressDto.getY());
 
         member.trimAddressDong();
     }
