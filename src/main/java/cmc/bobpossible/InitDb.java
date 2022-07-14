@@ -55,7 +55,7 @@ public class InitDb {
             Category category8 = Category.create("도시락");
             em.persist(category8);
 
-            Category category9 = Category.create("야식");
+                Category category9 = Category.create("야식");
             em.persist(category9);
 
             Category category10 = Category.create("패스트푸드");
@@ -64,7 +64,7 @@ public class InitDb {
             Category category11 = Category.create("디저트");
             em.persist(category11);
 
-            Category category12 = Category.create("아시안푸트");
+                Category category12 = Category.create("아시안푸트");
             em.persist(category12);
 
         }

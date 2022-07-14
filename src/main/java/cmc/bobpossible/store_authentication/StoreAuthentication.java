@@ -1,5 +1,6 @@
 package cmc.bobpossible.store_authentication;
 
+import cmc.bobpossible.BaseEntity;
 import cmc.bobpossible.Status;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.store.Store;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Where(clause = "status='ACTIVE'")
 @Getter
 @Entity
-public class StoreAuthentication {
+public class StoreAuthentication extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "store_authentication_id")
@@ -39,6 +40,6 @@ public class StoreAuthentication {
     }
 
     public void delete() {
-        //this.changeStatus(Status.DELETED);
+        this.changeStatus(Status.DELETED);
     }
 }

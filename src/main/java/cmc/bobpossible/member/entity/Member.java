@@ -211,7 +211,9 @@ public class Member extends BaseEntity {
         missions.forEach(Mission::delete);
         storeAuthentications.forEach(StoreAuthentication::delete);
         questions.forEach(Question::delete);
-        store.delete();
+        if (store != null) {
+            store.delete();
+        }
         reward.delete();
     }
 }
