@@ -11,6 +11,7 @@ import cmc.bobpossible.review.refreshToken.RefreshToken;
 import cmc.bobpossible.review.refreshToken.RefreshTokenRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.java_sdk.api.Message;
@@ -128,26 +129,40 @@ public class OauthService {
         return new PhoneValidationDto(certNum);
     }
 
+    @Transactional
     public TokenDto appleLogin(AppleLoginReq appleLoginReq) throws JsonProcessingException {
-        Map<String, Object> map = new HashMap<String, Object>();
-        String[] params = appleLoginReq.getToken().split("&");
-//
-//        for(String param : params){
-//            String name = param.split("=")[0];
-//            String value = param.split("=")[1];
-//            map.put(name, value);
-//        }
-//
-//        String token = MapUtils.getString(map, "id_token");
-//        String[] check = token.split("\\.");
-//        Base64.Decoder decoder = Base64.getDecoder();
-//        String payload = new String(decoder.decode(check[1]));
-//
-//        ObjectMapper mapper = new ObjectMapper();
-//        Map<String, Object> returnMap = mapper.readValue(payload, Map.class);
+
+        //토큰 복호화
+        int i = appleLoginReq.getToken().lastIndexOf('.');
+        String withoutSignature = appleLoginReq.getToken().substring(0, i+1);
+        Jwt<Header,Claims> untrusted = Jwts.parser().parseClaimsJwt(withoutSignature);
+
+        String email = (String) untrusted.getBody().get("email");
+        String name = "애플로그인";
+
+        // 로그인
+        Member member = memberRepository.findByEmail(email)
+                .orElse(Member.create(email, name));
+
+        memberRepository.save(member);
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(member.getId(), "", Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
+
+        TokenDto token = tokenProvider.generateTokenDto(auth);
+
+        RefreshToken refreshToken = RefreshToken.builder()
+                .key(auth.getName())
+                .value(token.getRefreshToken())
+                .build();
+
+        refreshTokenRepository.save(refreshToken);
 
         return TokenDto.builder()
-                .grantType(appleLoginReq.getToken())
+                .grantType(token.getGrantType())
+                .accessToken(token.getAccessToken())
+                .refreshToken(token.getRefreshToken())
+                .accessTokenExpiresIn(token.getAccessTokenExpiresIn())
+                .registerStatus(member.getRegisterStatus().name())
                 .build();
     }
 }
