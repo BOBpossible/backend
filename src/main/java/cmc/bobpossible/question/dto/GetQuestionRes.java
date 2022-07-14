@@ -1,6 +1,7 @@
 package cmc.bobpossible.question.dto;
 
 import cmc.bobpossible.question.Question;
+import cmc.bobpossible.question.QuestionStatus;
 import cmc.bobpossible.question.dto.AnswerDto;
 import lombok.Data;
 
@@ -19,6 +20,8 @@ public class GetQuestionRes {
 
     private List<AnswerDto> answers;
 
+    private QuestionStatus questionStatus;
+
     public GetQuestionRes(Question question) {
         this.title = question.getTitle();
         this.content = question.getTitle();
@@ -26,5 +29,6 @@ public class GetQuestionRes {
         this.answers = question.getAnswers().stream()
                 .map(AnswerDto::new)
                 .collect(Collectors.toList());
+        this.questionStatus = question.getQuestionStatus();
     }
 }
