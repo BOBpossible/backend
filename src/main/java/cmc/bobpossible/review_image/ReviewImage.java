@@ -1,6 +1,7 @@
 package cmc.bobpossible.review_image;
 
 import cmc.bobpossible.BaseEntity;
+import cmc.bobpossible.Status;
 import cmc.bobpossible.review.Review;
 import cmc.bobpossible.store.Store;
 import lombok.Builder;
@@ -43,5 +44,9 @@ public class ReviewImage extends BaseEntity {
 
     public void addReview(Review review) {
         this.review = review;
+    }
+
+    public void delete() {
+        this.changeStatus(Status.DELETED);
     }
 }

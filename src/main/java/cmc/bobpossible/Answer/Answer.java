@@ -1,6 +1,7 @@
 package cmc.bobpossible.Answer;
 
 import cmc.bobpossible.BaseEntity;
+import cmc.bobpossible.Status;
 import cmc.bobpossible.mission_group.MissionGroup;
 import cmc.bobpossible.question.Question;
 import lombok.Getter;
@@ -22,4 +23,8 @@ public class Answer extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "questionId")
     private Question question;
+
+    public void delete() {
+        this.changeStatus(Status.DELETED);
+    }
 }

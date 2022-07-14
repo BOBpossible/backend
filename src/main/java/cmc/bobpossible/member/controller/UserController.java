@@ -35,6 +35,15 @@ public class UserController {
         return new BaseResponse<>("");
     }
 
+    @ApiOperation("회원 탈퇴")
+    @PatchMapping("/me")
+    public BaseResponse<String> deleteUser() throws BaseException {
+
+        memberService.deleteUser();
+
+        return new BaseResponse<>("");
+    }
+
     @ApiOperation("내 정보 조회(마이페이지)")
     @GetMapping("/me")
     public BaseResponse<GetUser> getUser() throws BaseException {

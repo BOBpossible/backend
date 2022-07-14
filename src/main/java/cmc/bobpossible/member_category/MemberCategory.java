@@ -1,6 +1,7 @@
 package cmc.bobpossible.member_category;
 
 import cmc.bobpossible.BaseEntity;
+import cmc.bobpossible.Status;
 import cmc.bobpossible.category.Category;
 import cmc.bobpossible.member.entity.Member;
 import lombok.Getter;
@@ -35,5 +36,9 @@ public class MemberCategory extends BaseEntity {
         this.member = member;
         member.addMemberFavorite(this);
         this.category = category;
+    }
+
+    public void delete() {
+        this.changeStatus(Status.DELETED);
     }
 }

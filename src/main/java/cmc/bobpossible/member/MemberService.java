@@ -121,4 +121,13 @@ public class MemberService {
 
         member.updateUserNotification(patchUserNotificationReq.getEvent(), patchUserNotificationReq.getQuestion(), patchUserNotificationReq.getReview());
     }
+
+    @Transactional
+    public void deleteUser() throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        member.delete();
+    }
 }

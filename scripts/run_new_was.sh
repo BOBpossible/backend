@@ -15,7 +15,7 @@ else
   echo "> No WAS is connected to nginx"
 fi
 
-TARGET_PID=$(cat save.txt)
+TARGET_PID= sudo lsof -t -i:${TARGET_PORT}
 
 if [ ! -z ${TARGET_PID} ]; then
   echo "> Kill WAS running at ${TARGET_PORT}."

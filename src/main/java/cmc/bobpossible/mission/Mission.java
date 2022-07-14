@@ -98,4 +98,8 @@ public class Mission extends BaseEntity {
     public void reviewDone() {
         this.reviewStatus = ReviewStatus.DONE;
     }
+
+    public void delete() {
+        this.changeStatus(Status.DELETED);
+    }
 }

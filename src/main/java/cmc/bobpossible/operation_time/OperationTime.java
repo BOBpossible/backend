@@ -1,6 +1,7 @@
 package cmc.bobpossible.operation_time;
 
 import cmc.bobpossible.BaseEntity;
+import cmc.bobpossible.Status;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.store.Store;
 import lombok.Builder;
@@ -61,5 +62,9 @@ public class OperationTime extends BaseEntity {
         this.breakEndTime = breakEndTime;
         this.hasOperationTime = hasOperationTime;
         this.hasBreak = hasBreak;
+    }
+
+    public void delete() {
+        this.changeStatus(Status.DELETED);
     }
 }

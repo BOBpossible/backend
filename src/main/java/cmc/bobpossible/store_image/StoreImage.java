@@ -1,6 +1,7 @@
 package cmc.bobpossible.store_image;
 
 import cmc.bobpossible.BaseEntity;
+import cmc.bobpossible.Status;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.store.Store;
 import lombok.Builder;
@@ -38,5 +39,9 @@ public class StoreImage extends BaseEntity {
 
     public void addStore(Store store) {
         this.store = store;
+    }
+
+    public void delete() {
+        this.changeStatus(Status.DELETED);
     }
 }
