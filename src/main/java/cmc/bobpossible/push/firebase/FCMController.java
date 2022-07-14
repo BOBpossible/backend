@@ -26,11 +26,20 @@ public class FCMController {
         return new BaseResponse<>("");
     }
 
-    @ApiOperation("fcm test")
-    @PostMapping("/test")
-    public BaseResponse<String> test() throws BaseException, IOException {
+    @ApiOperation("fcm 성공 요청 수락 테스트 ")
+    @PostMapping("/success/{userId}/{missionId}")
+    public BaseResponse<String> test(@PathVariable long userId,@PathVariable long missionId) throws BaseException, IOException {
 
-        firebaseTokenService.test();
+        firebaseTokenService.test(userId,missionId);
+
+        return new BaseResponse<>("");
+    }
+
+    @ApiOperation("fcm 성공 요청 거절 테스트 ")
+    @PostMapping("/fail/{userId}/{missionId}")
+    public BaseResponse<String> test2(@PathVariable long userId,@PathVariable long missionId) throws BaseException, IOException {
+
+        firebaseTokenService.test2(userId,missionId);
 
         return new BaseResponse<>("");
     }

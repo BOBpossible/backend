@@ -15,8 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static cmc.bobpossible.mission.MissionStatus.DONE;
-import static cmc.bobpossible.mission.MissionStatus.NEW;
+import static cmc.bobpossible.mission.MissionStatus.*;
 
 @Where(clause = "status='ACTIVE'")
 @Getter
@@ -101,5 +100,13 @@ public class Mission extends BaseEntity {
 
     public void delete() {
         this.changeStatus(Status.DELETED);
+    }
+
+    public void acceptMission() {
+        this.missionStatus = CHECKED;
+    }
+
+    public void deniedMission() {
+        this.missionStatus = PROGRESS;
     }
 }
