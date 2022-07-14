@@ -5,6 +5,7 @@ import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.auth.dto.AppleLoginReq;
 import cmc.bobpossible.config.auth.dto.PhoneValidationDto;
 import cmc.bobpossible.config.auth.jwt.TokenDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,10 +46,10 @@ public class OauthController {
         return new BaseResponse<>(oauthService.login(email, name));
     }
 
-//    @PostMapping("/authorization/apple-login")
-//    public BaseResponse<TokenDto> appleLogin(@RequestBody AppleLoginReq appleLoginReq) {
-//        return new BaseResponse<>(oauthService.appleLogin(appleLoginReq));
-//    }
+    @PostMapping("/authorization/apple-login")
+    public BaseResponse<TokenDto> appleLogin(@RequestBody AppleLoginReq appleLoginReq) throws JsonProcessingException {
+        return new BaseResponse<>(oauthService.appleLogin(appleLoginReq));
+    }
 
     @PostMapping("/phone-validation")
     public BaseResponse<PhoneValidationDto> phoneValidation(@RequestParam String phone) {

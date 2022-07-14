@@ -9,10 +9,14 @@ import cmc.bobpossible.member.MemberRepository;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.review.refreshToken.RefreshToken;
 import cmc.bobpossible.review.refreshToken.RefreshTokenRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
+import org.apache.commons.collections.MapUtils;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,9 +25,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 import static cmc.bobpossible.config.BaseResponseStatus.*;
 
@@ -127,7 +129,40 @@ public class OauthService {
         return new PhoneValidationDto(certNum);
     }
 
-//    public TokenDto appleLogin(AppleLoginReq appleLoginReq) {
-//        return new TokenDto();
-//    }
+    @Transactional
+    public TokenDto appleLogin(AppleLoginReq appleLoginReq) throws JsonProcessingException {
+
+        //토큰 복호화
+        int i = appleLoginReq.getToken().lastIndexOf('.');
+        String withoutSignature = appleLoginReq.getToken().substring(0, i+1);
+        Jwt<Header,Claims> untrusted = Jwts.parser().parseClaimsJwt(withoutSignature);
+
+        String email = (String) untrusted.getBody().get("email");
+        String name = "애플로그인";
+
+        // 로그인
+        Member member = memberRepository.findByEmail(email)
+                .orElse(Member.create(email, name));
+
+        memberRepository.save(member);
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(member.getId(), "", Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
+
+        TokenDto token = tokenProvider.generateTokenDto(auth);
+
+        RefreshToken refreshToken = RefreshToken.builder()
+                .key(auth.getName())
+                .value(token.getRefreshToken())
+                .build();
+
+        refreshTokenRepository.save(refreshToken);
+
+        return TokenDto.builder()
+                .grantType(token.getGrantType())
+                .accessToken(token.getAccessToken())
+                .refreshToken(token.getRefreshToken())
+                .accessTokenExpiresIn(token.getAccessTokenExpiresIn())
+                .registerStatus(member.getRegisterStatus().name())
+                .build();
+    }
 }
