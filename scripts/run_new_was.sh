@@ -15,14 +15,14 @@ else
   echo "> No WAS is connected to nginx"
 fi
 
-TARGET_PID=$(lsof -Fp -i TCP:${TARGET_PORT} | grep -Po 'p[0-9]+' | grep -Po '[0-9]+')
+TARGET_PID=$(cat save.txt)
 
 if [ ! -z ${TARGET_PID} ]; then
   echo "> Kill WAS running at ${TARGET_PORT}."
   sudo kill ${TARGET_PID}
+  TARGET_PID=$((TARGET_PID+1))
+  sudo kill ${TARGET_PID}
 fi
-
-  sudo kill -9 'cat save.txt'
 
 sudo nohup java -jar -Dserver.port=${TARGET_PORT} /home/ec2-user/bobpossible/build/libs/* > /home/ec2-user/nohup.out 2>&1 &
 echo $! > save.txt
