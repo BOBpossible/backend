@@ -23,8 +23,6 @@ public class PushNotification extends BaseEntity  {
     @JoinColumn(name = "memberId")
     private Member member;
 
-    private String title;
-
     private String storeName;
 
     private String subTitle;
@@ -42,10 +40,9 @@ public class PushNotification extends BaseEntity  {
     }
 
     @Builder
-    public PushNotification(Long id, Member member, String title, String storeName, String subTitle, PushType pushType, boolean checked, Long storeId, Long missionId) {
+    public PushNotification(Long id, Member member, String storeName, String subTitle, PushType pushType, boolean checked, Long storeId, Long missionId) {
         this.id = id;
         this.member = member;
-        this.title = title;
         this.storeName = storeName;
         this.subTitle = subTitle;
         this.pushType = pushType;
@@ -55,9 +52,8 @@ public class PushNotification extends BaseEntity  {
     }
 
 
-    public PushNotification createReviewPush(Member member, Store store, Mission mission) {
+    public static PushNotification createReviewPush(Member member, Store store, Mission mission) {
         return PushNotification.builder()
-                .title("리뷰를 남겨주세요.")
                 .member(member)
                 .storeName(store.getName())
                 .subTitle("의 음식이 맛있었다면 리뷰를 남겨주세요.")
@@ -68,9 +64,8 @@ public class PushNotification extends BaseEntity  {
                 .build();
     }
 
-    public PushNotification createNewMissionPush(Member member, Store store, Mission mission) {
+    public static PushNotification createNewMissionPush(Member member, Store store, Mission mission) {
         return PushNotification.builder()
-                .title("새로운 미션이 도착했습니다.")
                 .member(member)
                 .storeName(store.getName())
                 .subTitle("에서 "+mission.getMissionGroup().getMissionContent()+"의 식사를 하세요!")

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -87,7 +88,7 @@ public class MissionController {
 
     @ApiOperation("미션 성공")
     @PatchMapping("/success/{missionId}")
-    public BaseResponse<String> missionSuccess(@PathVariable Long missionId) throws BaseException {
+    public BaseResponse<String> missionSuccess(@PathVariable Long missionId) throws BaseException, IOException {
 
         missionService.missionSuccess(missionId);
 

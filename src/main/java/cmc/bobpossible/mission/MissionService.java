@@ -13,6 +13,8 @@ import cmc.bobpossible.mission_group.MissionGroup;
 import cmc.bobpossible.mission_group.MissionGroupRepository;
 import cmc.bobpossible.point.Point;
 import cmc.bobpossible.push.firebase.FCMService;
+import cmc.bobpossible.push.firebase.FirebaseToken;
+import cmc.bobpossible.push.firebase.FirebaseTokenRepository;
 import cmc.bobpossible.store.Store;
 import cmc.bobpossible.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,6 +40,7 @@ public class MissionService {
     private final StoreRepository storeRepository;
     private final MissionGroupRepository missionGroupRepository;
     private final FCMService fcmService;
+    private final FirebaseTokenRepository firebaseTokenRepository;
 
     @Transactional
     public GetHome getMissions() throws BaseException {
@@ -206,7 +210,7 @@ public class MissionService {
     }
 
     @Transactional
-    public void missionSuccess(Long missionId) throws BaseException {
+    public void missionSuccess(Long missionId) throws BaseException, IOException {
 
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
@@ -227,6 +231,10 @@ public class MissionService {
         member.getReward().addCounter();
 
         // 리뷰 작성 (푸시 알림) 알림여부 체크
-//        fcmService.sendMessageTo();
+        if (member.getNotification().getReview()) {
+            FirebaseToken firebaseToken = firebaseTokenRepository.findByKey(member.getId())
+                    .orElseThrow(() -> new BaseException(CHECK_FCM_TOKEN));
+            fcmService.sendReviewPush(firebaseToken.getValue(), member,  mission.getMissionGroup().getStore(), mission);
+        }
     }
 }

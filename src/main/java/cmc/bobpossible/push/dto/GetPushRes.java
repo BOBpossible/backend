@@ -6,12 +6,11 @@ import cmc.bobpossible.push.PushType;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 public class GetPushRes {
     private Long id;
-
-    private String title;
 
     private String storeName;
 
@@ -21,9 +20,11 @@ public class GetPushRes {
 
     private boolean checked;
 
+    private LocalDateTime date;
+
     public GetPushRes(PushNotification pushNotification) {
         this.id = pushNotification.getId();
-        this.title = pushNotification.getTitle();
+        this.date = pushNotification.getCreateAt();
         this.storeName = pushNotification.getStoreName();
         this.subTitle = pushNotification.getSubTitle();
         this.pushType = pushNotification.getPushType();
