@@ -11,8 +11,6 @@ import javax.persistence.*;
 public class GetPushRes {
     private Long id;
 
-    private Member member;
-
     private String title;
 
     private String storeName;
@@ -25,7 +23,6 @@ public class GetPushRes {
 
     public GetPushRes(PushNotification pushNotification) {
         this.id = pushNotification.getId();
-        this.member = pushNotification.getMember();
         this.title = pushNotification.getTitle();
         this.storeName = pushNotification.getStoreName();
         this.subTitle = pushNotification.getSubTitle();
