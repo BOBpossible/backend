@@ -127,6 +127,7 @@ public class OauthService {
         return new PhoneValidationDto(certNum);
     }
 
-    public Object appleLogin(AppleLoginReq appleLoginReq) {
-    }
+//    public TokenDto appleLogin(AppleLoginReq appleLoginReq) {
+//        return new TokenDto();
+//    }
 }
