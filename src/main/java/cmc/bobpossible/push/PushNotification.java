@@ -34,11 +34,15 @@ public class PushNotification extends BaseEntity  {
 
     private boolean checked;
 
+    private Long storeId;
+
+    private Long missionId;
+
     protected PushNotification() {
     }
 
     @Builder
-    public PushNotification(Long id, Member member, String title, String storeName, String subTitle, PushType pushType, boolean checked) {
+    public PushNotification(Long id, Member member, String title, String storeName, String subTitle, PushType pushType, boolean checked, Long storeId, Long missionId) {
         this.id = id;
         this.member = member;
         this.title = title;
@@ -46,9 +50,12 @@ public class PushNotification extends BaseEntity  {
         this.subTitle = subTitle;
         this.pushType = pushType;
         this.checked = checked;
+        this.storeId = storeId;
+        this.missionId = missionId;
     }
 
-    public PushNotification createReviewPush(Member member, Store store) {
+
+    public PushNotification createReviewPush(Member member, Store store, Mission mission) {
         return PushNotification.builder()
                 .title("리뷰를 남겨주세요.")
                 .member(member)
@@ -56,6 +63,8 @@ public class PushNotification extends BaseEntity  {
                 .subTitle("의 음식이 맛있었다면 리뷰를 남겨주세요.")
                 .checked(false)
                 .pushType(PushType.REVIEW)
+                .storeId(store.getId())
+                .missionId(mission.getId())
                 .build();
     }
 
@@ -67,6 +76,8 @@ public class PushNotification extends BaseEntity  {
                 .subTitle("에서 "+mission.getMissionGroup().getMissionContent()+"의 식사를 하세요!")
                 .checked(false)
                 .pushType(PushType.REVIEW)
+                .storeId(store.getId())
+                .missionId(mission.getId())
                 .build();
     }
 
