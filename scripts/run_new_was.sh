@@ -20,8 +20,6 @@ TARGET_PID=$(cat save.txt)
 if [ ! -z ${TARGET_PID} ]; then
   echo "> Kill WAS running at ${TARGET_PORT}."
   sudo kill ${TARGET_PID}
-  TARGET_PID=$((TARGET_PID+1))
-  sudo kill ${TARGET_PID}
 fi
 
 sudo nohup java -jar -Dserver.port=${TARGET_PORT} /home/ec2-user/bobpossible/build/libs/* > /home/ec2-user/nohup.out 2>&1 &

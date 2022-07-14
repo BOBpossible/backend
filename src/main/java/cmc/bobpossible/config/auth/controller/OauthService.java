@@ -9,10 +9,13 @@ import cmc.bobpossible.member.MemberRepository;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.review.refreshToken.RefreshToken;
 import cmc.bobpossible.review.refreshToken.RefreshTokenRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
+import org.apache.commons.collections.MapUtils;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,9 +24,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 import static cmc.bobpossible.config.BaseResponseStatus.*;
 
@@ -127,7 +128,26 @@ public class OauthService {
         return new PhoneValidationDto(certNum);
     }
 
-//    public TokenDto appleLogin(AppleLoginReq appleLoginReq) {
-//        return new TokenDto();
-//    }
+    public TokenDto appleLogin(AppleLoginReq appleLoginReq) throws JsonProcessingException {
+        Map<String, Object> map = new HashMap<String, Object>();
+        String[] params = appleLoginReq.getToken().split("&");
+//
+//        for(String param : params){
+//            String name = param.split("=")[0];
+//            String value = param.split("=")[1];
+//            map.put(name, value);
+//        }
+//
+//        String token = MapUtils.getString(map, "id_token");
+//        String[] check = token.split("\\.");
+//        Base64.Decoder decoder = Base64.getDecoder();
+//        String payload = new String(decoder.decode(check[1]));
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//        Map<String, Object> returnMap = mapper.readValue(payload, Map.class);
+
+        return TokenDto.builder()
+                .grantType(appleLoginReq.getToken())
+                .build();
+    }
 }
