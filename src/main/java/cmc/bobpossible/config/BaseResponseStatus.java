@@ -27,7 +27,8 @@ public enum BaseResponseStatus {
     USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
     DOUBLE_CHECK_ID(false, 2011, "유저 아이디가 이미 존재합니다."),
     MEMBER_LOGOUT(false, 2012, "로그아웃 된 사용자입니다."),
-    CHECK_QUIT_USER(false, 2022, "이미 탈퇴한 사용자입니다."),
+    CHECK_QUIT_USER(false, 2013, "이미 탈퇴한 사용자입니다."),
+    CHECK_FCM_TOKEN(false, 2014, "fcm 토큰이 존재하지 않습니다."),
 
     // [POST] /users
     POST_USERS_EMPTY_EMAIL(false, 2015, "이메일을 입력해주세요."),

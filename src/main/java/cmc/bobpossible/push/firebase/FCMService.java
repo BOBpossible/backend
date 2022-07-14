@@ -1,5 +1,10 @@
 package cmc.bobpossible.push.firebase;
 
+import cmc.bobpossible.member.entity.Member;
+import cmc.bobpossible.mission.Mission;
+import cmc.bobpossible.push.PushNotification;
+import cmc.bobpossible.push.PushNotificationRepository;
+import cmc.bobpossible.store.Store;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -9,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,6 +26,14 @@ public class FCMService {
 
     private String API_URL = "https://fcm.googleapis.com/v1/projects/bobpossible-67a56/messages:send";
     private final ObjectMapper objectMapper;
+    private final PushNotificationRepository pushNotificationRepository;
+
+    @Transactional
+    public void sendReviewPush(String targetToken ,Member member, Store store, Mission mission) throws IOException {
+        sendMessageTo(targetToken, "reviewPush", store.getName()+"의 음식 맛있었다면 리뷰를 남겨주세요.", "reviewPush", store.getName()+"의 음식 맛있었다면 리뷰를 남겨주세요.");
+
+        pushNotificationRepository.save(PushNotification.createReviewPush(member, store, mission));
+    }
 
     public void sendMessageTo(String targetToken, String title, String body, String dTitle, String dBody) throws IOException {
         String message = makeMessage(targetToken, title, body, dTitle, dBody);
