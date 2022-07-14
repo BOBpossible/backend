@@ -20,6 +20,10 @@ public class GetPushRes {
 
     private boolean checked;
 
+    private Long storeId;
+
+    private Long missionId;
+
     private LocalDateTime date;
 
     public GetPushRes(PushNotification pushNotification) {
@@ -29,5 +33,7 @@ public class GetPushRes {
         this.subTitle = pushNotification.getSubTitle();
         this.pushType = pushNotification.getPushType();
         this.checked = pushNotification.isChecked();
+        this.storeId = pushNotification.getStoreId();
+        this.missionId = pushNotification.getMissionId();
     }
 }
