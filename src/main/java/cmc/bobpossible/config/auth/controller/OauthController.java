@@ -45,10 +45,10 @@ public class OauthController {
         return new BaseResponse<>(oauthService.login(email, name));
     }
 
-    @PostMapping("/authorization/apple-login")
-    public BaseResponse<TokenDto> appleLogin(@RequestBody AppleLoginReq appleLoginReq) {
-        return new BaseResponse<>(oauthService.appleLogin(appleLoginReq));
-    }
+//    @PostMapping("/authorization/apple-login")
+//    public BaseResponse<TokenDto> appleLogin(@RequestBody AppleLoginReq appleLoginReq) {
+//        return new BaseResponse<>(oauthService.appleLogin(appleLoginReq));
+//    }
 
     @PostMapping("/phone-validation")
     public BaseResponse<PhoneValidationDto> phoneValidation(@RequestParam String phone) {
