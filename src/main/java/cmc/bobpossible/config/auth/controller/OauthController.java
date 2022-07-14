@@ -2,6 +2,7 @@ package cmc.bobpossible.config.auth.controller;
 
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
+import cmc.bobpossible.config.auth.dto.AppleLoginReq;
 import cmc.bobpossible.config.auth.dto.PhoneValidationDto;
 import cmc.bobpossible.config.auth.jwt.TokenDto;
 import io.swagger.annotations.ApiOperation;
@@ -42,6 +43,11 @@ public class OauthController {
     @PostMapping("/authorization/login")
     public BaseResponse<TokenDto> login(@RequestParam String email, @RequestParam String name) {
         return new BaseResponse<>(oauthService.login(email, name));
+    }
+
+    @PostMapping("/authorization/apple-login")
+    public BaseResponse<TokenDto> appleLogin(@RequestBody AppleLoginReq appleLoginReq) {
+        return new BaseResponse<>(oauthService.appleLogin(appleLoginReq));
     }
 
     @PostMapping("/phone-validation")

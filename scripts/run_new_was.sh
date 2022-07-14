@@ -22,6 +22,9 @@ if [ ! -z ${TARGET_PID} ]; then
   sudo kill ${TARGET_PID}
 fi
 
+  sudo kill -9 'cat save.txt'
+
 sudo nohup java -jar -Dserver.port=${TARGET_PORT} /home/ec2-user/bobpossible/build/libs/* > /home/ec2-user/nohup.out 2>&1 &
+echo $! > save.txt
 echo "> Now new WAS runs at ${TARGET_PORT}."
 exit 0

@@ -1,6 +1,7 @@
 package cmc.bobpossible.config.auth.controller;
 
 import cmc.bobpossible.config.BaseException;
+import cmc.bobpossible.config.auth.dto.AppleLoginReq;
 import cmc.bobpossible.config.auth.dto.PhoneValidationDto;
 import cmc.bobpossible.config.auth.jwt.TokenDto;
 import cmc.bobpossible.config.auth.jwt.TokenProvider;
@@ -124,5 +125,8 @@ public class OauthService {
 
 
         return new PhoneValidationDto(certNum);
+    }
+
+    public Object appleLogin(AppleLoginReq appleLoginReq) {
     }
 }
