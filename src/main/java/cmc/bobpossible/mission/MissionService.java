@@ -12,7 +12,7 @@ import cmc.bobpossible.mission.dto.OwnerMissionDto;
 import cmc.bobpossible.mission_group.MissionGroup;
 import cmc.bobpossible.mission_group.MissionGroupRepository;
 import cmc.bobpossible.point.Point;
-import cmc.bobpossible.push.FCMService;
+import cmc.bobpossible.push.firebase.FCMService;
 import cmc.bobpossible.store.Store;
 import cmc.bobpossible.store.StoreRepository;
 import lombok.RequiredArgsConstructor;

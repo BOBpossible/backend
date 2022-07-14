@@ -1,8 +1,7 @@
-package cmc.bobpossible.push;
+package cmc.bobpossible.push.firebase;
 
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
-import cmc.bobpossible.mission.dto.GetHome;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package cmc.bobpossible.push;
+package cmc.bobpossible.push.firebase;
 
 import com.google.firebase.messaging.ApnsConfig;
 import lombok.AllArgsConstructor;

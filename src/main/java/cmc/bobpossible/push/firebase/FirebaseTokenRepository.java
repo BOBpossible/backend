@@ -1,4 +1,4 @@
-package cmc.bobpossible.push;
+package cmc.bobpossible.push.firebase;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

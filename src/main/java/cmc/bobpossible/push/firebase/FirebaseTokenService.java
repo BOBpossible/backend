@@ -1,4 +1,4 @@
-package cmc.bobpossible.push;
+package cmc.bobpossible.push.firebase;
 
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.auth.SecurityUtil;
