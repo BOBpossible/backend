@@ -1,6 +1,7 @@
 package cmc.bobpossible.point;
 
 import cmc.bobpossible.BaseEntity;
+import cmc.bobpossible.Status;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.store.Store;
 import lombok.Builder;
@@ -42,5 +43,9 @@ public class Point extends BaseEntity {
 
     public void addMember(Member member) {
         this.member = member;
+    }
+
+    public void delete() {
+        this.changeStatus(Status.DELETED);
     }
 }

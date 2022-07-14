@@ -178,4 +178,13 @@ public class Store extends BaseEntity {
             this.address.changeDong( dong.substring(0, target + 1));
         }
     }
+
+    public void delete() {
+        this.changeStatus(Status.DELETED);
+        menuImages.forEach(MenuImage::delete);
+        storeImages.forEach(StoreImage::delete);
+        operationTimes.forEach(OperationTime::delete);
+        reviews.forEach(Review::delete);
+        missionGroups.forEach(MissionGroup::delete);
+    }
 }

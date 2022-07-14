@@ -2,6 +2,7 @@ package cmc.bobpossible.question;
 
 import cmc.bobpossible.Answer.Answer;
 import cmc.bobpossible.BaseEntity;
+import cmc.bobpossible.Status;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.question_image.QuestionImage;
 import cmc.bobpossible.review_image.ReviewImage;
@@ -61,5 +62,11 @@ public class Question extends BaseEntity {
     private void addQuestionImage(QuestionImage questionImage) {
         questionImage.addQuestion(this);
         this.questionImages.add(questionImage);
+    }
+
+    public void delete() {
+        this.changeStatus(Status.DELETED);
+        questionImages.forEach(QuestionImage::delete);
+        answers.forEach(Answer::delete);
     }
 }

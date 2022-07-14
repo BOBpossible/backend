@@ -1,6 +1,7 @@
 package cmc.bobpossible.mission_group;
 
 import cmc.bobpossible.BaseEntity;
+import cmc.bobpossible.Status;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.mission.Mission;
 import cmc.bobpossible.store.Store;
@@ -47,5 +48,10 @@ public class MissionGroup extends BaseEntity {
         this.missionContent = missionContent;
         this.point = point;
         this.hasImage = hasImage;
+    }
+
+    public void delete() {
+        this.changeStatus(Status.DELETED);
+        missions.forEach(Mission::delete);
     }
 }

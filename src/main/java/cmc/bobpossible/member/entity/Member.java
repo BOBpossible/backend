@@ -2,6 +2,7 @@ package cmc.bobpossible.member.entity;
 
 
 import cmc.bobpossible.BaseEntity;
+import cmc.bobpossible.Status;
 import cmc.bobpossible.member.*;
 import cmc.bobpossible.member_category.MemberCategory;
 import cmc.bobpossible.mission.Mission;
@@ -201,5 +202,16 @@ public class Member extends BaseEntity {
     public void addQuestion(Question question) {
         question.addMember(this);
         this.questions.add(question);
+    }
+
+    public void delete() {
+        this.changeStatus(Status.DELETED);
+        points.forEach(Point::delete);
+        memberCategories.forEach(MemberCategory::delete);
+        missions.forEach(Mission::delete);
+        storeAuthentications.forEach(StoreAuthentication::delete);
+        questions.forEach(Question::delete);
+        store.delete();
+        reward.delete();
     }
 }

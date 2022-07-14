@@ -1,6 +1,7 @@
 package cmc.bobpossible.review_reply;
 
 import cmc.bobpossible.BaseEntity;
+import cmc.bobpossible.Status;
 import cmc.bobpossible.review.Review;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,5 +37,9 @@ public class ReviewReply extends BaseEntity {
 
     public void addReview(Review review) {
         this.review = review;
+    }
+
+    public void delete() {
+        this.changeStatus(Status.DELETED);
     }
 }

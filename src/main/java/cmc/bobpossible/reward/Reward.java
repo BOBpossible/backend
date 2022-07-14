@@ -1,6 +1,7 @@
 package cmc.bobpossible.reward;
 
 import cmc.bobpossible.BaseEntity;
+import cmc.bobpossible.Status;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.point.Point;
 import cmc.bobpossible.store.Store;
@@ -49,5 +50,9 @@ public class Reward extends BaseEntity {
 
     public void addMember(Member member) {
         this.member = member;
+    }
+
+    public void delete() {
+        this.changeStatus(Status.DELETED);
     }
 }

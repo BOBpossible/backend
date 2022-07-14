@@ -118,7 +118,7 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new BaseException(INVALID_REVIEW_ID));
 
-        review.delete();
+        review.reviewDelete();
 
     }
 

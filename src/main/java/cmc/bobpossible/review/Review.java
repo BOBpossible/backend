@@ -65,7 +65,7 @@ public class Review extends BaseEntity{
         reviewImages.forEach(this::addReviewImage);
     }
 
-    public void delete() {
+    public void reviewDelete() {
         this.changeStatus(Status.DELETED);
         store.deleteReview(this);
     }
@@ -74,5 +74,11 @@ public class Review extends BaseEntity{
 
         reviewReply.addReview(this);
         reviewReplies.add(reviewReply);
+    }
+
+    public void delete() {
+        this.changeStatus(Status.DELETED);
+        reviewImages.forEach(ReviewImage::delete);
+        reviewReplies.forEach(ReviewReply::delete);
     }
 }

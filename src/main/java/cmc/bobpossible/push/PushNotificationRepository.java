@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface PushNotificationRepository extends JpaRepository<PushNotification, Long> {
     List<PushNotification> findByMember(Member member);
+
+    List<PushNotification> findByMemberOrderyByIdDesc(Member member);
 }

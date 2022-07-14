@@ -1,6 +1,7 @@
 package cmc.bobpossible.question_image;
 
 import cmc.bobpossible.BaseEntity;
+import cmc.bobpossible.Status;
 import cmc.bobpossible.question.Question;
 import cmc.bobpossible.store.Store;
 import lombok.Builder;
@@ -37,5 +38,9 @@ public class QuestionImage extends BaseEntity {
 
     public void addQuestion(Question question) {
         this.question = question;
+    }
+
+    public void delete() {
+        this.changeStatus(Status.DELETED);
     }
 }

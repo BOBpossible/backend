@@ -1,5 +1,6 @@
 package cmc.bobpossible.store_authentication;
 
+import cmc.bobpossible.Status;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.store.Store;
 import lombok.Builder;
@@ -35,5 +36,9 @@ public class StoreAuthentication {
 
     public void addMember(Member member) {
         this.member = member;
+    }
+
+    public void delete() {
+        //this.changeStatus(Status.DELETED);
     }
 }

@@ -1,6 +1,7 @@
 package cmc.bobpossible.menu_image;
 
 import cmc.bobpossible.BaseEntity;
+import cmc.bobpossible.Status;
 import cmc.bobpossible.store.Store;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,5 +37,9 @@ public class MenuImage extends BaseEntity {
 
     public void addStore(Store store) {
         this.store = store;
+    }
+
+    public void delete() {
+        this.changeStatus(Status.DELETED);
     }
 }
