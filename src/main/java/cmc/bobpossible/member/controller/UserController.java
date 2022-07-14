@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @ApiOperation("회원 탈퇴")
-    @PatchMapping("/me")
+    @PatchMapping("/me/quit")
     public BaseResponse<String> deleteUser() throws BaseException {
 
         memberService.deleteUser();
