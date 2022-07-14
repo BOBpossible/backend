@@ -28,7 +28,7 @@ public class PushNotificationService {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
-        List<PushNotification> push = pushNotificationRepository.findByMemberOrderyByIdDesc(member);
+        List<PushNotification> push = pushNotificationRepository.findByMemberOrderByIdDesc(member);
 
         return push.stream().map(GetPushRes::new).collect(Collectors.toList());
     }
