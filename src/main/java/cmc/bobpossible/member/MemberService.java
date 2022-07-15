@@ -29,7 +29,7 @@ public class MemberService {
 
         member.joinUser(postUserReq.getName(),
                 postUserReq.getGender(),
-                postUserReq.getBirthDate(),
+//                postUserReq.getBirthDate(),
                 postUserReq.getPhone(),
                 new Address(postUserReq.getAddressStreet(),postUserReq.getAddressDong(), postUserReq.getX(), postUserReq.getY()),
                 new Terms(postUserReq.getTermsOfService(),postUserReq.getPrivacyPolicy(),postUserReq.getLocationInfo(), postUserReq.getMarketing()));
@@ -46,7 +46,6 @@ public class MemberService {
 
         member.joinOwner(postOwnerReq.getName(),
                 postOwnerReq.getGender(),
-                postOwnerReq.getBirthDate(),
                 postOwnerReq.getPhone(),
                 new Terms(postOwnerReq.getTermsOfService(),postOwnerReq.getPrivacyPolicy(),postOwnerReq.getLocationInfo(), postOwnerReq.getMarketing()));
     }

@@ -44,7 +44,6 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private LocalDate birthDate;
 
     @Column(length = 20)
     private String phone;
@@ -102,11 +101,10 @@ public class Member extends BaseEntity {
                         .build();
     }
 
-    public void joinUser(String name, Gender gender, LocalDate birthDate, String phone, Address address, Terms terms) {
+    public void joinUser(String name, Gender gender,  String phone, Address address, Terms terms) {
         this.role = Role.USER;
         this.name = name;
         this.gender = gender;
-        this.birthDate = birthDate;
         this.address = address;
         this.phone = phone;
         this.terms = terms;
@@ -125,11 +123,10 @@ public class Member extends BaseEntity {
         this.reward = reward;
     }
 
-    public void joinOwner(String name, Gender gender, LocalDate birthDate, String phone, Terms terms) {
+    public void joinOwner(String name, Gender gender, String phone, Terms terms) {
         this.role = Role.OWNER;
         this.name = name;
         this.gender = gender;
-        this.birthDate = birthDate;
         this.phone = phone;
         this.registerStatus = RegisterStatus.JOIN;
         this.terms = terms;
