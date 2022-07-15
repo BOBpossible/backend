@@ -34,7 +34,7 @@ public class InitDb {
             Category category1 = Category.create("한식");
             em.persist(category1);
 
-            Category category2 = Category.create("일식");
+                Category category2 = Category.create("일식");
             em.persist(category2);
 
             Category category3 = Category.create("중식");
