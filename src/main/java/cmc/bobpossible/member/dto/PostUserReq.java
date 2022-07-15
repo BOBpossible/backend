@@ -16,8 +16,8 @@ public class PostUserReq {
     private String name;
     @NotNull
     private Gender gender;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    private LocalDate birthDate;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+//    private LocalDate birthDate;
     @NotBlank
     private String addressStreet;
     @NotBlank
