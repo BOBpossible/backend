@@ -21,5 +21,5 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
     List<Mission> findByMemberAndOnProgress(Member member, boolean onProgress);
 
     @Query(value = "select m from Mission m join m.member where m.id = ?1 and m.missionStatus = ?2")
-    List<Mission> findByMemberAndMissionStatusAndStatus(Long memberId, String missionStatus, Status expired);
+    List<Mission> findByMemberAndMissionStatusAndStatus(Long memberId, MissionStatus missionStatus, Status expired);
 }
