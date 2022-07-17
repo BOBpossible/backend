@@ -55,7 +55,7 @@ jobs:
           files: 'src/main/resources/application.yml'
         env:
           spring.datasource.password: ${{secrets.RDS_PASSWORD}}
-          spring.datasource.url: ${{secrets.RDS_URL}}
+          spring.datasource.url: ${{secrets.RDS_URL_PROD}}
           logging.slack.webhook-uri: ${{secrets.SLACK_WEBHOOK_URI}}
           jpa.hibernate.ddl-auto: update
           jwt.secret: ${{secrets.JWT_SECRET}}
