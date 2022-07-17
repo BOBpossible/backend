@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static cmc.bobpossible.config.BaseResponseStatus.*;
 
 @Transactional(readOnly = true)
@@ -22,20 +24,24 @@ public class MemberCategoryService {
     private final MemberCategoryRepository memberCategoryRepository;
 
     @Transactional
-    public void createMemberCategories(Long favoriteId) throws BaseException {
+    public void createMemberCategories(List<Long> favorites) throws BaseException {
 
         //고객 조회
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
-        // 선호 음식 조회
-        Category category = categoryRepository.findById(favoriteId)
-                .orElseThrow(() -> new BaseException(FAVORITES_ID_NOT_EXIST));
+        for (Long favorite : favorites) {
+
+            // 선호 음식 조회
+            Category category = categoryRepository.findById(favorite)
+                    .orElseThrow(() -> new BaseException(FAVORITES_ID_NOT_EXIST));
+
+            MemberCategory memberCategory = MemberCategory.create(member, category);
+
+            memberCategoryRepository.save(memberCategory);
+
+        }
 
         member.completeRegister();
-
-        MemberCategory memberCategory = MemberCategory.create(member, category);
-
-        memberCategoryRepository.save(memberCategory);
     }
 }

@@ -22,9 +22,7 @@ public class MemberCategoryController {
     @PostMapping("")
     public BaseResponse<String> createMemberCategories(@RequestParam List<Long> favorites) throws BaseException {
 
-        for (Long favorite : favorites) {
-            memberCategoryService.createMemberCategories(favorite);
-        }
+            memberCategoryService.createMemberCategories(favorites);
 
         return new BaseResponse<>("");
     }

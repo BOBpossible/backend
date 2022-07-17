@@ -30,7 +30,7 @@ public class Address {
         this.y = y;
     }
 
-    public void changeAddress(String addressDong, String addressStreet, @NotNull double x, @NotNull double y) {
+    public void changeAddress(String addressDong, String addressStreet, double x, double y) {
         this.street = addressStreet;
         this.dong = addressDong;
         this.x = x;

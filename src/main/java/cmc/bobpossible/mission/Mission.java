@@ -42,6 +42,8 @@ public class Mission extends BaseEntity {
 
     private LocalDateTime missionSuccessDate;
 
+    private LocalDateTime missionStartDate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "missionGroupId")
     private MissionGroup missionGroup;
@@ -80,6 +82,7 @@ public class Mission extends BaseEntity {
 
     public void challengeMission() {
         this.missionStatus = MissionStatus.PROGRESS;
+        this.missionStartDate = LocalDateTime.now();
         this.onProgress = true;
     }
 

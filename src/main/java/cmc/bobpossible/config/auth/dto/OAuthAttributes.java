@@ -1,7 +1,6 @@
 package cmc.bobpossible.config.auth.dto;
 
 import cmc.bobpossible.member.entity.Member;
-import cmc.bobpossible.reward.Reward;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -68,10 +67,6 @@ public class OAuthAttributes {
     }
 
     public Member toEntity() {
-
-        Reward reward = Reward.builder()
-                .counter(0)
-                .build();
 
         return Member.builder()
                 .name(name)

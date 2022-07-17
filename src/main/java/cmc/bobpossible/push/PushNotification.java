@@ -76,6 +76,30 @@ public class PushNotification extends BaseEntity  {
                 .build();
     }
 
+    public static PushNotification createMissionSuccessPush(Member member, Store store, Mission mission) {
+        return PushNotification.builder()
+                .member(member)
+                .storeName(store.getName())
+                .subTitle("사장님이 성공요청을 수락하셨습니다. 확인 버튼을 눌러 미션을 완료해주세요!")
+                .checked(false)
+                .pushType(PushType.MISSION_SUCCESS)
+                .storeId(store.getId())
+                .missionId(mission.getId())
+                .build();
+    }
+
+    public static PushNotification createMissionDeniedPush(Member member, Store store, Mission mission) {
+        return PushNotification.builder()
+                .member(member)
+                .storeName(store.getName())
+                .subTitle("사장님이 성공요청을 거절하셨습니다. 다시 한번 확인해주세요!")
+                .checked(false)
+                .pushType(PushType.MISSION_DENIED)
+                .storeId(store.getId())
+                .missionId(mission.getId())
+                .build();
+    }
+
     public void check() {
         this.checked = true;
     }

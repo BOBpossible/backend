@@ -4,6 +4,8 @@ import cmc.bobpossible.mission.Mission;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class OwnerMissionDto {
     private Long missionId;
@@ -11,8 +13,7 @@ public class OwnerMissionDto {
     private Long userId;
     private String mission;
     private int point;
-    private int startHour;
-    private int startMinute;
+    private LocalDateTime startDate;
 
     protected OwnerMissionDto() {
     }
@@ -24,7 +25,6 @@ public class OwnerMissionDto {
         this.userId = mission.getMember().getId();
         this.mission = mission.getMissionGroup().getMissionContent();
         this.point = mission.getMissionGroup().getPoint();
-        this.startHour = mission.getUpdateAt().getHour();
-        this.startMinute = mission.getUpdateAt().getMinute();
+        this.startDate = mission.getMissionStartDate();
     }
 }
