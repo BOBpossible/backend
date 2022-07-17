@@ -33,6 +33,8 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+    com.zaxxer.hikari.HikariConfig: DEBUG
+    com.zaxxer.hikari: TRACE
 
 jwt:
   secret: 
