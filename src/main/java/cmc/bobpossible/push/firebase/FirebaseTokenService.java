@@ -42,6 +42,7 @@ public class FirebaseTokenService {
         firebaseTokenRepository.save(firebaseToken);
     }
 
+    @Transactional
     public void test(long userId, long missionId) throws BaseException, IOException {
 
         Optional<FirebaseToken> byKey = firebaseTokenRepository.findByKey(userId);
@@ -53,9 +54,10 @@ public class FirebaseTokenService {
         mission.get().acceptMission();
 
 
-        fcmService.sendMessageTo(firebaseToken.getValue(),"missionSuccess", "missionSuccess", "미션에 성공하였습니다.", "");
+        fcmService.sendMessageTo(firebaseToken.getValue(),"키마스시", "미션에 성공하였습니다.", "missionSuccess", "");
     }
 
+    @Transactional
     public void test2(long userId, long missionId) throws IOException {
         Optional<FirebaseToken> byKey = firebaseTokenRepository.findByKey(userId);
 

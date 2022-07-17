@@ -12,6 +12,8 @@ import cmc.bobpossible.mission.dto.OwnerMissionDto;
 import cmc.bobpossible.mission_group.MissionGroup;
 import cmc.bobpossible.mission_group.MissionGroupRepository;
 import cmc.bobpossible.point.Point;
+import cmc.bobpossible.push.PushNotification;
+import cmc.bobpossible.push.PushNotificationRepository;
 import cmc.bobpossible.push.firebase.FCMService;
 import cmc.bobpossible.push.firebase.FirebaseToken;
 import cmc.bobpossible.push.firebase.FirebaseTokenRepository;
@@ -25,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static cmc.bobpossible.config.BaseResponseStatus.*;
@@ -41,6 +44,7 @@ public class MissionService {
     private final MissionGroupRepository missionGroupRepository;
     private final FCMService fcmService;
     private final FirebaseTokenRepository firebaseTokenRepository;
+    private final PushNotificationRepository pushNotificationRepository;
 
     @Transactional
     public GetHome getMissions() throws BaseException {
@@ -236,5 +240,34 @@ public class MissionService {
                     .orElseThrow(() -> new BaseException(CHECK_FCM_TOKEN));
             fcmService.sendReviewPush(firebaseToken.getValue(), member,  mission.getMissionGroup().getStore(), mission);
         }
+    }
+
+    @Transactional
+    public void acceptMission(Long missionId) throws BaseException, IOException {
+
+        Mission mission = missionRepository.findById(missionId)
+                .orElseThrow(() -> new BaseException(INVALID_MISSION_ID));
+
+        FirebaseToken firebaseToken = firebaseTokenRepository.findByKey(mission.getMember().getId())
+                .orElseThrow(() -> new BaseException(CHECK_FIREBASE_TOKEN));
+
+        fcmService.sendMessageTo(firebaseToken.getValue(),mission.getMissionGroup().getStore().getName(), "사장님이 성공요청을 수락하셨습니다. 확인 버튼을 눌러 미션을 완료해주세요!", "missionSuccess", "");
+        pushNotificationRepository.save(PushNotification.createMissionSuccessPush(mission.getMember(), mission.getMissionGroup().getStore(), mission));
+
+        mission.acceptMission();
+    }
+
+    @Transactional
+    public void denyMission(Long missionId) throws BaseException, IOException {
+        Mission mission = missionRepository.findById(missionId)
+                .orElseThrow(() -> new BaseException(INVALID_MISSION_ID));
+
+        FirebaseToken firebaseToken = firebaseTokenRepository.findByKey(mission.getMember().getId())
+                .orElseThrow(() -> new BaseException(CHECK_FIREBASE_TOKEN));
+
+        fcmService.sendMessageTo(firebaseToken.getValue(),mission.getMissionGroup().getStore().getName(), "사장님이 성공요청을 거절하셨습니다. 다시 한번 확인해주세요!", "missionDenied", "");
+        pushNotificationRepository.save(PushNotification.createMissionDeniedPush(mission.getMember(), mission.getMissionGroup().getStore(), mission));
+
+        mission.deniedMission();
     }
 }

@@ -1,5 +1,5 @@
 package cmc.bobpossible.member;
 
 public enum RegisterStatus {
-    NEW, DONE, JOIN
+    NEW, JOINED, WAIT, APPROVED, DONE
 }

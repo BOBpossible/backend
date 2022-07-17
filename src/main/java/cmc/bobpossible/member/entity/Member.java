@@ -119,8 +119,10 @@ public class Member extends BaseEntity {
                 .counter(0)
                 .build();
 
-        reward.addMember(this);
-        this.reward = reward;
+        if (this.reward == null) {
+            reward.addMember(this);
+            this.reward = reward;
+        }
     }
 
     public void joinOwner(String name, Gender gender, String phone, Terms terms) {
@@ -128,8 +130,14 @@ public class Member extends BaseEntity {
         this.name = name;
         this.gender = gender;
         this.phone = phone;
-        this.registerStatus = RegisterStatus.JOIN;
+        this.registerStatus = RegisterStatus.JOINED;
         this.terms = terms;
+        this.notification = Notification.builder()
+                .mission(true)
+                .event(true)
+                .question(true)
+                .review(true)
+                .build();
     }
 
     public void addMemberFavorite(MemberCategory memberCategory) {
@@ -168,6 +176,7 @@ public class Member extends BaseEntity {
     }
 
     public void addStoreAuthenticationImages(List<StoreAuthentication> storeAuthenticationImage) {
+        this.registerStatus = RegisterStatus.WAIT;
         storeAuthenticationImage.forEach(this::addStoreAuthenticationImage);
     }
 
@@ -193,7 +202,7 @@ public class Member extends BaseEntity {
     }
 
     public void updateUserNotification(Boolean event, Boolean question, Boolean review) {
-        this.notification.update(event, question, review);
+        this.notification.updateUser(event, question, review);
     }
 
     public void addQuestion(Question question) {
