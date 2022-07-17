@@ -128,7 +128,7 @@ public class MissionService {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
-        List<Mission> byMemberAndMissionStatus = missionRepository.findByMemberAndMissionStatusAndStatus(member, MissionStatus.DONE, Status.EXPIRED);
+        List<Mission> byMemberAndMissionStatus = missionRepository.findByMemberAndMissionStatusAndStatus(member.getId(), MissionStatus.DONE.name(), Status.EXPIRED);
 
         log.info(String.valueOf(byMemberAndMissionStatus.size()));
 
