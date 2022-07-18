@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 public class GetQuestionsRes {
 
-    private long reviewId;
+    private long questionId;
 
     private String title;
 
@@ -20,7 +20,7 @@ public class GetQuestionsRes {
 
     @Builder
     public GetQuestionsRes(Question question) {
-        this.reviewId = question.getId();
+        this.questionId = question.getId();
         this.title = question.getTitle();
         this.questionStatus = question.getQuestionStatus();
         this.date = question.getCreateAt();

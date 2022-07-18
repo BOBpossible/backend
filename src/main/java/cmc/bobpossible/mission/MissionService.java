@@ -5,10 +5,7 @@ import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.auth.SecurityUtil;
 import cmc.bobpossible.member.MemberRepository;
 import cmc.bobpossible.member.entity.Member;
-import cmc.bobpossible.mission.dto.GetHome;
-import cmc.bobpossible.mission.dto.GetMissionMapRes;
-import cmc.bobpossible.mission.dto.GetOwnerMissionRes;
-import cmc.bobpossible.mission.dto.OwnerMissionDto;
+import cmc.bobpossible.mission.dto.*;
 import cmc.bobpossible.mission_group.MissionGroup;
 import cmc.bobpossible.mission_group.MissionGroupRepository;
 import cmc.bobpossible.point.Point;
@@ -170,7 +167,7 @@ public class MissionService {
         return new GetOwnerMissionRes(missions);
     }
 
-    public List<OwnerMissionDto> getOwnersMissionOnSuccess() throws BaseException {
+    public List<OwnerSuccessMissionRes> getOwnersMissionOnSuccess() throws BaseException {
 
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
@@ -181,8 +178,10 @@ public class MissionService {
 
         groups.forEach(g -> missions.addAll(missionRepository.findByMissionGroupAndMissionStatus(g, MissionStatus.CHECKING)));
 
+        missions.sort(new DateComparator());
+
         return missions.stream()
-                .map(OwnerMissionDto::new)
+                .map(OwnerSuccessMissionRes::new)
                 .collect(Collectors.toList());
     }
 
