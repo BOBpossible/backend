@@ -112,6 +112,13 @@ public class MissionController {
         return new BaseResponse<>(missionService.getOwnersMissionOnSuccess());
     }
 
+    @ApiOperation("미션 관리(사장)")
+    @GetMapping("/owners/mission-manage")
+    public BaseResponse<List<GetMissionManageRes>> getMissionManage() throws BaseException {
+
+        return new BaseResponse<>(missionService.getMissionManage());
+    }
+
     @ApiOperation("미션 수락(사장)")
     @PatchMapping("/accept/{missionId}")
     public BaseResponse<String> acceptMission(@PathVariable Long missionId) throws BaseException, IOException {
