@@ -107,7 +107,7 @@ public class MissionController {
 
     @ApiOperation("사장 성공요청 미션 조회(사장)")
     @GetMapping("/owners/success")
-    public BaseResponse<List<OwnerMissionDto>> getOwnersMissionOnSuccess() throws BaseException {
+    public BaseResponse<List<OwnerSuccessMissionRes>> getOwnersMissionOnSuccess() throws BaseException {
 
         return new BaseResponse<>(missionService.getOwnersMissionOnSuccess());
     }
