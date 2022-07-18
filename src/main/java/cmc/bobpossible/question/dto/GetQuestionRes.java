@@ -24,7 +24,7 @@ public class GetQuestionRes {
 
     public GetQuestionRes(Question question) {
         this.title = question.getTitle();
-        this.content = question.getTitle();
+        this.content = question.getContent();
         this.date = question.getCreateAt();
         this.answers = question.getAnswers().stream()
                 .map(AnswerDto::new)
