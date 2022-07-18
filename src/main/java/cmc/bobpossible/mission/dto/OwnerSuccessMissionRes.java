@@ -16,6 +16,7 @@ public class OwnerSuccessMissionRes {
     private int point;
     private LocalDateTime date;
     private DayOfWeek dayOfWeek;
+    private String phone;
 
     protected OwnerSuccessMissionRes() {
     }
@@ -29,5 +30,6 @@ public class OwnerSuccessMissionRes {
         this.point = mission.getMissionGroup().getPoint();
         this.date = mission.getUpdateAt();
         this.dayOfWeek = mission.getUpdateAt().getDayOfWeek();
+        this.phone = mission.getMember().getPhone().substring(7);
     }
 }
