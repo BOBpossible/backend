@@ -1,4 +1,8 @@
 spring:
+  http:
+    multipart:
+      maxFileSize: 5MB
+      maxRequestSize: 5MB
   profiles:
     include: oauth, aws
   #  datasource:
