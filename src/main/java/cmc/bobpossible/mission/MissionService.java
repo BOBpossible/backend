@@ -257,7 +257,6 @@ public class MissionService {
             FirebaseToken firebaseToken = firebaseTokenRepository.findByKey(member.getId())
                     .orElseThrow(() -> new BaseException(CHECK_FCM_TOKEN));
             fcmService.sendReviewPush(firebaseToken.getValue(), member,  mission.getMissionGroup().getStore(), mission);
-            pushNotificationRepository.save(PushNotification.createReviewPush(mission.getMember(), mission.getMissionGroup().getStore(), mission));
         }
     }
 
