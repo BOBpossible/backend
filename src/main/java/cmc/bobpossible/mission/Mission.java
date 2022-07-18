@@ -86,7 +86,7 @@ public class Mission extends BaseEntity {
         this.onProgress = true;
     }
 
-    public void cancelMission() {
+    public void cancelChallenge() {
         this.missionStatus = NEW;
         this.onProgress = false;
     }
@@ -111,5 +111,9 @@ public class Mission extends BaseEntity {
 
     public void deniedMission() {
         this.missionStatus = PROGRESS;
+    }
+
+    public void cancelMission() {
+        this.missionStatus = CANCELED;
     }
 }

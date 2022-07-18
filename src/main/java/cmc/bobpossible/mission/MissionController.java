@@ -6,6 +6,7 @@ import cmc.bobpossible.mission.dto.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -70,9 +71,9 @@ public class MissionController {
 
     @ApiOperation("미션 취소")
     @PatchMapping("/users/cancel/{missionId}")
-    public BaseResponse<String> cancelMission(@PathVariable Long missionId) throws BaseException {
+    public BaseResponse<String> cancelChallenge(@PathVariable Long missionId) throws BaseException {
 
-        missionService.cancelMission(missionId);
+        missionService.cancelChallenge(missionId);
 
         return new BaseResponse<>("");
     }
@@ -117,6 +118,42 @@ public class MissionController {
     public BaseResponse<List<GetMissionManageRes>> getMissionManage() throws BaseException {
 
         return new BaseResponse<>(missionService.getMissionManage());
+    }
+
+    @ApiOperation("미션 배포 중지(사장)")
+    @PatchMapping("/owners/mission-stop/{missionGroupId}")
+    public BaseResponse<String> stopMissionGroup(@PathVariable long missionGroupId) throws BaseException {
+
+        missionService.stopMissionGroup(missionGroupId);
+
+        return new BaseResponse<>("");
+    }
+
+    @ApiOperation("미션 배포 활성화(사장)")
+    @PatchMapping("/owners/mission-active/{missionGroupId}")
+    public BaseResponse<String> activeMissionGroup(@PathVariable long missionGroupId) throws BaseException {
+
+        missionService.activeMissionGroup(missionGroupId);
+
+        return new BaseResponse<>("");
+    }
+
+    @ApiOperation("결제 취소(사장)")
+    @PostMapping("/owners/{missionId}")
+    public BaseResponse<String> cancelMission(@PathVariable long missionId, @RequestParam String reason) throws BaseException, IOException {
+
+        missionService.cancelMission(missionId, reason);
+
+        return new BaseResponse<>("");
+    }
+
+    @ApiOperation("미션 그룹 상세정보(사장)")
+    @GetMapping("/owners/mission-manage/{missionGroupId}")
+    public BaseResponse<List<GetMissionGroupRes>> GetMissionGroupDetail(Pageable pageable, @PathVariable long missionGroupId) throws BaseException {
+
+
+
+        return new BaseResponse<>(missionService.GetMissionGroupDetail(pageable, missionGroupId));
     }
 
     @ApiOperation("미션 수락(사장)")

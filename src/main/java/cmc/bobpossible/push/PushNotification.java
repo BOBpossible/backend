@@ -100,6 +100,18 @@ public class PushNotification extends BaseEntity  {
                 .build();
     }
 
+    public static PushNotification createMissionCanceledPush(Member member, Store store, Mission mission) {
+        return PushNotification.builder()
+                .member(member)
+                .storeName(store.getName())
+                .subTitle("포인트가 취소 되었습니다.")
+                .checked(false)
+                .pushType(PushType.MISSION_CANCELED)
+                .storeId(store.getId())
+                .missionId(mission.getId())
+                .build();
+    }
+
     public void check() {
         this.checked = true;
     }

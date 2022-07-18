@@ -1,5 +1,7 @@
 package cmc.bobpossible.mission;
 
+import cmc.bobpossible.MissionCancel.MissionCancel;
+import cmc.bobpossible.MissionCancel.MissionCancelRepository;
 import cmc.bobpossible.Status;
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.auth.SecurityUtil;
@@ -18,13 +20,13 @@ import cmc.bobpossible.store.Store;
 import cmc.bobpossible.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static cmc.bobpossible.config.BaseResponseStatus.*;
@@ -42,6 +44,7 @@ public class MissionService {
     private final FCMService fcmService;
     private final FirebaseTokenRepository firebaseTokenRepository;
     private final PushNotificationRepository pushNotificationRepository;
+    private final MissionCancelRepository missionCancelRepository;
 
     @Transactional
     public GetHome getMissions() throws BaseException {
@@ -204,12 +207,12 @@ public class MissionService {
     }
 
     @Transactional
-    public void cancelMission(Long missionId) throws BaseException {
+    public void cancelChallenge(Long missionId) throws BaseException {
 
         Mission mission = missionRepository.findById(missionId)
                 .orElseThrow(() -> new BaseException(INVALID_MISSION_ID));
 
-        mission.cancelMission();
+        mission.cancelChallenge();
     }
 
     @Transactional
@@ -238,6 +241,7 @@ public class MissionService {
             FirebaseToken firebaseToken = firebaseTokenRepository.findByKey(member.getId())
                     .orElseThrow(() -> new BaseException(CHECK_FCM_TOKEN));
             fcmService.sendReviewPush(firebaseToken.getValue(), member,  mission.getMissionGroup().getStore(), mission);
+            pushNotificationRepository.save(PushNotification.createReviewPush(mission.getMember(), mission.getMissionGroup().getStore(), mission));
         }
     }
 
@@ -283,5 +287,58 @@ public class MissionService {
         }
 
         return null;
+    }
+
+    @Transactional
+    public void stopMissionGroup(long missionGroupId) throws BaseException {
+
+        MissionGroup missionGroup = missionGroupRepository.findById(missionGroupId)
+                .orElseThrow(() -> new BaseException(INVALID_MISSION_GROUP_ID));
+
+        missionGroup.stop();
+    }
+
+    @Transactional
+    public void activeMissionGroup(long missionGroupId) throws BaseException {
+
+        MissionGroup missionGroup = missionGroupRepository.findById(missionGroupId)
+                .orElseThrow(() -> new BaseException(INVALID_MISSION_GROUP_ID));
+
+        missionGroup.active();
+    }
+
+    public List<GetMissionGroupRes> GetMissionGroupDetail(Pageable pageable, long missionGroupId) throws BaseException {
+
+        MissionGroup missionGroup = missionGroupRepository.findById(missionGroupId)
+                .orElseThrow(() -> new BaseException(INVALID_MISSION_GROUP_ID));
+
+        List<Mission> missions = missionRepository.findByMissionGroupAndStatus(missionGroup.getId(), Status.DELETED, pageable);
+
+        return missions.stream()
+                .map(GetMissionGroupRes::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void cancelMission(long missionId, String reason) throws BaseException, IOException {
+
+        missionCancelRepository.save(MissionCancel.builder().reason(reason).build());
+
+        Mission mission = missionRepository.findById(missionId)
+                .orElseThrow(() -> new BaseException(INVALID_MISSION_ID));
+
+        mission.cancelMission();
+        mission.getMember().addPoint(Point.builder()
+                .point(-mission.getMissionGroup().getPoint())
+                .title(mission.getMissionGroup().getStore().getName())
+                .subtitle("포인트가 취소되었습니다.")
+                .build());
+
+
+        //알림
+        FirebaseToken firebaseToken = firebaseTokenRepository.findByKey(mission.getMember().getId())
+                .orElseThrow(() -> new BaseException(CHECK_FCM_TOKEN));
+        fcmService.sendMessageTo(firebaseToken.getValue(),mission.getMissionGroup().getStore().getName(), "사장님이 포인트를 취소 하였습니다.", "missionCanceled", "");
+        pushNotificationRepository.save(PushNotification.createMissionCanceledPush(mission.getMember(), mission.getMissionGroup().getStore(), mission));
     }
 }

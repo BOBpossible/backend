@@ -14,6 +14,7 @@ public class OwnerMissionDto {
     private String mission;
     private int point;
     private LocalDateTime startDate;
+    private String phone;
 
     protected OwnerMissionDto() {
     }
@@ -26,5 +27,6 @@ public class OwnerMissionDto {
         this.mission = mission.getMissionGroup().getMissionContent();
         this.point = mission.getMissionGroup().getPoint();
         this.startDate = mission.getMissionStartDate();
+        this.phone = mission.getMember().getPhone().substring(7);
     }
 }

@@ -27,4 +27,12 @@ public abstract class BaseEntity {
     public void changeStatus(Status status) {
         this.status = status;
     }
+
+    public void stop() {
+        this.status = Status.STOPPED;
+    }
+
+    public void active() {
+        this.status = Status.ACTIVE;
+    }
 }
