@@ -112,6 +112,7 @@ public class PushNotification extends BaseEntity  {
                 .build();
     }
 
+
     public void check() {
         this.checked = true;
     }

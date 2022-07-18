@@ -13,6 +13,7 @@ import cmc.bobpossible.mission_group.MissionGroupRepository;
 import cmc.bobpossible.point.Point;
 import cmc.bobpossible.push.PushNotification;
 import cmc.bobpossible.push.PushNotificationRepository;
+import cmc.bobpossible.push.PushType;
 import cmc.bobpossible.push.firebase.FCMService;
 import cmc.bobpossible.push.firebase.FirebaseToken;
 import cmc.bobpossible.push.firebase.FirebaseTokenRepository;
@@ -136,13 +137,28 @@ public class MissionService {
     }
 
     @Transactional
-    public void postRequestCompleteMission(Long missionId) throws BaseException {
+    public void postRequestCompleteMission(Long missionId) throws BaseException, IOException {
         Mission mission = missionRepository.findById(missionId)
                 .orElseThrow(() -> new BaseException(INVALID_MISSION_ID));
 
         //사장 푸시 알림
         // 알림여부 체크
-//        fcmService.sendMessageTo();
+
+        if (mission.getMissionGroup().getStore().getMember().getNotification().getMission()) {
+            FirebaseToken firebaseToken = firebaseTokenRepository.findByKey(mission.getMember().getId())
+                    .orElseThrow(() -> new BaseException(CHECK_FIREBASE_TOKEN));
+
+            fcmService.sendMessageTo(firebaseToken.getValue(), "구분번호 "+ mission.getMember().getPhone().substring(7), "적립 요청이 들어왔습니다.", "ownerMissionSuccess", "");
+            pushNotificationRepository.save(PushNotification.builder()
+                    .member(mission.getMissionGroup().getStore().getMember())
+                    .storeName(mission.getMissionGroup().getStore().getName())
+                    .subTitle("적립 요청이 들어왔습니다.")
+                    .checked(false)
+                    .pushType(PushType.OWNER_MISSION_SUCCESS)
+                    .storeId(mission.getMissionGroup().getStore().getId())
+                    .missionId(mission.getId())
+                    .build());
+        }
 
         mission.requestComplete();
     }

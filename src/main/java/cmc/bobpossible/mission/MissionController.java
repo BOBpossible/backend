@@ -62,7 +62,7 @@ public class MissionController {
 
     @ApiOperation("미션 성공 요청(고객)")
     @PatchMapping("/users/success-request/{missionId}")
-    public BaseResponse<String> postRequestCompleteMission(@PathVariable Long missionId) throws BaseException {
+    public BaseResponse<String> postRequestCompleteMission(@PathVariable Long missionId) throws BaseException, IOException {
 
         missionService.postRequestCompleteMission(missionId);
 
