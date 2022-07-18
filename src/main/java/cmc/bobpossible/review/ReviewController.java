@@ -91,7 +91,7 @@ public class ReviewController {
         return new BaseResponse<>("");
     }
 
-    @ApiOperation("사장 리뷰 답글")
+    @ApiOperation("사장 리뷰 신고")
     @PostMapping("/report/{reviewId}")
     public BaseResponse<String> postReviewReport(@PathVariable Long reviewId, @RequestBody PostReportReq postReviewReq, Errors errors) throws BaseException {
 
