@@ -6,6 +6,12 @@ import cmc.bobpossible.member.MemberRepository;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.mission.Mission;
 import cmc.bobpossible.mission.MissionRepository;
+import cmc.bobpossible.push.PushNotification;
+import cmc.bobpossible.push.PushNotificationRepository;
+import cmc.bobpossible.push.PushType;
+import cmc.bobpossible.push.firebase.FCMService;
+import cmc.bobpossible.push.firebase.FirebaseToken;
+import cmc.bobpossible.push.firebase.FirebaseTokenRepository;
 import cmc.bobpossible.review.dto.PostReportReq;
 import cmc.bobpossible.review.dto.PostReviewReq;
 import cmc.bobpossible.review_image.ReviewImage;
@@ -45,9 +51,12 @@ public class ReviewService {
     private final ReviewImageRepository reviewImageRepository;
     private final MissionRepository missionRepository;
     private final ReviewReportRepository reviewReportRepository;
+    private final FirebaseTokenRepository firebaseTokenRepository;
+    private final FCMService fcmService;
+    private final PushNotificationRepository pushNotificationRepository;
 
     @Transactional
-    public Review createReview(PostReviewReq postReviewReq) throws BaseException {
+    public Review createReview(PostReviewReq postReviewReq) throws BaseException, IOException {
 
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
@@ -68,6 +77,24 @@ public class ReviewService {
                 .build();
 
         reviewRepository.save(review);
+
+        if (mission.getMissionGroup().getStore().getMember().getNotification().getReview()) {
+
+            FirebaseToken firebaseToken = firebaseTokenRepository.findByKey(mission.getMember().getId())
+                    .orElseThrow(() -> new BaseException(CHECK_FIREBASE_TOKEN));
+
+            fcmService.sendMessageTo(firebaseToken.getValue(), mission.getMissionGroup().getStore().getName(), "새로운 리뷰가 작성되었습니다!", "ownerReview", "");
+            pushNotificationRepository.save(PushNotification.builder()
+                    .member(mission.getMissionGroup().getStore().getMember())
+                    .storeName(mission.getMissionGroup().getStore().getName())
+                    .subTitle("1대1 문의 답변이 도착했습니다.")
+                    .checked(false)
+                    .pushType(PushType.ANSWER)
+                    .storeId(mission.getMissionGroup().getStore().getId())
+                    .missionId(mission.getId())
+                    .build());
+        }
+
 
         return  review;
     }
