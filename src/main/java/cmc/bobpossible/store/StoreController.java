@@ -3,6 +3,7 @@ package cmc.bobpossible.store;
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.RefineError;
+import cmc.bobpossible.review.dto.ImageDto;
 import cmc.bobpossible.store.dto.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -109,10 +110,28 @@ public class StoreController {
     }
 
 
-    @ApiOperation("가게 상세 정보 조회")
+    @ApiOperation("가게 상세 정보 조회(고객)")
     @GetMapping("/{storeId}")
     public BaseResponse<GetStoreRes> getStore(@PathVariable long storeId) throws BaseException {
         return new BaseResponse<>(storeService.getStore(storeId));
+    }
+
+    @ApiOperation("점포 관리 조회(사장)")
+    @GetMapping("/me")
+    public BaseResponse<GetOwnerStoreRes> getOwnerStore() throws BaseException {
+        return new BaseResponse<>(storeService.getOwnerStore());
+    }
+
+    @ApiOperation("가게 상세 정보 조회 - 대표메뉴 조회")
+    @GetMapping("/me/menu-images")
+    public BaseResponse<List<ImageDto>> getMenuImages() throws BaseException {
+        return new BaseResponse<>(storeService.getMenuImages());
+    }
+
+    @ApiOperation("가게 상세 - 가게 사진조회")
+    @GetMapping("/store-images")
+    public BaseResponse<List<ImageDto>> getStoreImages() throws BaseException {
+        return new BaseResponse<>(storeService.getStoreImages());
     }
 
 }
