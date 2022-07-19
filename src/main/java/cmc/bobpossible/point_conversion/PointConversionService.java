@@ -4,6 +4,7 @@ import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.auth.SecurityUtil;
 import cmc.bobpossible.member.MemberRepository;
 import cmc.bobpossible.member.entity.Member;
+import cmc.bobpossible.point.Point;
 import cmc.bobpossible.point_conversion.dto.CreatePointConversion;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,12 @@ public class PointConversionService {
 
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        member.addPoint(Point.builder()
+                .point(-createPointConversion.getPoint()+500)
+                .title("포인트 전환")
+                .subtitle(String.valueOf(createPointConversion.getPoint()+500)+"포인트 전환")
+                .build());
 
         PointConversion pointConversion = PointConversion.builder()
                 .member(member)
