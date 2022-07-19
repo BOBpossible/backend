@@ -11,6 +11,7 @@ public class GetUser {
     private String email;
     private int point;
     private boolean isAuthentication;
+    private String phone;
 
     public GetUser(Member member) {
         this.userId = member.getId();
@@ -18,5 +19,6 @@ public class GetUser {
         this.email = member.getEmail();
         this.point = member.getTotalPoints();
         this.isAuthentication = false;
+        this.phone = member.getPhone().substring(7);
     }
 }
