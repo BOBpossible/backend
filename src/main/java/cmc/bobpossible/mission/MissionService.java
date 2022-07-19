@@ -148,15 +148,15 @@ public class MissionService {
             FirebaseToken firebaseToken = firebaseTokenRepository.findByKey(mission.getMember().getId())
                     .orElseThrow(() -> new BaseException(CHECK_FIREBASE_TOKEN));
 
-            fcmService.sendMessageTo(firebaseToken.getValue(), "구분번호 "+ mission.getMember().getPhone().substring(7), "적립 요청이 들어왔습니다.", "ownerMissionSuccess", "");
+            fcmService.sendMessageTo(firebaseToken.getValue(), "성공요청이 들어왔습니다!", mission.getMember().getName() + " ("+ mission.getMember().getPhone().substring(7) + ") 님의 성공여부를 확인 후 수락해주세요.", "ownerMissionSuccess", "");
             pushNotificationRepository.save(PushNotification.builder()
                     .member(mission.getMissionGroup().getStore().getMember())
-                    .storeName(mission.getMissionGroup().getStore().getName())
-                    .subTitle("적립 요청이 들어왔습니다.")
+                    .name(mission.getMissionGroup().getStore().getName())
+                    .title("성공요청이 들어왔습니다!")
+                    .subTitle(mission.getMember().getName() + " ("+ mission.getMember().getPhone().substring(7) + ") 님의 성공여부를 확인 후 수락해주세요.")
                     .checked(false)
                     .pushType(PushType.OWNER_MISSION_SUCCESS)
-                    .storeId(mission.getMissionGroup().getStore().getId())
-                    .missionId(mission.getId())
+                    .subId(mission.getMissionGroup().getStore().getId())
                     .build());
         }
 
@@ -340,21 +340,21 @@ public class MissionService {
 
         missionCancelRepository.save(MissionCancel.builder().reason(reason).build());
 
-        Mission mission = missionRepository.findById(missionId)
-                .orElseThrow(() -> new BaseException(INVALID_MISSION_ID));
-
-        mission.cancelMission();
-        mission.getMember().addPoint(Point.builder()
-                .point(-mission.getMissionGroup().getPoint())
-                .title(mission.getMissionGroup().getStore().getName())
-                .subtitle("포인트가 취소되었습니다.")
-                .build());
-
-
-        //알림
-        FirebaseToken firebaseToken = firebaseTokenRepository.findByKey(mission.getMember().getId())
-                .orElseThrow(() -> new BaseException(CHECK_FCM_TOKEN));
-        fcmService.sendMessageTo(firebaseToken.getValue(),mission.getMissionGroup().getStore().getName(), "사장님이 포인트를 취소 하였습니다.", "missionCanceled", "");
-        pushNotificationRepository.save(PushNotification.createMissionCanceledPush(mission.getMember(), mission.getMissionGroup().getStore(), mission));
+//        Mission mission = missionRepository.findById(missionId)
+//                .orElseThrow(() -> new BaseException(INVALID_MISSION_ID));
+//
+//        mission.cancelMission();
+//        mission.getMember().addPoint(Point.builder()
+//                .point(-mission.getMissionGroup().getPoint())
+//                .title(mission.getMissionGroup().getStore().getName())
+//                .subtitle("포인트가 취소되었습니다.")
+//                .build());
+//
+//
+//        //알림
+//        FirebaseToken firebaseToken = firebaseTokenRepository.findByKey(mission.getMember().getId())
+//                .orElseThrow(() -> new BaseException(CHECK_FCM_TOKEN));
+//        fcmService.sendMessageTo(firebaseToken.getValue(),mission.getMissionGroup().getStore().getName(), "사장님이 포인트를 취소 하였습니다.", "missionCanceled", "");
+//        pushNotificationRepository.save(PushNotification.createMissionCanceledPush(mission.getMember(), mission.getMissionGroup().getStore(), mission));
     }
 }

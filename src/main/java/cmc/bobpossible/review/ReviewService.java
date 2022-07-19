@@ -86,12 +86,12 @@ public class ReviewService {
             fcmService.sendMessageTo(firebaseToken.getValue(), mission.getMissionGroup().getStore().getName(), "새로운 리뷰가 작성되었습니다!", "ownerReview", "");
             pushNotificationRepository.save(PushNotification.builder()
                     .member(mission.getMissionGroup().getStore().getMember())
-                    .storeName(mission.getMissionGroup().getStore().getName())
-                    .subTitle("1대1 문의 답변이 도착했습니다.")
+                    .name(mission.getMissionGroup().getStore().getName())
+                    .title(mission.getMissionGroup().getStore().getName())
+                    .subTitle("새로운 리뷰가 작성되었습니다!")
                     .checked(false)
                     .pushType(PushType.ANSWER)
-                    .storeId(mission.getMissionGroup().getStore().getId())
-                    .missionId(mission.getId())
+                    .subId(mission.getMissionGroup().getStore().getId())
                     .build());
         }
 

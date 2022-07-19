@@ -12,7 +12,9 @@ import java.time.LocalDateTime;
 public class GetPushRes {
     private Long id;
 
-    private String storeName;
+    private String name;
+
+    private String title;
 
     private String subTitle;
 
@@ -20,20 +22,18 @@ public class GetPushRes {
 
     private boolean checked;
 
-    private Long storeId;
-
-    private Long missionId;
+    private Long subId;
 
     private LocalDateTime date;
 
     public GetPushRes(PushNotification pushNotification) {
         this.id = pushNotification.getId();
         this.date = pushNotification.getCreateAt();
-        this.storeName = pushNotification.getStoreName();
+        this.name = pushNotification.getName();
+        this.title = pushNotification.getTitle();
         this.subTitle = pushNotification.getSubTitle();
         this.pushType = pushNotification.getPushType();
         this.checked = pushNotification.isChecked();
-        this.storeId = pushNotification.getStoreId();
-        this.missionId = pushNotification.getMissionId();
+        this.subId = pushNotification.getSubId();
     }
 }
