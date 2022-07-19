@@ -13,6 +13,7 @@ import cmc.bobpossible.mission_group.MissionGroup;
 import cmc.bobpossible.mission_group.MissionGroupRepository;
 import cmc.bobpossible.operation_time.OperationTImeRepository;
 import cmc.bobpossible.operation_time.OperationTime;
+import cmc.bobpossible.review.dto.ImageDto;
 import cmc.bobpossible.store.dto.*;
 import cmc.bobpossible.store_authentication.StoreAuthentication;
 import cmc.bobpossible.store_authentication.StoreAuthenticationRepository;
@@ -254,5 +255,33 @@ public class StoreService {
                 .collect(Collectors.toList());
 
         member.addStoreAuthenticationImages(storeAuthenticationImage);
+    }
+
+    public GetOwnerStoreRes getOwnerStore() throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        return new GetOwnerStoreRes(member.getStore());
+    }
+
+    public List<ImageDto> getMenuImages() throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        return member.getStore().getMenuImages().stream()
+                .map(ImageDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<ImageDto> getStoreImages() throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        return member.getStore().getStoreImages().stream()
+                .map(ImageDto::new)
+                .collect(Collectors.toList());
     }
 }

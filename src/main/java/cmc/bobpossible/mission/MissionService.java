@@ -256,6 +256,7 @@ public class MissionService {
         if (member.getNotification().getReview()) {
             FirebaseToken firebaseToken = firebaseTokenRepository.findByKey(member.getId())
                     .orElseThrow(() -> new BaseException(CHECK_FCM_TOKEN));
+            //리뷰는 send 안에
             fcmService.sendReviewPush(firebaseToken.getValue(), member,  mission.getMissionGroup().getStore(), mission);
         }
     }
