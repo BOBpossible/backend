@@ -23,92 +23,90 @@ public class PushNotification extends BaseEntity  {
     @JoinColumn(name = "memberId")
     private Member member;
 
-    private String storeName;
+    private String title;
 
     private String subTitle;
+
+    private String name;
 
     @Enumerated(EnumType.STRING)
     private PushType pushType;
 
     private boolean checked;
 
-    private Long storeId;
-
-    private Long missionId;
+    private Long subId;
 
     protected PushNotification() {
     }
 
     @Builder
-    public PushNotification(Long id, Member member, String storeName, String subTitle, PushType pushType, boolean checked, Long storeId, Long missionId) {
+    public PushNotification(Long id, Member member, String title, String subTitle, String name, PushType pushType, boolean checked, Long subId) {
         this.id = id;
         this.member = member;
-        this.storeName = storeName;
+        this.title = title;
         this.subTitle = subTitle;
+        this.name = name;
         this.pushType = pushType;
         this.checked = checked;
-        this.storeId = storeId;
-        this.missionId = missionId;
+        this.subId = subId;
     }
-
 
     public static PushNotification createReviewPush(Member member, Store store, Mission mission) {
         return PushNotification.builder()
                 .member(member)
-                .storeName(store.getName())
-                .subTitle("의 음식이 맛있었다면 리뷰를 남겨주세요.")
+                .name(store.getName())
+                .title("리뷰를 남겨주세요!")
+                .subTitle("의 음식이 어땠는지 알려주세요")
                 .checked(false)
                 .pushType(PushType.REVIEW)
-                .storeId(store.getId())
-                .missionId(mission.getId())
+                .subId(mission.getId())
                 .build();
     }
 
     public static PushNotification createNewMissionPush(Member member, Store store, Mission mission) {
         return PushNotification.builder()
                 .member(member)
-                .storeName(store.getName())
+                .name(store.getName())
+                .title("새로운 미션이 도착했습니다!")
                 .subTitle("에서 "+mission.getMissionGroup().getMissionContent()+"의 식사를 하세요!")
                 .checked(false)
                 .pushType(PushType.REVIEW)
-                .storeId(store.getId())
-                .missionId(mission.getId())
+                .subId(mission.getId())
                 .build();
     }
 
     public static PushNotification createMissionSuccessPush(Member member, Store store, Mission mission) {
         return PushNotification.builder()
                 .member(member)
-                .storeName(store.getName())
-                .subTitle("사장님이 성공요청을 수락하셨습니다. 확인 버튼을 눌러 미션을 완료해주세요!")
+                .name(store.getName())
+                .title("성공요청이 수락되었습니다.")
+                .subTitle("성공버튼을 눌러 미션을 완료해주세요!")
                 .checked(false)
                 .pushType(PushType.MISSION_SUCCESS)
-                .storeId(store.getId())
-                .missionId(mission.getId())
+                .subId(mission.getId())
                 .build();
     }
 
     public static PushNotification createMissionDeniedPush(Member member, Store store, Mission mission) {
         return PushNotification.builder()
                 .member(member)
-                .storeName(store.getName())
-                .subTitle("사장님이 성공요청을 거절하셨습니다. 다시 한번 확인해주세요!")
+                .name(store.getName())
+                .title("미션을 실패했습니다!")
+                .subTitle("성공요청이 거절되었습니다. 문제시 '1대1문의'를 이용해주세요.")
                 .checked(false)
                 .pushType(PushType.MISSION_DENIED)
-                .storeId(store.getId())
-                .missionId(mission.getId())
+                .subId(mission.getId())
                 .build();
     }
 
     public static PushNotification createMissionCanceledPush(Member member, Store store, Mission mission) {
         return PushNotification.builder()
                 .member(member)
-                .storeName(store.getName())
+                .name(store.getName())
                 .subTitle("포인트가 취소 되었습니다.")
                 .checked(false)
                 .pushType(PushType.MISSION_CANCELED)
-                .storeId(store.getId())
-                .missionId(mission.getId())
+                .id(store.getId())
                 .build();
     }
 

@@ -59,6 +59,9 @@ dependencies {
 
 	//문자 인증
 	implementation group: 'net.nurigo', name: 'javaSDK', version: '2.2'
+
+	// elastic search
+	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch:2.7.0'
 }
 
 tasks.named('test') {

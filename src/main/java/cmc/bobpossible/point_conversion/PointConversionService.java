@@ -29,9 +29,9 @@ public class PointConversionService {
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
         member.addPoint(Point.builder()
-                .point(-createPointConversion.getPoint()+500)
+                .point(-(createPointConversion.getPoint()))
                 .title("포인트 전환")
-                .subtitle(String.valueOf(createPointConversion.getPoint()+500)+"포인트 전환")
+                .subtitle(String.valueOf(createPointConversion.getPoint())+"포인트 전환")
                 .build());
 
         PointConversion pointConversion = PointConversion.builder()
