@@ -54,4 +54,8 @@ public class MissionGroup extends BaseEntity {
         this.changeStatus(Status.DELETED);
         missions.forEach(Mission::delete);
     }
+
+    public int getMissionsCount() {
+        return this.missions.size();
+    }
 }

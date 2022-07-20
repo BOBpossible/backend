@@ -357,4 +357,19 @@ public class MissionService {
 //        fcmService.sendMessageTo(firebaseToken.getValue(),mission.getMissionGroup().getStore().getName(), "사장님이 포인트를 취소 하였습니다.", "missionCanceled", "");
 //        pushNotificationRepository.save(PushNotification.createMissionCanceledPush(mission.getMember(), mission.getMissionGroup().getStore(), mission));
     }
+
+    public GetMissionManageCountRes getMissionManageCount() throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        List<MissionGroup> missionGroups = missionGroupRepository.findByStore(member.getStore());
+
+        int sum = 0;
+        for (MissionGroup missionGroup : missionGroups) {
+            sum += missionGroup.getMissionsCount();
+        }
+
+        return new GetMissionManageCountRes(sum);
+    }
 }
