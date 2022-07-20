@@ -15,10 +15,13 @@ public class GetMissionGroupRes {
 
     private String phone;
 
+    private String name;
+
     public GetMissionGroupRes(Mission mission) {
         this.missionId = mission.getId();
         this.successDate = mission.getMissionSuccessDate();
         this.point = mission.getMissionGroup().getPoint();
         this.phone = mission.getMember().getPhone().substring(7);
+        this.name = mission.getMember().getName();
     }
 }
