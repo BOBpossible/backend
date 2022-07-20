@@ -52,6 +52,8 @@ public class Review extends BaseEntity{
         this.store = store;
         this.rate = rate;
         this.content = content;
+        member.addReview(this);
+        store.addReview(this);
     }
 
     private void addReviewImage(ReviewImage reviewImage) {

@@ -186,4 +186,8 @@ public class Store extends BaseEntity {
         reviews.forEach(Review::delete);
         missionGroups.forEach(MissionGroup::delete);
     }
+
+    public void addReview(Review review) {
+        reviews.add(review);
+    }
 }
