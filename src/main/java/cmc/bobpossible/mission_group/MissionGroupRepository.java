@@ -10,6 +10,6 @@ import java.util.List;
 public interface MissionGroupRepository extends JpaRepository<MissionGroup, Long> {
     List<MissionGroup> findByStore(Store store);
 
-    @Query(value = "select m from MissionGroup mg join mg.store s where s.id = ?1 and mg.status <> ?2")
+    @Query(value = "select mg from MissionGroup mg join mg.store s where s.id = ?1 and mg.status <> ?2")
     List<MissionGroup> findByStoreAndStatus(Long storeId, Status deleted);
 }
