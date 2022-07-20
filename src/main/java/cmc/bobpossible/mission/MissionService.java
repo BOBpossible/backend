@@ -1,5 +1,6 @@
 package cmc.bobpossible.mission;
 
+import cmc.bobpossible.BaseEntity;
 import cmc.bobpossible.MissionCancel.MissionCancel;
 import cmc.bobpossible.MissionCancel.MissionCancelRepository;
 import cmc.bobpossible.Status;
@@ -296,7 +297,7 @@ public class MissionService {
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
         if (member.getStore() != null) {
-            List<MissionGroup> missionGroups = missionGroupRepository.findByStore(member.getStore());
+            List<MissionGroup> missionGroups = missionGroupRepository.findByStoreAndStatus(member.getStore().getId(), Status.DELETED);
             return missionGroups.stream()
                     .map(GetMissionManageRes::new)
                     .collect(Collectors.toList());
@@ -371,5 +372,16 @@ public class MissionService {
         }
 
         return new GetMissionManageCountRes(sum);
+    }
+
+    @Transactional
+    public void stopAllMissionGroup() throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        List<MissionGroup> missionGroups = missionGroupRepository.findByStore(member.getStore());
+
+        missionGroups.forEach(BaseEntity::stop);
     }
 }

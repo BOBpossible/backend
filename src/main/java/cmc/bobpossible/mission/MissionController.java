@@ -136,6 +136,15 @@ public class MissionController {
         return new BaseResponse<>("");
     }
 
+    @ApiOperation("미션 전체 배포 중지(사장)")
+    @PatchMapping("/owners/mission-stop/")
+    public BaseResponse<String> stopAllMissionGroup() throws BaseException {
+
+        missionService.stopAllMissionGroup();
+
+        return new BaseResponse<>("");
+    }
+
     @ApiOperation("미션 배포 활성화(사장)")
     @PatchMapping("/owners/mission-active/{missionGroupId}")
     public BaseResponse<String> activeMissionGroup(@PathVariable long missionGroupId) throws BaseException {

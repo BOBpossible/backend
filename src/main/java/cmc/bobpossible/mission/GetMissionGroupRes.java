@@ -2,6 +2,7 @@ package cmc.bobpossible.mission;
 
 import lombok.Data;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 
 @Data
@@ -17,11 +18,14 @@ public class GetMissionGroupRes {
 
     private String name;
 
+    private DayOfWeek dayOfWeek;
+
     public GetMissionGroupRes(Mission mission) {
         this.missionId = mission.getId();
         this.successDate = mission.getMissionSuccessDate();
         this.point = mission.getMissionGroup().getPoint();
         this.phone = mission.getMember().getPhone().substring(7);
         this.name = mission.getMember().getName();
+        this.dayOfWeek = successDate.getDayOfWeek();
     }
 }

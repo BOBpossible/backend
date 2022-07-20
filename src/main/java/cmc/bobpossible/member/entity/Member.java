@@ -8,6 +8,7 @@ import cmc.bobpossible.member_category.MemberCategory;
 import cmc.bobpossible.mission.Mission;
 import cmc.bobpossible.point.Point;
 import cmc.bobpossible.question.Question;
+import cmc.bobpossible.review.Review;
 import cmc.bobpossible.reward.Reward;
 import cmc.bobpossible.store.Store;
 import cmc.bobpossible.store_authentication.StoreAuthentication;
@@ -74,6 +75,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Store store;
@@ -220,6 +224,11 @@ public class Member extends BaseEntity {
         if (store != null) {
             store.delete();
         }
+        reviews.forEach(Review::delete);
         reward.delete();
+    }
+
+    public void addReview(Review review) {
+        reviews.add(review);
     }
 }

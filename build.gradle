@@ -61,7 +61,7 @@ dependencies {
 	implementation group: 'net.nurigo', name: 'javaSDK', version: '2.2'
 
 	// elastic search
-
+	implementation 'org.opensearch.client:opensearch-rest-high-level-client:2.1.0'
 }
 
 tasks.named('test') {
