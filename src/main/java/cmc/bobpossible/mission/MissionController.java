@@ -120,6 +120,13 @@ public class MissionController {
         return new BaseResponse<>(missionService.getMissionManage());
     }
 
+    @ApiOperation("미션 관리 노출수(사장)")
+    @GetMapping("/owners/mission-manage/count")
+    public BaseResponse<GetMissionManageCountRes> getMissionManageCount() throws BaseException {
+
+        return new BaseResponse<>(missionService.getMissionManageCount());
+    }
+
     @ApiOperation("미션 배포 중지(사장)")
     @PatchMapping("/owners/mission-stop/{missionGroupId}")
     public BaseResponse<String> stopMissionGroup(@PathVariable long missionGroupId) throws BaseException {
