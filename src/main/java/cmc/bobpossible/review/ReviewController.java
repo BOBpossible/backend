@@ -4,6 +4,7 @@ import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.RefineError;
 import cmc.bobpossible.review.dto.PostReportReq;
+import cmc.bobpossible.review.dto.PostReviewReplyReq;
 import cmc.bobpossible.review.dto.PostReviewReq;
 import cmc.bobpossible.review.dto.GetStoreReviewRes;
 import cmc.bobpossible.store.dto.GetStoreImages;
@@ -79,7 +80,7 @@ public class ReviewController {
 
     @ApiOperation("사장 리뷰 답글")
     @PostMapping("/reply/{reviewId}")
-    public BaseResponse<String> postReviewReply(@PathVariable Long reviewId, @RequestBody PostReviewReq postReviewReq, Errors errors) throws BaseException {
+    public BaseResponse<String> postReviewReply(@PathVariable Long reviewId, @RequestBody PostReviewReplyReq postReviewReq, Errors errors) throws BaseException {
 
         //validation
         if (errors.hasErrors()) {
@@ -87,6 +88,15 @@ public class ReviewController {
         }
 
         reviewService.postReviewReply(reviewId, postReviewReq);
+
+        return new BaseResponse<>("");
+    }
+
+    @ApiOperation("사장 리뷰 답글 삭제")
+    @PatchMapping("/reply/{reviewReplyId}")
+    public BaseResponse<String> postReviewReply(@PathVariable Long reviewReplyIdId) throws BaseException {
+
+        reviewService.deleteReviewReply(reviewReplyIdId);
 
         return new BaseResponse<>("");
     }

@@ -40,6 +40,7 @@ public class ReviewReply extends BaseEntity {
     }
 
     public void delete() {
+        review.deleteReply(this);
         this.changeStatus(Status.DELETED);
     }
 }

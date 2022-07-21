@@ -1,10 +1,10 @@
 package cmc.bobpossible.config.auth;
 
 import cmc.bobpossible.config.auth.dto.SessionMember;
-import cmc.bobpossible.review.refreshToken.RefreshToken;
+import cmc.bobpossible.refreshToken.RefreshToken;
 import cmc.bobpossible.config.auth.jwt.TokenDto;
 import cmc.bobpossible.config.auth.jwt.TokenProvider;
-import cmc.bobpossible.review.refreshToken.RefreshTokenRepository;
+import cmc.bobpossible.refreshToken.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

@@ -83,4 +83,8 @@ public class Review extends BaseEntity{
         reviewImages.forEach(ReviewImage::delete);
         reviewReplies.forEach(ReviewReply::delete);
     }
+
+    public void deleteReply(ReviewReply reviewReply) {
+        reviewReplies.remove(reviewReply);
+    }
 }

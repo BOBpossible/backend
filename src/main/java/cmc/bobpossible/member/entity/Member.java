@@ -234,4 +234,8 @@ public class Member extends BaseEntity {
     public void addReview(Review review) {
         reviews.add(review);
     }
+
+    public void updateOwnerNotification(Boolean mission, Boolean event, Boolean question, Boolean review) {
+        this.notification.updateOwner(mission, event, question, review);
+    }
 }

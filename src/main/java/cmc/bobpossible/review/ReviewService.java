@@ -13,10 +13,12 @@ import cmc.bobpossible.push.firebase.FCMService;
 import cmc.bobpossible.push.firebase.FirebaseToken;
 import cmc.bobpossible.push.firebase.FirebaseTokenRepository;
 import cmc.bobpossible.review.dto.PostReportReq;
+import cmc.bobpossible.review.dto.PostReviewReplyReq;
 import cmc.bobpossible.review.dto.PostReviewReq;
 import cmc.bobpossible.review_image.ReviewImage;
 import cmc.bobpossible.review_image.ReviewImageRepository;
 import cmc.bobpossible.review_reply.ReviewReply;
+import cmc.bobpossible.review_reply.ReviewReplyRepository;
 import cmc.bobpossible.review_report.ReviewReport;
 import cmc.bobpossible.review_report.ReviewReportRepository;
 import cmc.bobpossible.store.Store;
@@ -54,6 +56,7 @@ public class ReviewService {
     private final FirebaseTokenRepository firebaseTokenRepository;
     private final FCMService fcmService;
     private final PushNotificationRepository pushNotificationRepository;
+    private final ReviewReplyRepository reviewReplyRepository;
 
     @Transactional
     public Review createReview(PostReviewReq postReviewReq) throws BaseException, IOException {
@@ -161,7 +164,7 @@ public class ReviewService {
     }
 
     @Transactional
-    public void postReviewReply(Long reviewId, PostReviewReq postReviewReq) throws BaseException {
+    public void postReviewReply(Long reviewId, PostReviewReplyReq postReviewReq) throws BaseException {
 
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new BaseException(INVALID_REVIEW_ID));
@@ -190,5 +193,14 @@ public class ReviewService {
                 .build();
 
         reviewReportRepository.save(report);
+    }
+
+    @Transactional
+    public void deleteReviewReply(Long reviewReplyIdId) throws BaseException {
+
+        ReviewReply reviewReply = reviewReplyRepository.findById(reviewReplyIdId)
+                .orElseThrow(() -> new BaseException(INVALID_REVIEW_REPLY_ID));
+
+        reviewReply.delete();
     }
 }

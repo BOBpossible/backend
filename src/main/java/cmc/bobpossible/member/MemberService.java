@@ -129,4 +129,19 @@ public class MemberService {
 
         member.delete();
     }
+
+    public GetNotificationOwnerRes getOwnerNotification() throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        return new GetNotificationOwnerRes(member);
+    }
+
+    public void patchOwnerNotification(PatchOwnerNotificationReq patchOwnerNotificationReq) throws BaseException {
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        member.updateOwnerNotification(patchOwnerNotificationReq.getMission(), patchOwnerNotificationReq.getEvent(), patchOwnerNotificationReq.getQuestion(), patchOwnerNotificationReq.getReview());
+    }
 }
