@@ -44,7 +44,7 @@ public class StoreController {
 
     @ApiOperation("대표메뉴 사진 등록")
     @PostMapping("/representative-menu-images/{storeId}")
-    public BaseResponse<Long> postRepresentativeMenuImages(@RequestPart List<MultipartFile> representativeMenuImages, @PathVariable Long storeId) throws BaseException, IOException {
+    public BaseResponse<List<Long>> postRepresentativeMenuImages(@RequestPart List<MultipartFile> representativeMenuImages, @PathVariable Long storeId) throws BaseException, IOException {
 
 
         return new BaseResponse<>(storeService.postRepresentativeMenuImages(representativeMenuImages, storeId));
@@ -61,7 +61,7 @@ public class StoreController {
 
     @ApiOperation("가게 사진 등록")
     @PostMapping("/store-images/{storeId}")
-    public BaseResponse<Long> postStoreImages(@RequestPart List<MultipartFile> storeImages, @PathVariable Long storeId) throws BaseException, IOException {
+    public BaseResponse<List<Long>> postStoreImages(@RequestPart List<MultipartFile> storeImages, @PathVariable Long storeId) throws BaseException, IOException {
 
 
         return new BaseResponse<>(storeService.postStoreImages(storeImages, storeId));

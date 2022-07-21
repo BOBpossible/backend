@@ -153,7 +153,7 @@ public class StoreService {
     }
 
     @Transactional
-    public Long postRepresentativeMenuImages(List<MultipartFile> representativeMenuImages, Long storeId) throws IOException, BaseException {
+    public List<Long> postRepresentativeMenuImages(List<MultipartFile> representativeMenuImages, Long storeId) throws IOException, BaseException {
 
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
@@ -173,14 +173,15 @@ public class StoreService {
         store.addMenuImages(menuImages);
 
         if (menuImages1.size() > 0) {
-            return menuImages1.get(0).getId();
+            return menuImages1.stream().map(MenuImage::getId)
+                    .collect(Collectors.toList());
         }else {
             return null;
         }
     }
 
     @Transactional
-    public Long postStoreImages(List<MultipartFile> storeImages, Long storeId) throws BaseException, IOException {
+    public List<Long> postStoreImages(List<MultipartFile> storeImages, Long storeId) throws BaseException, IOException {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
 
@@ -199,7 +200,8 @@ public class StoreService {
         store.addStoreImages(storeImage);
 
         if (storeImages1.size() > 0) {
-            return storeImages1.get(0).getId();
+            return storeImages1.stream().map(StoreImage::getId)
+                    .collect(Collectors.toList());
         }else {
             return null;
         }
