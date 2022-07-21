@@ -19,6 +19,8 @@ public class GetUser {
         this.email = member.getEmail();
         this.point = member.getTotalPoints();
         this.isAuthentication = false;
-        this.phone = member.getPhone().substring(7);
+        if (member.getPhone() != null) {
+            this.phone = member.getPhone().substring(7);
+        }
     }
 }

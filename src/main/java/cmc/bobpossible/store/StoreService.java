@@ -153,7 +153,7 @@ public class StoreService {
     }
 
     @Transactional
-    public void postRepresentativeMenuImages(List<MultipartFile> representativeMenuImages, Long storeId) throws IOException, BaseException {
+    public Long postRepresentativeMenuImages(List<MultipartFile> representativeMenuImages, Long storeId) throws IOException, BaseException {
 
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
@@ -168,11 +168,19 @@ public class StoreService {
                 .map(i -> MenuImage.builder().image(i).build())
                 .collect(Collectors.toList());
 
+        List<MenuImage> menuImages1 = menuImageRepository.saveAll(menuImages);
+
         store.addMenuImages(menuImages);
+
+        if (menuImages1.size() > 0) {
+            return menuImages1.get(0).getId();
+        }else {
+            return null;
+        }
     }
 
     @Transactional
-    public void postStoreImages(List<MultipartFile> storeImages, Long storeId) throws BaseException, IOException {
+    public Long postStoreImages(List<MultipartFile> storeImages, Long storeId) throws BaseException, IOException {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
 
@@ -186,7 +194,15 @@ public class StoreService {
                 .map(i -> StoreImage.builder().image(i).build())
                 .collect(Collectors.toList());
 
+        List<StoreImage> storeImages1 = storeImageRepository.saveAll(storeImage);
+
         store.addStoreImages(storeImage);
+
+        if (storeImages1.size() > 0) {
+            return storeImages1.get(0).getId();
+        }else {
+            return null;
+        }
     }
 
     @Transactional
