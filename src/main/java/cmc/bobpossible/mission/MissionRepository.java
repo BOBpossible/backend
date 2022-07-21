@@ -25,4 +25,6 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
 
     @Query(value = "select m from Mission m join m.missionGroup mg where mg.id = ?1 and m.status <> ?2")
     List<Mission> findByMissionGroupAndStatus(Long missionGroupId, Status deleted, Pageable pageable);
+
+    List<Mission> findByMemberAndMissionStatusNot(Member member, MissionStatus progress);
 }
