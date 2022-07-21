@@ -49,7 +49,7 @@ public class StoreService {
     private final StoreAuthenticationRepository storeAuthenticationRepository;
 
     @Transactional
-    public void createStore(PostStoreReq postStoreReq) throws BaseException, IOException {
+    public Long createStore(PostStoreReq postStoreReq) throws BaseException, IOException {
 
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
@@ -103,6 +103,8 @@ public class StoreService {
         missionGroupRepository.saveAll(missionGroups);
 
         storeRepository.save(store);
+
+        return store.getId();
     }
 
     public List<GetStoreMapRes> getStoreMap(Long userId) throws BaseException {
