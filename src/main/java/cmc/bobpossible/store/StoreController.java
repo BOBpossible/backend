@@ -44,11 +44,10 @@ public class StoreController {
 
     @ApiOperation("대표메뉴 사진 등록")
     @PostMapping("/representative-menu-images/{storeId}")
-    public BaseResponse<String> postRepresentativeMenuImages(@RequestPart List<MultipartFile> representativeMenuImages, @PathVariable Long storeId) throws BaseException, IOException {
+    public BaseResponse<Long> postRepresentativeMenuImages(@RequestPart List<MultipartFile> representativeMenuImages, @PathVariable Long storeId) throws BaseException, IOException {
 
-        storeService.postRepresentativeMenuImages(representativeMenuImages, storeId);
 
-        return new BaseResponse<>("");
+        return new BaseResponse<>(storeService.postRepresentativeMenuImages(representativeMenuImages, storeId));
     }
 
     @ApiOperation("대표메뉴 사진 삭제")
@@ -62,11 +61,10 @@ public class StoreController {
 
     @ApiOperation("가게 사진 등록")
     @PostMapping("/store-images/{storeId}")
-    public BaseResponse<String> postStoreImages(@RequestPart List<MultipartFile> storeImages, @PathVariable Long storeId) throws BaseException, IOException {
+    public BaseResponse<Long> postStoreImages(@RequestPart List<MultipartFile> storeImages, @PathVariable Long storeId) throws BaseException, IOException {
 
-        storeService.postStoreImages(storeImages, storeId);
 
-        return new BaseResponse<>("");
+        return new BaseResponse<>(storeService.postStoreImages(storeImages, storeId));
     }
 
     @ApiOperation("가게 사진 삭제")
