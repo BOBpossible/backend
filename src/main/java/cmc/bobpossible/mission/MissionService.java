@@ -53,7 +53,7 @@ public class MissionService {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
-        List<Mission> missions = missionRepository.findByMember(member);
+        List<Mission> missions = missionRepository.findByMemberAndMissionStatusNot(member, MissionStatus.DONE);
 
         // 현재 미션들의 만료일 체크
         missions.removeIf(Mission::checkValidation);
