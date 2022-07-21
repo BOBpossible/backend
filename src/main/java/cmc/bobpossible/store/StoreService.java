@@ -284,4 +284,12 @@ public class StoreService {
                 .map(ImageDto::new)
                 .collect(Collectors.toList());
     }
+
+    public Long getStoreId() throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        return member.getStore().getId();
+    }
 }

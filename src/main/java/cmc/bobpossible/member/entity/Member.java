@@ -225,7 +225,10 @@ public class Member extends BaseEntity {
             store.delete();
         }
         reviews.forEach(Review::delete);
-        reward.delete();
+        if (reward != null) {
+            reward.delete();
+        }
+
     }
 
     public void addReview(Review review) {

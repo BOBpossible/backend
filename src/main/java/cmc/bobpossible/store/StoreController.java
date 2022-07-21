@@ -36,6 +36,12 @@ public class StoreController {
         return new BaseResponse<>("");
     }
 
+    @ApiOperation("가게 id 조회")
+    @GetMapping("/me")
+    public BaseResponse<Long> getStoreId() throws BaseException {
+        return new BaseResponse<>(storeService.getStoreId());
+    }
+
     @ApiOperation("대표메뉴 사진 등록")
     @PostMapping("/representative-menu-images/{storeId}")
     public BaseResponse<String> postRepresentativeMenuImages(@RequestPart List<MultipartFile> representativeMenuImages, @PathVariable Long storeId) throws BaseException, IOException {
