@@ -57,6 +57,7 @@ public enum BaseResponseStatus {
 
     // Review
     INVALID_REVIEW_ID(false, 2040, "해당 reviewId값과 일치하는 값이 없습니다."),
+    INVALID_REVIEW_REPLY_ID(false, 2040, "해당 reviewReplyId값과 일치하는 값이 없습니다."),
 
     //Owners
     STORE_NOT_OWN(false, 2050, "소유하신 가게가 없습니다."),

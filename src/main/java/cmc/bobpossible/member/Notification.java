@@ -29,4 +29,11 @@ public class Notification {
         this.review = review;
         this.question = question;
     }
+
+    public void updateOwner(Boolean mission, Boolean event, Boolean question, Boolean review) {
+        this.mission = mission;
+        this.event = event;
+        this.review = review;
+        this.question = question;
+    }
 }
