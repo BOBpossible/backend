@@ -37,7 +37,7 @@ public class StoreController {
     }
 
     @ApiOperation("가게 id 조회")
-    @GetMapping("/me")
+    @GetMapping("/me/id")
     public BaseResponse<Long> getStoreId() throws BaseException {
         return new BaseResponse<>(storeService.getStoreId());
     }
