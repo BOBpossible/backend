@@ -86,7 +86,7 @@ public class StoreController {
 
     @ApiOperation("점포관리 수정")
     @PutMapping("/me")
-    public BaseResponse<String> updateStore(@Validated UpdateStoreReq updateStoreReq, Errors errors) throws BaseException {
+    public BaseResponse<String> updateStore(@Validated @RequestBody UpdateStoreReq updateStoreReq, Errors errors) throws BaseException {
 
         //validation
         if (errors.hasErrors()) {
@@ -100,7 +100,7 @@ public class StoreController {
 
     @ApiOperation("점포관리 수정")
     @PutMapping("/operation-time/{operationTimeId}")
-    public BaseResponse<String> updateOperationTime(@Validated OperationTimeVO operationTime, Errors errors, @PathVariable Long operationTimeId) throws BaseException {
+    public BaseResponse<String> updateOperationTime(@Validated @RequestBody OperationTimeVO operationTime, Errors errors, @PathVariable Long operationTimeId) throws BaseException {
 
         //validation
         if (errors.hasErrors()) {
