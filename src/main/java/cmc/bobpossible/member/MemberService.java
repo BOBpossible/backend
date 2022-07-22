@@ -138,6 +138,7 @@ public class MemberService {
         return new GetNotificationOwnerRes(member);
     }
 
+    @Transactional
     public void patchOwnerNotification(PatchOwnerNotificationReq patchOwnerNotificationReq) throws BaseException {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
