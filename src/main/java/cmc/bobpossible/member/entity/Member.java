@@ -17,6 +17,7 @@ import lombok.Getter;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -214,7 +215,7 @@ public class Member extends BaseEntity {
         this.questions.add(question);
     }
 
-    public void delete() {
+    public void delete() throws IOException {
         this.changeStatus(Status.DELETED);
         points.forEach(Point::delete);
         memberCategories.forEach(MemberCategory::delete);

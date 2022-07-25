@@ -1,15 +1,20 @@
 package cmc.bobpossible.search;
 
+import cmc.bobpossible.store.Store;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.opensearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.opensearch.action.delete.DeleteRequest;
+import org.opensearch.action.delete.DeleteResponse;
 import org.opensearch.action.index.IndexRequest;
 import org.opensearch.action.index.IndexResponse;
 import org.opensearch.action.search.SearchRequest;
 import org.opensearch.action.search.SearchResponse;
+import org.opensearch.action.support.master.AcknowledgedResponse;
 import org.opensearch.client.RequestOptions;
 import org.opensearch.client.RestClient;
 import org.opensearch.client.RestClientBuilder;
@@ -50,20 +55,6 @@ public class ElasticSearch {
     }
 
     public SearchHit[] suggest(String text) throws IOException {
-//        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-//        SuggestionBuilder termSuggestionBuilder = SuggestBuilders.completionSuggestion("search_string").text(text);
-//
-//        SuggestBuilder suggestBuilder = new SuggestBuilder();
-//        suggestBuilder.addSuggestion("search-string-suggest", termSuggestionBuilder);
-//        searchSourceBuilder.suggest(suggestBuilder);
-//
-//        SearchRequest searchRequest = new SearchRequest("auto_complete");
-//        searchRequest.source(searchSourceBuilder);
-//
-//        SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
-//
-//
-//        return searchResponse.toString();
 
         SearchRequest searchRequest = new SearchRequest("auto_complete");
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -88,17 +79,25 @@ public class ElasticSearch {
 
     }
 
-    public void add() throws IOException {
+    public void add(Store store) throws IOException {
         IndexRequest request = new IndexRequest("auto_complete"); //Add a document to the custom-index we created.
-        request.id("123"); //Assign an ID to the document.
+        request.id(String.valueOf(store.getId())); //Assign an ID to the document.
 
         HashMap<String, String> stringMapping = new HashMap<String, String>();
-        stringMapping.put("search_string", "나는");
-        stringMapping.put("search_string2", "안돼");
+        stringMapping.put("search_string", store.getName());
+        stringMapping.put("search_string2", store.getCategory().getName());
         request.source(stringMapping); //Place your content into the index's source.
         IndexResponse indexResponse = client.index(request, RequestOptions.DEFAULT);
 
     }
 
 
+    public void delete(Long id) throws IOException {
+
+        //Delete the document
+        DeleteRequest deleteDocumentRequest = new DeleteRequest("auto_complete", String.valueOf(id)); //Index name followed by the ID.
+        DeleteResponse deleteResponse = client.delete(deleteDocumentRequest, RequestOptions.DEFAULT);
+
+
+    }
 }

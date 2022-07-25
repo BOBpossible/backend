@@ -8,12 +8,14 @@ import cmc.bobpossible.menu_image.MenuImage;
 import cmc.bobpossible.mission_group.MissionGroup;
 import cmc.bobpossible.operation_time.OperationTime;
 import cmc.bobpossible.review.Review;
+import cmc.bobpossible.search.ElasticSearch;
 import cmc.bobpossible.store_image.StoreImage;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -178,8 +180,12 @@ public class Store extends BaseEntity {
         }
     }
 
-    public void delete() {
+    public void delete() throws IOException {
         this.changeStatus(Status.DELETED);
+        //검색 엔진 삭제
+        ElasticSearch elasticSearch = new ElasticSearch();
+        elasticSearch.delete(this.id);
+
         menuImages.forEach(MenuImage::delete);
         storeImages.forEach(StoreImage::delete);
         operationTimes.forEach(OperationTime::delete);

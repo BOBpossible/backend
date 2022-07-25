@@ -137,7 +137,7 @@ public class StoreController {
     }
 
     @ApiOperation("가게 상세 - 가게 사진조회")
-    @GetMapping("/store-images")
+    @GetMapping("me/store-images")
     public BaseResponse<List<ImageDto>> getStoreImages() throws BaseException {
         return new BaseResponse<>(storeService.getStoreImages());
     }
