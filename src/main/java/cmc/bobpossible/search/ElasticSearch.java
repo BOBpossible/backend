@@ -1,5 +1,6 @@
 package cmc.bobpossible.search;
 
+import cmc.bobpossible.store.Store;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -88,13 +89,13 @@ public class ElasticSearch {
 
     }
 
-    public void add() throws IOException {
+    public void add(Store store) throws IOException {
         IndexRequest request = new IndexRequest("auto_complete"); //Add a document to the custom-index we created.
-        request.id("123"); //Assign an ID to the document.
+        request.id(String.valueOf(store.getId())); //Assign an ID to the document.
 
         HashMap<String, String> stringMapping = new HashMap<String, String>();
-        stringMapping.put("search_string", "나는");
-        stringMapping.put("search_string2", "안돼");
+        stringMapping.put("search_string", store.getName());
+        stringMapping.put("search_string2", store.getCategory().getName());
         request.source(stringMapping); //Place your content into the index's source.
         IndexResponse indexResponse = client.index(request, RequestOptions.DEFAULT);
 

@@ -14,6 +14,7 @@ import cmc.bobpossible.mission_group.MissionGroupRepository;
 import cmc.bobpossible.operation_time.OperationTImeRepository;
 import cmc.bobpossible.operation_time.OperationTime;
 import cmc.bobpossible.review.dto.ImageDto;
+import cmc.bobpossible.search.ElasticSearch;
 import cmc.bobpossible.store.dto.*;
 import cmc.bobpossible.store_authentication.StoreAuthentication;
 import cmc.bobpossible.store_authentication.StoreAuthenticationRepository;
@@ -47,6 +48,7 @@ public class StoreService {
     private final StoreImageRepository storeImageRepository;
     private final OperationTImeRepository operationTImeRepository;
     private final StoreAuthenticationRepository storeAuthenticationRepository;
+    private final ElasticSearch elasticSearch;
 
     @Transactional
     public Long createStore(PostStoreReq postStoreReq) throws BaseException, IOException {
@@ -103,6 +105,8 @@ public class StoreService {
         missionGroupRepository.saveAll(missionGroups);
 
         storeRepository.save(store);
+
+        elasticSearch.add(store);
 
         return store.getId();
     }
