@@ -122,7 +122,7 @@ public class MemberService {
     }
 
     @Transactional
-    public void deleteUser() throws BaseException {
+    public void deleteUser() throws BaseException, IOException {
 
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));

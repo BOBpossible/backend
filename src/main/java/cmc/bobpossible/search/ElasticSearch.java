@@ -7,10 +7,14 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.opensearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.opensearch.action.delete.DeleteRequest;
+import org.opensearch.action.delete.DeleteResponse;
 import org.opensearch.action.index.IndexRequest;
 import org.opensearch.action.index.IndexResponse;
 import org.opensearch.action.search.SearchRequest;
 import org.opensearch.action.search.SearchResponse;
+import org.opensearch.action.support.master.AcknowledgedResponse;
 import org.opensearch.client.RequestOptions;
 import org.opensearch.client.RestClient;
 import org.opensearch.client.RestClientBuilder;
@@ -51,20 +55,6 @@ public class ElasticSearch {
     }
 
     public SearchHit[] suggest(String text) throws IOException {
-//        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-//        SuggestionBuilder termSuggestionBuilder = SuggestBuilders.completionSuggestion("search_string").text(text);
-//
-//        SuggestBuilder suggestBuilder = new SuggestBuilder();
-//        suggestBuilder.addSuggestion("search-string-suggest", termSuggestionBuilder);
-//        searchSourceBuilder.suggest(suggestBuilder);
-//
-//        SearchRequest searchRequest = new SearchRequest("auto_complete");
-//        searchRequest.source(searchSourceBuilder);
-//
-//        SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
-//
-//
-//        return searchResponse.toString();
 
         SearchRequest searchRequest = new SearchRequest("auto_complete");
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -102,4 +92,12 @@ public class ElasticSearch {
     }
 
 
+    public void delete(Long id) throws IOException {
+
+        //Delete the document
+        DeleteRequest deleteDocumentRequest = new DeleteRequest("auto_complete", String.valueOf(id)); //Index name followed by the ID.
+        DeleteResponse deleteResponse = client.delete(deleteDocumentRequest, RequestOptions.DEFAULT);
+
+
+    }
 }
