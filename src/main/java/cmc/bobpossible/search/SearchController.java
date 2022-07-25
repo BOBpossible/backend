@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RequestMapping("/api/v1/search")
 @RequiredArgsConstructor
@@ -21,8 +22,7 @@ public class SearchController {
 
     @ApiOperation("자동완성")
     @PostMapping("/suggestion")
-    public BaseResponse<String> getSuggestion(@RequestParam String keyword) throws IOException {
-
+    public BaseResponse<List<SearchSuggestion>> getSuggestion(@RequestParam String keyword) throws IOException {
 
 
         return new BaseResponse<>(searchService.getSuggestion(keyword));

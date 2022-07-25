@@ -6,8 +6,6 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
-import org.opensearch.action.get.GetRequest;
-import org.opensearch.action.get.GetResponse;
 import org.opensearch.action.index.IndexRequest;
 import org.opensearch.action.index.IndexResponse;
 import org.opensearch.action.search.SearchRequest;
@@ -17,10 +15,8 @@ import org.opensearch.client.RestClient;
 import org.opensearch.client.RestClientBuilder;
 import org.opensearch.client.RestHighLevelClient;
 import org.opensearch.index.query.QueryBuilders;
+import org.opensearch.search.SearchHit;
 import org.opensearch.search.builder.SearchSourceBuilder;
-import org.opensearch.search.suggest.SuggestBuilder;
-import org.opensearch.search.suggest.SuggestBuilders;
-import org.opensearch.search.suggest.SuggestionBuilder;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -53,7 +49,7 @@ public class ElasticSearch {
         client = new RestHighLevelClient(builder);
     }
 
-    public String suggest(String text) throws IOException {
+    public SearchHit[] suggest(String text) throws IOException {
 //        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 //        SuggestionBuilder termSuggestionBuilder = SuggestBuilders.completionSuggestion("search_string").text(text);
 //
@@ -76,7 +72,7 @@ public class ElasticSearch {
 
         SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
 
-        return searchResponse.toString();
+        return searchResponse.getHits().getHits();
     }
 
     public String search() throws IOException {
