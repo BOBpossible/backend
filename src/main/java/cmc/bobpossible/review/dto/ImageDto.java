@@ -7,17 +7,21 @@ import lombok.Data;
 
 @Data
 public class ImageDto {
+    private Long id;
     private String imageUrl;
 
     public ImageDto(ReviewImage image) {
+        this.id = image.getId();
         this.imageUrl = image.getImage();
     }
 
     public ImageDto(StoreImage image) {
+        this.id = image.getId();
         this.imageUrl = image.getImage();
     }
 
     public ImageDto(MenuImage image) {
+        this.id = image.getId();
         this.imageUrl = image.getImage();
     }
 }
