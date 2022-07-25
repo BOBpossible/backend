@@ -8,6 +8,7 @@ import cmc.bobpossible.store.Store;
 import cmc.bobpossible.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.opensearch.search.SearchHit;
+import org.opensearch.search.SearchHits;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,28 +30,38 @@ public class SearchService {
 
     public List<SearchSuggestion> getSuggestion(String keyword) throws IOException {
 
-        SearchHit[] suggest = elasticSearch.suggest(keyword);
+        SearchHits suggest = elasticSearch.suggest(keyword);
+
+        float maxScore = suggest.getMaxScore();
 
         List<SearchSuggestion> suggestionList = new ArrayList<>();
 
-        for (SearchHit searchHit : suggest) {
-            suggestionList.add(new SearchSuggestion(searchHit.getSourceAsMap().get("search_string").toString()));
+        for (SearchHit searchHit : suggest.getHits()) {
+            if (searchHit.getScore() > (maxScore / 2)) {
+                suggestionList.add(new SearchSuggestion(searchHit.getSourceAsMap().get("search_string").toString()));
+            }
         }
 
         return suggestionList;
     }
 
     public List<SearchRes> getSearch(String keyword) throws IOException, BaseException {
-        SearchHit[] suggest = elasticSearch.suggest(keyword);
+
+        SearchHits suggest = elasticSearch.suggest(keyword);
+        float maxScore = suggest.getMaxScore();
+
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
         List<SearchRes> suggestionList = new ArrayList<>();
 
-        for (SearchHit searchHit : suggest) {
-            Store store = storeRepository.findById(Long.valueOf(searchHit.getId()))
-                    .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
-            suggestionList.add(new SearchRes(member, store));
+        for (SearchHit searchHit : suggest.getHits()) {
+            if (searchHit.getScore() > (maxScore / 2)) {
+                Store store = storeRepository.findById(Long.valueOf(searchHit.getId()))
+                        .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
+                suggestionList.add(new SearchRes(member, store));
+            }
+
         }
 
         return suggestionList;
