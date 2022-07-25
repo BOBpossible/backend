@@ -329,7 +329,7 @@ public class MissionService {
         MissionGroup missionGroup = missionGroupRepository.findById(missionGroupId)
                 .orElseThrow(() -> new BaseException(INVALID_MISSION_GROUP_ID));
 
-        List<Mission> missions = missionRepository.findByMissionGroupAndStatus(missionGroup.getId(), Status.DELETED, pageable);
+        List<Mission> missions = missionRepository.findByMissionGroupAndStatus(missionGroup.getId(),MissionStatus.DONE, Status.DELETED, pageable);
 
         return missions.stream()
                 .map(GetMissionGroupRes::new)
