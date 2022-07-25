@@ -165,7 +165,7 @@ public class StoreService {
                 .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
 
         List<String> imageURL = new ArrayList<>();
-        for (int i = 0; i < representativeMenuImages.size() || i < 3; i++) {
+        for (int i = 0; i < representativeMenuImages.size() && i < 3; i++) {
             imageURL.add( s3Uploader.upload(representativeMenuImages.get(i), "menuImage"));
         }
 
@@ -192,7 +192,7 @@ public class StoreService {
                 .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
 
         List<String> imageURL = new ArrayList<>();
-        for (int i = 0; i < storeImages.size() || i < 3; i++) {
+        for (int i = 0; i < storeImages.size() && i < 5; i++) {
             imageURL.add( s3Uploader.upload(storeImages.get(i), "storeImage"));
         }
 
@@ -269,7 +269,7 @@ public class StoreService {
 
         List<String> imageURL = new ArrayList<>();
 
-        for (int i = 0; i < storeAuthenticationImages.size() && i < 3; i++) {
+        for (int i = 0; i < storeAuthenticationImages.size() && i < 4; i++) {
             imageURL.add( s3Uploader.upload(storeAuthenticationImages.get(i), "storeImage"));
         }
 
