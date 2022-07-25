@@ -27,4 +27,12 @@ public class SearchController {
 
         return new BaseResponse<>(searchService.getSuggestion(keyword));
     }
+
+    @ApiOperation("검색결과")
+    @PostMapping("")
+    public BaseResponse<List<SearchRes>> getSearch(@RequestParam String keyword) throws IOException, BaseException {
+
+
+        return new BaseResponse<>(searchService.getSearch(keyword));
+    }
 }

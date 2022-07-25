@@ -32,8 +32,6 @@ public class GetOwnerStoreRes {
 
     private String representativeMenuName;
 
-    private List<OperationTimeRes> operationTimeRes;
-
     public GetOwnerStoreRes(Store store) {
         this.storeName = store.getName();
         this.intro = store.getIntro();
@@ -45,9 +43,6 @@ public class GetOwnerStoreRes {
         this.storeTypeId = store.getCategory().getId();
         this.tableNum = store.getTableNum();
         this.representativeMenuName = store.getRepresentativeMenuName();
-        this.operationTimeRes = store.getOperationTimes().stream()
-                .map(OperationTimeRes::new)
-                .collect(Collectors.toList());
 
     }
 }

@@ -22,10 +22,13 @@ public class GetMissionGroupRes {
 
     public GetMissionGroupRes(Mission mission) {
         this.missionId = mission.getId();
-        this.successDate = mission.getMissionSuccessDate();
         this.point = mission.getMissionGroup().getPoint();
         this.phone = mission.getMember().getPhone().substring(7);
         this.name = mission.getMember().getName();
-        this.dayOfWeek = successDate.getDayOfWeek();
+
+        if (mission.getMissionSuccessDate() != null) {
+            this.successDate = mission.getMissionSuccessDate();
+            this.dayOfWeek = successDate.getDayOfWeek();
+        }
     }
 }

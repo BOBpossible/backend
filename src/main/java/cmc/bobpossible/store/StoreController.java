@@ -124,6 +124,11 @@ public class StoreController {
     public BaseResponse<GetOwnerStoreRes> getOwnerStore() throws BaseException {
         return new BaseResponse<>(storeService.getOwnerStore());
     }
+    @ApiOperation("점포 관리 조회(사장)")
+    @GetMapping("/me/operationTime")
+    public BaseResponse<List<OperationTimeRes>> getOwnerStoreOperations() throws BaseException {
+        return new BaseResponse<>(storeService.getOwnerStoreOperations());
+    }
 
     @ApiOperation("가게 상세 정보 조회 - 대표메뉴 조회")
     @GetMapping("/me/menu-images")
