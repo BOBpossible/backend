@@ -312,4 +312,13 @@ public class StoreService {
 
         return member.getStore().getId();
     }
+
+    public List<OperationTimeRes> getOwnerStoreOperations() throws BaseException {
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        return member.getStore().getOperationTimes().stream()
+                .map(OperationTimeRes::new)
+                .collect(Collectors.toList());
+    }
 }
