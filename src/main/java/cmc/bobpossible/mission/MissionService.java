@@ -150,15 +150,7 @@ public class MissionService {
                     .orElseThrow(() -> new BaseException(CHECK_FIREBASE_TOKEN));
 
             fcmService.sendMessageTo(firebaseToken.getValue(), "성공요청이 들어왔습니다!", mission.getMember().getName() + " ("+ mission.getMember().getPhone().substring(7) + ") 님의 성공여부를 확인 후 수락해주세요.", "ownerMissionSuccess", "");
-            pushNotificationRepository.save(PushNotification.builder()
-                    .member(mission.getMissionGroup().getStore().getMember())
-                    .name(mission.getMissionGroup().getStore().getName())
-                    .title("성공요청이 들어왔습니다!")
-                    .subTitle(mission.getMember().getName() + " ("+ mission.getMember().getPhone().substring(7) + ") 님의 성공여부를 확인 후 수락해주세요.")
-                    .checked(false)
-                    .pushType(PushType.OWNER_MISSION_SUCCESS)
-                    .subId(mission.getMissionGroup().getStore().getId())
-                    .build());
+            pushNotificationRepository.save(PushNotification.createOwnerSuccessPush(mission.getMember(), mission.getMissionGroup().getStore(), mission));
         }
 
         mission.requestComplete();
@@ -206,7 +198,7 @@ public class MissionService {
     }
 
     @Transactional
-    public void missionChallenge(Long missionId) throws BaseException {
+    public void missionChallenge(Long missionId) throws BaseException, IOException {
 
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
@@ -221,6 +213,14 @@ public class MissionService {
                 .orElseThrow(() -> new BaseException(INVALID_MISSION_ID));
 
         mission.challengeMission();
+
+        if (mission.getMissionGroup().getStore().getMember().getNotification().getMission()) {
+            FirebaseToken firebaseToken = firebaseTokenRepository.findByKey(mission.getMember().getId())
+                    .orElseThrow(() -> new BaseException(CHECK_FIREBASE_TOKEN));
+
+            fcmService.sendMessageTo(firebaseToken.getValue(), "고객님이 미션을 도전했습니다!", mission.getMember().getName() + " ("+ mission.getMember().getPhone().substring(7) + ") 님이 현재 미션을 진행중입니다.", "ownerMissionSuccess", "");
+            pushNotificationRepository.save(PushNotification.createOwnerChallengePush(mission.getMember(), mission.getMissionGroup().getStore(), mission));
+        }
     }
 
     @Transactional

@@ -196,9 +196,9 @@ public class ReviewService {
     }
 
     @Transactional
-    public void deleteReviewReply(Long reviewReplyIdId) throws BaseException {
+    public void deleteReviewReply(Long reviewReplyId) throws BaseException {
 
-        ReviewReply reviewReply = reviewReplyRepository.findById(reviewReplyIdId)
+        ReviewReply reviewReply = reviewReplyRepository.findById(reviewReplyId)
                 .orElseThrow(() -> new BaseException(INVALID_REVIEW_REPLY_ID));
 
         reviewReply.delete();

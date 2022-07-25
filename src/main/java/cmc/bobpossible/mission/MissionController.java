@@ -80,7 +80,7 @@ public class MissionController {
 
     @ApiOperation("미션 도전(고객)")
     @PatchMapping("/challenge/{missionId}")
-    public BaseResponse<String> missionChallenge(@PathVariable Long missionId) throws BaseException {
+    public BaseResponse<String> missionChallenge(@PathVariable Long missionId) throws BaseException, IOException {
 
         missionService.missionChallenge(missionId);
 

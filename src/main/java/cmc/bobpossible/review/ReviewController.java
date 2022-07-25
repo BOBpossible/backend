@@ -94,9 +94,9 @@ public class ReviewController {
 
     @ApiOperation("사장 리뷰 답글 삭제")
     @PatchMapping("/reply/{reviewReplyId}")
-    public BaseResponse<String> postReviewReply(@PathVariable Long reviewReplyIdId) throws BaseException {
+    public BaseResponse<String> postReviewReply(@PathVariable Long reviewReplyId) throws BaseException {
 
-        reviewService.deleteReviewReply(reviewReplyIdId);
+        reviewService.deleteReviewReply(reviewReplyId);
 
         return new BaseResponse<>("");
     }

@@ -12,6 +12,6 @@ class ElasticSearchTest {
     void search() throws IOException {
         ElasticSearch elasticSearch = new ElasticSearch();
 
-        System.out.println(elasticSearch.search());
+        System.out.println(elasticSearch.suggest("죠스"));
     }
 }
