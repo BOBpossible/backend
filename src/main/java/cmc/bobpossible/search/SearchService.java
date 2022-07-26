@@ -6,6 +6,7 @@ import cmc.bobpossible.member.MemberRepository;
 import cmc.bobpossible.member.entity.Member;
 import cmc.bobpossible.store.Store;
 import cmc.bobpossible.store.StoreRepository;
+import cmc.bobpossible.store.dto.GetStoreMapRes;
 import lombok.RequiredArgsConstructor;
 import org.opensearch.search.SearchHit;
 import org.opensearch.search.SearchHits;
@@ -45,7 +46,7 @@ public class SearchService {
         return suggestionList;
     }
 
-    public List<SearchRes> getSearch(String keyword) throws IOException, BaseException {
+    public List<GetStoreMapRes> getSearch(String keyword) throws IOException, BaseException {
 
         SearchHits suggest = elasticSearch.suggest(keyword);
         float maxScore = suggest.getMaxScore();
@@ -53,13 +54,13 @@ public class SearchService {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
-        List<SearchRes> suggestionList = new ArrayList<>();
+        List<GetStoreMapRes> suggestionList = new ArrayList<>();
 
         for (SearchHit searchHit : suggest.getHits()) {
             if (searchHit.getScore() > (maxScore / 2)) {
                 Store store = storeRepository.findById(Long.valueOf(searchHit.getId()))
                         .orElseThrow(() -> new BaseException(INVALID_STORE_ID));
-                suggestionList.add(new SearchRes(member, store));
+                suggestionList.add(new GetStoreMapRes(member, store));
             }
 
         }
