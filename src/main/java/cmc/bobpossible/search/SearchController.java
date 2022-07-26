@@ -4,6 +4,7 @@ import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.RefineError;
 import cmc.bobpossible.review.dto.PostReviewReq;
+import cmc.bobpossible.store.dto.GetStoreMapRes;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.Errors;
@@ -30,7 +31,7 @@ public class SearchController {
 
     @ApiOperation("검색결과")
     @PostMapping("")
-    public BaseResponse<List<SearchRes>> getSearch(@RequestParam String keyword) throws IOException, BaseException {
+    public BaseResponse<List<GetStoreMapRes>> getSearch(@RequestParam String keyword) throws IOException, BaseException {
 
 
         return new BaseResponse<>(searchService.getSearch(keyword));

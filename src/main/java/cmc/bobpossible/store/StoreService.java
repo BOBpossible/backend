@@ -138,6 +138,7 @@ public class StoreService {
                     .storeId(store.getId())
                     .userX(member.getAddress().getX())
                     .userY(member.getAddress().getY())
+                    .rate(store.getAverageRate())
                     .build();
             for (Mission mission : member.getMissions()) {
                 if(mission.getMissionGroup().getStore() == store){
