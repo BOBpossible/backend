@@ -33,7 +33,13 @@ public class SearchController {
     @PostMapping("")
     public BaseResponse<List<GetStoreMapRes>> getSearch(@RequestParam String keyword) throws IOException, BaseException {
 
-
         return new BaseResponse<>(searchService.getSearch(keyword));
+    }
+
+    @ApiOperation("태그 검색결과")
+    @PostMapping("/tag/{categoryId}")
+    public BaseResponse<List<GetStoreMapRes>> getTagSearch(@PathVariable Long categoryId) throws IOException, BaseException {
+
+        return new BaseResponse<>(searchService.getTagSearch(categoryId));
     }
 }
