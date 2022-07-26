@@ -11,6 +11,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RequestMapping("/api/v1/owners")
 @RequiredArgsConstructor
 @RestController
@@ -43,6 +45,15 @@ public class OwnerController {
     public BaseResponse<String> patchOwnerNotification(@RequestBody PatchOwnerNotificationReq patchUserNotificationReq) throws BaseException {
 
         memberService.patchOwnerNotification(patchUserNotificationReq);
+
+        return new BaseResponse<>("");
+    }
+
+    @ApiOperation("사장 탈퇴")
+    @PatchMapping("/me/quit")
+    public BaseResponse<String> deleteOwner() throws BaseException, IOException {
+
+        memberService.deleteOwner();
 
         return new BaseResponse<>("");
     }

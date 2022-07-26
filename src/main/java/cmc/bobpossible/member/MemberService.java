@@ -145,4 +145,13 @@ public class MemberService {
 
         member.updateOwnerNotification(patchOwnerNotificationReq.getMission(), patchOwnerNotificationReq.getEvent(), patchOwnerNotificationReq.getQuestion(), patchOwnerNotificationReq.getReview());
     }
+
+    @Transactional
+    public void deleteOwner() throws BaseException, IOException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        member.deleteOwner();
+    }
 }
