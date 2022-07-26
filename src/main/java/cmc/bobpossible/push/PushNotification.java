@@ -127,7 +127,7 @@ public class PushNotification extends BaseEntity  {
                 .member(mission.getMissionGroup().getStore().getMember())
                 .name(mission.getMember().getName())
                 .title("고객님이 미션을 도전했습니다!")
-                .subTitle("("+ mission.getMember().getPhone().substring(7) + ") 님의 성공여부를 확인 후 수락해주세요.")
+                .subTitle("("+ mission.getMember().getPhone().substring(7) + ") 님이 현재 미션을 진행중입니다.")
                 .checked(false)
                 .pushType(PushType.OWNER_CHALLENGE)
                 .subId(mission.getId())
