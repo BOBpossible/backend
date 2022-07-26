@@ -331,6 +331,8 @@ public class MissionService {
 
         List<Mission> missions = missionRepository.findByMissionGroupAndStatus(missionGroup.getId(),MissionStatus.DONE, Status.DELETED, pageable);
 
+        missions.sort(new DateComparator());
+
         return missions.stream()
                 .map(GetMissionGroupRes::new)
                 .collect(Collectors.toList());
