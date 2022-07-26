@@ -220,11 +220,7 @@ public class Member extends BaseEntity {
         points.forEach(Point::delete);
         memberCategories.forEach(MemberCategory::delete);
         missions.forEach(Mission::delete);
-        storeAuthentications.forEach(StoreAuthentication::delete);
         questions.forEach(Question::delete);
-        if (store != null) {
-            store.delete();
-        }
         reviews.forEach(Review::delete);
         if (reward != null) {
             reward.delete();
@@ -238,5 +234,14 @@ public class Member extends BaseEntity {
 
     public void updateOwnerNotification(Boolean mission, Boolean event, Boolean question, Boolean review) {
         this.notification.updateOwner(mission, event, question, review);
+    }
+
+    public void deleteOwner() throws IOException {
+        this.changeStatus(Status.DELETED);
+        if (store != null) {
+            store.delete();
+        }
+        storeAuthentications.forEach(StoreAuthentication::delete);
+        questions.forEach(Question::delete);
     }
 }
