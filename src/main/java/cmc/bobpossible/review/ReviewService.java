@@ -93,7 +93,7 @@ public class ReviewService {
                     .title(mission.getMissionGroup().getStore().getName())
                     .subTitle("새로운 리뷰가 작성되었습니다!")
                     .checked(false)
-                    .pushType(PushType.ANSWER)
+                    .pushType(PushType.OWNER_REVIEW)
                     .subId(mission.getMissionGroup().getStore().getId())
                     .build());
         }

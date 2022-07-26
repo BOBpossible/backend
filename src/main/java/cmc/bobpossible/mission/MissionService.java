@@ -218,7 +218,7 @@ public class MissionService {
             FirebaseToken firebaseToken = firebaseTokenRepository.findByKey(mission.getMember().getId())
                     .orElseThrow(() -> new BaseException(CHECK_FIREBASE_TOKEN));
 
-            fcmService.sendMessageTo(firebaseToken.getValue(), "고객님이 미션을 도전했습니다!", mission.getMember().getName() + " ("+ mission.getMember().getPhone().substring(7) + ") 님이 현재 미션을 진행중입니다.", "ownerMissionSuccess", "");
+            fcmService.sendMessageTo(firebaseToken.getValue(), "고객님이 미션을 도전했습니다!", mission.getMember().getName() + " ("+ mission.getMember().getPhone().substring(7) + ") 님이 현재 미션을 진행중입니다.", "missionChallenge", "");
             pushNotificationRepository.save(PushNotification.createOwnerChallengePush(mission.getMember(), mission.getMissionGroup().getStore(), mission));
         }
     }
