@@ -70,7 +70,7 @@ public class PushNotification extends BaseEntity  {
                 .title("새로운 미션이 도착했습니다!")
                 .subTitle("에서 "+mission.getMissionGroup().getMissionContent()+"의 식사를 하세요!")
                 .checked(false)
-                .pushType(PushType.REVIEW)
+                .pushType(PushType.MISSION)
                 .subId(mission.getId())
                 .build();
     }
