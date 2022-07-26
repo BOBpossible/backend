@@ -146,7 +146,7 @@ public class MissionService {
         // 알림여부 체크
 
         if (mission.getMissionGroup().getStore().getMember().getNotification().getMission()) {
-            FirebaseToken firebaseToken = firebaseTokenRepository.findByKey(mission.getMember().getId())
+            FirebaseToken firebaseToken = firebaseTokenRepository.findByKey(mission.getMissionGroup().getStore().getMember().getId())
                     .orElseThrow(() -> new BaseException(CHECK_FIREBASE_TOKEN));
 
             fcmService.sendMessageTo(firebaseToken.getValue(), "성공요청이 들어왔습니다!", mission.getMember().getName() + " ("+ mission.getMember().getPhone().substring(7) + ") 님의 성공여부를 확인 후 수락해주세요.", "ownerMissionSuccess", "");
@@ -215,7 +215,7 @@ public class MissionService {
         mission.challengeMission();
 
         if (mission.getMissionGroup().getStore().getMember().getNotification().getMission()) {
-            FirebaseToken firebaseToken = firebaseTokenRepository.findByKey(mission.getMember().getId())
+            FirebaseToken firebaseToken = firebaseTokenRepository.findByKey(mission.getMissionGroup().getStore().getMember().getId())
                     .orElseThrow(() -> new BaseException(CHECK_FIREBASE_TOKEN));
 
             fcmService.sendMessageTo(firebaseToken.getValue(), "고객님이 미션을 도전했습니다!", mission.getMember().getName() + " ("+ mission.getMember().getPhone().substring(7) + ") 님이 현재 미션을 진행중입니다.", "missionChallenge", "");
