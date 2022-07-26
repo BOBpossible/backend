@@ -33,7 +33,6 @@ public class SearchService {
     private final StoreRepository storeRepository;
     private final MemberRepository memberRepository;
     private final CategoryRepository categoryRepository;
-    private final StoreRepository storeRepository;
 
     public List<SearchSuggestion> getSuggestion(String keyword) throws IOException {
 
