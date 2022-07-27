@@ -215,7 +215,7 @@ public class StoreService {
     }
 
     @Transactional
-    public void updateStore(UpdateStoreReq updateStoreReq) throws BaseException {
+    public void updateStore(UpdateStoreReq updateStoreReq) throws BaseException, IOException {
 
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
@@ -226,6 +226,8 @@ public class StoreService {
         member.getStore().update(updateStoreReq.getStoreName(), updateStoreReq.getIntro(), new StoreAddress(updateStoreReq.getAddressStreet(), updateStoreReq.getAddressDetail() ,updateStoreReq.getAddressDong(), updateStoreReq.getX(), updateStoreReq.getY()), updateStoreReq.getTableNum(), updateStoreReq.getRepresentativeMenuName(), category);
 
         member.getStore().trimAddressDong();
+
+        elasticSearch.add(member.getStore());
     }
 
     @Transactional
