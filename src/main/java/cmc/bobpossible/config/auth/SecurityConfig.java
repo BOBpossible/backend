@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //로그인 permit all
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/auth/**", "/oauth2/**", "/login/oauth2/code/**", "/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**", "/api/v1/map/**").permitAll()
+                    .antMatchers("/auth/**", "/oauth2/**", "/login/oauth2/code/**", "/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**", "/api/v1/map/**",  "/api/v1/search/**").permitAll()
                     .anyRequest().authenticated()
 
                 // oauth2login

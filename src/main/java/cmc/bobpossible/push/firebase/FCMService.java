@@ -32,7 +32,6 @@ public class FCMService {
     public void sendReviewPush(String targetToken ,Member member, Store store, Mission mission) throws IOException {
         sendMessageTo(targetToken, "reviewPush", store.getName()+"의 음식 맛있었다면 리뷰를 남겨주세요.", "reviewPush", store.getName()+"의 음식 맛있었다면 리뷰를 남겨주세요.");
 
-        pushNotificationRepository.save(PushNotification.createReviewPush(member, store, mission));
     }
 
     public void sendMessageTo(String targetToken, String title, String body, String dTitle, String dBody) throws IOException {

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
+@CrossOrigin(origins = {"http://localhost:3005", "https://bobplace.netlify.app"})
 @RequestMapping("/api/v1/search")
 @RequiredArgsConstructor
 @RestController
