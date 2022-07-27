@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class GetStoreReviewRes {
 
     private Long reviewId;
+    private String storeName;
     private String name;
     private double rate;
     private String content;
@@ -20,6 +21,7 @@ public class GetStoreReviewRes {
 
     public GetStoreReviewRes(Review review) {
         this.reviewId = review.getId();
+        this.storeName = review.getStore().getName();
         this.name = review.getMember().getName();
         this.rate = review.getRate();
         this.content = review.getContent();
