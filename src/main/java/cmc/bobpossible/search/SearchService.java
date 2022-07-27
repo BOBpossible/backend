@@ -6,7 +6,6 @@ import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.auth.SecurityUtil;
 import cmc.bobpossible.member.MemberRepository;
 import cmc.bobpossible.member.entity.Member;
-import cmc.bobpossible.mission.MissionRepository;
 import cmc.bobpossible.store.Store;
 import cmc.bobpossible.store.StoreRepository;
 import cmc.bobpossible.store.dto.GetStoreMapRes;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static cmc.bobpossible.config.BaseResponseStatus.*;
@@ -51,12 +49,12 @@ public class SearchService {
         return suggestionList;
     }
 
-    public List<GetStoreMapRes> getSearch(String keyword) throws IOException, BaseException {
+    public List<GetStoreMapRes> getSearch(String keyword, Long userId) throws IOException, BaseException {
 
         SearchHits suggest = elasticSearch.suggest(keyword);
         float maxScore = suggest.getMaxScore();
 
-        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+        Member member = memberRepository.findById(userId)
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
         List<GetStoreMapRes> suggestionList = new ArrayList<>();
@@ -73,9 +71,9 @@ public class SearchService {
         return suggestionList;
     }
 
-    public List<GetStoreMapRes> getTagSearch(Long categoryId) throws BaseException {
+    public List<GetStoreMapRes> getTagSearch(Long userId, Long categoryId) throws BaseException {
 
-        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+        Member member = memberRepository.findById(userId)
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
         Category category = categoryRepository.findById(categoryId)
