@@ -31,16 +31,16 @@ public class SearchController {
     }
 
     @ApiOperation("검색결과")
-    @PostMapping("")
-    public BaseResponse<List<GetStoreMapRes>> getSearch(@RequestParam String keyword) throws IOException, BaseException {
+    @PostMapping("/{userId}")
+    public BaseResponse<List<GetStoreMapRes>> getSearch(@RequestParam String keyword, @PathVariable Long userId) throws IOException, BaseException {
 
-        return new BaseResponse<>(searchService.getSearch(keyword));
+        return new BaseResponse<>(searchService.getSearch(keyword, userId));
     }
 
     @ApiOperation("태그 검색결과")
-    @PostMapping("/tag/{categoryId}")
-    public BaseResponse<List<GetStoreMapRes>> getTagSearch(@PathVariable Long categoryId) throws IOException, BaseException {
+    @PostMapping("/tag/{userId}/{categoryId}")
+    public BaseResponse<List<GetStoreMapRes>> getTagSearch(@PathVariable Long categoryId, @PathVariable Long userId) throws IOException, BaseException {
 
-        return new BaseResponse<>(searchService.getTagSearch(categoryId));
+        return new BaseResponse<>(searchService.getTagSearch(userId ,categoryId));
     }
 }
