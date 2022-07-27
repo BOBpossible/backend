@@ -137,7 +137,7 @@ public class MissionController {
     }
 
     @ApiOperation("미션 전체 배포 중지(사장)")
-    @PatchMapping("/owners/mission-stop/")
+    @PatchMapping("/owners/mission-stop")
     public BaseResponse<String> stopAllMissionGroup() throws BaseException {
 
         missionService.stopAllMissionGroup();
