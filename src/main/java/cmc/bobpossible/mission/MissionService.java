@@ -259,6 +259,7 @@ public class MissionService {
                     .orElseThrow(() -> new BaseException(CHECK_FCM_TOKEN));
             //리뷰는 send 안에
             fcmService.sendReviewPush(firebaseToken.getValue(), member,  mission.getMissionGroup().getStore(), mission);
+            pushNotificationRepository.save(PushNotification.createReviewPush(member, mission.getMissionGroup().getStore(), mission));
         }
     }
 
