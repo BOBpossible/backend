@@ -23,7 +23,7 @@ public class SearchController {
     private final SearchService searchService;
 
     @ApiOperation("자동완성")
-    @PostMapping("/suggestion")
+    @GetMapping("/suggestion")
     public BaseResponse<List<SearchSuggestion>> getSuggestion(@RequestParam String keyword) throws IOException {
 
 
@@ -31,14 +31,14 @@ public class SearchController {
     }
 
     @ApiOperation("검색결과")
-    @PostMapping("/{userId}")
+    @GetMapping("/{userId}")
     public BaseResponse<List<GetStoreMapRes>> getSearch(@RequestParam String keyword, @PathVariable Long userId) throws IOException, BaseException {
 
         return new BaseResponse<>(searchService.getSearch(keyword, userId));
     }
 
     @ApiOperation("태그 검색결과")
-    @PostMapping("/tag/{userId}/{categoryId}")
+    @GetMapping("/tag/{userId}/{categoryId}")
     public BaseResponse<List<GetStoreMapRes>> getTagSearch(@PathVariable Long categoryId, @PathVariable Long userId) throws IOException, BaseException {
 
         return new BaseResponse<>(searchService.getTagSearch(userId ,categoryId));
