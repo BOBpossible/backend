@@ -17,6 +17,7 @@ public class GetStoreRes {
     private List<ImageDto> images;
     private String name;
     private String category;
+    private String intro;
     private StoreStatus storeStatus;
     private double averageRate;
     private StoreAddress address;
@@ -26,6 +27,7 @@ public class GetStoreRes {
         this.storeId = store.getId();
         this.images = store.getStoreImages().stream().map(ImageDto::new).collect(Collectors.toList());
         this.name = store.getName();
+        this.intro = store.getIntro();
         this.category = store.getCategory().getName();
         this.storeStatus = store.getStoreStatus();
         this.averageRate = store.getAverageRate();
