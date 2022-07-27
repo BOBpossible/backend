@@ -86,7 +86,7 @@ public class StoreController {
 
     @ApiOperation("점포관리 수정")
     @PutMapping("/me")
-    public BaseResponse<String> updateStore(@Validated @RequestBody UpdateStoreReq updateStoreReq, Errors errors) throws BaseException {
+    public BaseResponse<String> updateStore(@Validated @RequestBody UpdateStoreReq updateStoreReq, Errors errors) throws BaseException, IOException {
 
         //validation
         if (errors.hasErrors()) {
