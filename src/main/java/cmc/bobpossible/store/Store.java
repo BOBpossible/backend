@@ -148,12 +148,18 @@ public class Store extends BaseEntity {
         storeImages.forEach(this::addStoreImage);
     }
 
-    public void update(String name, String intro, StoreAddress address, int tableNum, String representativeMenuName, Category category) {
+    public void update(String name, String intro, StoreAddress address, int tableNum, String representativeMenuName, Category category) throws IOException {
         member.addStore(this);
         this.name = name;
         this.intro = intro;
         this.address = address;
         this.tableNum = tableNum;
+        for (MissionGroup missionGroup : this.missionGroups) {
+            if (missionGroup.isHasImage()) {
+                String str="대표메뉴 " + representativeMenuName;
+                missionGroup.changeMissionContent(str);
+            }
+        }
         this.representativeMenuName = representativeMenuName;
         this.category = category;
 

@@ -7,6 +7,7 @@ import cmc.bobpossible.member.*;
 import cmc.bobpossible.member_category.MemberCategory;
 import cmc.bobpossible.mission.Mission;
 import cmc.bobpossible.point.Point;
+import cmc.bobpossible.push.PushNotification;
 import cmc.bobpossible.question.Question;
 import cmc.bobpossible.review.Review;
 import cmc.bobpossible.reward.Reward;
@@ -79,6 +80,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<PushNotification> pushNotifications = new ArrayList<>();
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Store store;
@@ -238,9 +242,8 @@ public class Member extends BaseEntity {
 
     public void deleteOwner() throws IOException {
         this.changeStatus(Status.DELETED);
-        if (store != null) {
-            store.delete();
-        }
+        store.delete();
+
         storeAuthentications.forEach(StoreAuthentication::delete);
         questions.forEach(Question::delete);
     }
