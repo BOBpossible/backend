@@ -219,7 +219,7 @@ public class Member extends BaseEntity {
         this.questions.add(question);
     }
 
-    public void delete() throws IOException {
+    public void deleteUser() throws IOException {
         this.changeStatus(Status.DELETED);
         points.forEach(Point::delete);
         memberCategories.forEach(MemberCategory::delete);
@@ -242,7 +242,7 @@ public class Member extends BaseEntity {
 
     public void deleteOwner() throws IOException {
         this.changeStatus(Status.DELETED);
-        store.delete();
+//        store.delete();
 
         storeAuthentications.forEach(StoreAuthentication::delete);
         questions.forEach(Question::delete);
