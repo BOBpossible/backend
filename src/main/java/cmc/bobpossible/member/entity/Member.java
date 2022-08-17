@@ -242,7 +242,7 @@ public class Member extends BaseEntity {
 
     public void deleteOwner() throws IOException {
         this.changeStatus(Status.DELETED);
-//        store.delete();
+        store.delete();
 
         storeAuthentications.forEach(StoreAuthentication::delete);
         questions.forEach(Question::delete);
