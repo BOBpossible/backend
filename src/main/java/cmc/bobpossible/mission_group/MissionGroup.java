@@ -58,4 +58,8 @@ public class MissionGroup extends BaseEntity {
     public int getMissionsCount() {
         return this.missions.size();
     }
+
+    public void changeMissionContent(String str) {
+        this.missionContent = str;
+    }
 }

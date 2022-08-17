@@ -41,4 +41,16 @@ public class PushNotificationService {
 
         pushNotification.check();
     }
+
+    @Transactional
+    public void checkAllPush() throws BaseException {
+
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        for (PushNotification pushNotification : member.getPushNotifications()) {
+
+            pushNotification.check();
+        }
+    }
 }

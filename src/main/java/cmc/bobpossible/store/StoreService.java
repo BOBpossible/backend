@@ -316,7 +316,7 @@ public class StoreService {
 
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
-        
+
         if (member.getStore() == null) {
             return null;
         }

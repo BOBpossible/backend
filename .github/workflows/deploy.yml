@@ -1,0 +1,102 @@
+name: merlins-beard-server
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3.3.0
+        with:
+          java-version: 11
+          distribution: corretto
+
+      - name: action-slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: Github Actions
+          fields: repo,commit,message,author # action,eventName,ref,workflow,job,took 추가할 수 있음
+          mention: here
+          if_mention: failure,cancelled
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URI_DEPLOY}} # required
+        if: always() # Pick up events even if the job fails or is canceled.
+
+
+      - name: Set application.yml file
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: 'src/main/resources/application.yml'
+        env:
+          spring.datasource.password: ${{secrets.RDS_PASSWORD}}
+          spring.datasource.url: ${{secrets.RDS_URL}}
+          logging.slack.webhook-uri: ${{secrets.SLACK_WEBHOOK_URI}}
+          jwt.secret: ${{secrets.JWT_SECRET}}
+
+      - name: Set aws.yml file
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: 'src/main/resources/application-aws.yml'
+        env:
+          cloud.aws.credentials.accessKey: ${{secrets.S3_ACCESSKEY}}
+          cloud.aws.credentials.secretKey: ${{secrets.S3_SECRETKEY}}
+          cloud.aws.s3.bucket: ${{secrets.S3_BUCKET}}
+
+      - name: Set oauth.yml file
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: 'src/main/resources/application-oauth.yml'
+        env:
+          spring.security.oauth2.client.registration.google.client-id: ${{secrets.GOOGLE_CLIENT_ID}}
+          spring.security.oauth2.client.registration.google.client-secret: ${{secrets.GOOGLE_CLIENT_SECRET}}
+          spring.security.oauth2.client.registration.naver.client-id: ${{secrets.NAVER_CLIENT_ID}}
+          spring.security.oauth2.client.registration.naver.client-secret: ${{secrets.NAVER_CLIENT_SECRET}}
+          spring.security.oauth2.client.registration.kakao.client-id: ${{secrets.KAKAO_CLIENT_ID}}
+
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+        shell: bash
+
+      - name: Build with Gradle
+        run: ./gradlew clean build
+        shell: bash
+
+      - name: Get current time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYY-MM-DDTHH-mm-ss
+          utcOffset: "+09:00"
+
+      - name: Generate deployment package
+        run: |
+            mkdir -p deploy
+            cp build/libs/*.jar deploy/application.jar
+            cp Procfile deploy/Procfile
+            cp -r .ebextensions deploy/.ebextensions
+            cp -r .platform deploy/.platform
+            cd deploy && zip -r deploy.zip . 
+
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v20
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: bobpossible
+          environment_name: Bobpossible-env
+          version_label: github-action-${{steps.current-time.outputs.formattedTime}}
+          region: ap-northeast-2
+          deployment_package: deploy/deploy.zip
+          wait_for_environment_recovery: 180

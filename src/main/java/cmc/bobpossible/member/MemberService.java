@@ -127,7 +127,7 @@ public class MemberService {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
-        member.delete();
+        member.deleteUser();
     }
 
     public GetNotificationOwnerRes getOwnerNotification() throws BaseException {

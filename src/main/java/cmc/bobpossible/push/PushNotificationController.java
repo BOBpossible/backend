@@ -31,4 +31,13 @@ public class PushNotificationController {
 
         return new BaseResponse<>("");
     }
+
+    @ApiOperation("알림 전체 읽음")
+    @PatchMapping("/me/all")
+    public BaseResponse<String> checkAllPush() throws BaseException {
+
+        pushNotificationService.checkAllPush();
+
+        return new BaseResponse<>("");
+    }
 }
