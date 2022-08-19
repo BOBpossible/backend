@@ -124,13 +124,13 @@ public class Member extends BaseEntity {
                 .build();
 
         //리워드 생성
-        Reward reward = Reward.builder()
+        Reward initReward = Reward.builder()
                 .counter(0)
                 .build();
 
         if (this.reward == null) {
-            reward.addMember(this);
-            this.reward = reward;
+            initReward.addMember(this);
+            this.reward = initReward;
         }
     }
 
@@ -219,7 +219,7 @@ public class Member extends BaseEntity {
         this.questions.add(question);
     }
 
-    public void deleteUser() throws IOException {
+    public void deleteUser() {
         this.changeStatus(Status.DELETED);
         points.forEach(Point::delete);
         memberCategories.forEach(MemberCategory::delete);
