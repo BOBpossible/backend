@@ -97,7 +97,7 @@ public class OauthService {
                 .build();
     }
 
-    public PhoneValidationDto phoneValidation(String phone) {
+    public PhoneValidationDto phoneValidation(String phone) throws CoolsmsException {
         Random rand  = new Random();
 //        String certNum = "";
 //        for(int i=0; i<6; i++) {
@@ -115,13 +115,14 @@ public class OauthService {
         params.put("text", "BOB PLACE 인증번호 " + "["+certNum+"]" + "을 입력해주세요.");
         params.put("app_version", "test app 1.2"); // application name and version
 
-        try {
-            JSONObject obj = (JSONObject) coolsms.send(params);
-            System.out.println(obj.toString());
-        } catch (CoolsmsException e) {
-            System.out.println(e.getMessage());
-            System.out.println(e.getCode());
-        }
+        JSONObject obj = (JSONObject) coolsms.send(params);
+//        try {
+//            JSONObject obj = (JSONObject) coolsms.send(params);
+//            System.out.println(obj.toString());
+//        } catch (CoolsmsException e) {
+//            System.out.println(e.getMessage());
+//            System.out.println(e.getCode());
+//        }
 
 
         return new PhoneValidationDto(certNum);

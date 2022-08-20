@@ -8,6 +8,7 @@ import cmc.bobpossible.config.auth.jwt.TokenDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,7 +53,7 @@ public class OauthController {
     }
 
     @PostMapping("/phone-validation")
-    public BaseResponse<PhoneValidationDto> phoneValidation(@RequestParam String phone) {
+    public BaseResponse<PhoneValidationDto> phoneValidation(@RequestParam String phone) throws CoolsmsException {
         return new BaseResponse<>(oauthService.phoneValidation(phone));
     }
 
