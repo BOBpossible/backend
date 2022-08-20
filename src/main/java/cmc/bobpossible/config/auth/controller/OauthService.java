@@ -99,12 +99,12 @@ public class OauthService {
 
     public PhoneValidationDto phoneValidation(String phone) throws CoolsmsException {
         Random rand  = new Random();
-//        String certNum = "";
-//        for(int i=0; i<6; i++) {
-//            String ran = Integer.toString(rand.nextInt(10));
-//            certNum+=ran;
-//        }
-        String certNum = "663742";
+        String certNum = "";
+        for(int i=0; i<6; i++) {
+            String ran = Integer.toString(rand.nextInt(10));
+            certNum+=ran;
+        }
+//        String certNum = "663742";
         Message coolsms = new Message(api_key, api_secret);
 
         // 4 params(to, from, type, text) are mandatory. must be filled
