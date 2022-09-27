@@ -247,4 +247,9 @@ public class Member extends BaseEntity {
         storeAuthentications.forEach(StoreAuthentication::delete);
         questions.forEach(Question::delete);
     }
+
+    public void updateUser(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
 }

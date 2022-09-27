@@ -6,6 +6,7 @@ import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.RefineError;
 import cmc.bobpossible.member.MemberService;
 import cmc.bobpossible.member.dto.*;
+import cmc.bobpossible.review.dto.ImageDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.Errors;
@@ -60,14 +61,21 @@ public class UserController {
 
     @ApiOperation("내 정보 수정(마이페이지)")
     @PatchMapping("/me")
-    public BaseResponse<String> patchUser(@RequestParam String email) throws BaseException {
+    public BaseResponse<String> patchUser(@RequestBody UpdateUser updateUser) throws BaseException {
 
-        memberService.patchUser(email);
+        memberService.patchUser(updateUser);
 
         return new BaseResponse<>("");
     }
 
-    @ApiOperation("내 정보 수정(마이페이지)")
+    @ApiOperation("내 프로필 이미지 조회(마이페이지)")
+    @GetMapping ("image/me")
+    public BaseResponse<String> getUserImage() throws BaseException {
+
+        return new BaseResponse<>(memberService.getUserImage());
+    }
+
+    @ApiOperation("내 프로필 이미지 수정(마이페이지)")
     @PatchMapping("image/me")
     public BaseResponse<String> patchUserImage(@RequestPart MultipartFile profileImage) throws BaseException, IOException {
 

@@ -24,4 +24,8 @@ public class ImageDto {
         this.id = image.getId();
         this.imageUrl = image.getImage();
     }
+
+    public ImageDto(String image) {
+
+    }
 }

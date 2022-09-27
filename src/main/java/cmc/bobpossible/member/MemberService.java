@@ -4,6 +4,7 @@ import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.auth.SecurityUtil;
 import cmc.bobpossible.member.dto.*;
 import cmc.bobpossible.member.entity.Member;
+import cmc.bobpossible.review.dto.ImageDto;
 import cmc.bobpossible.utils.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -59,12 +60,12 @@ public class MemberService {
     }
 
     @Transactional
-    public void patchUser(String email) throws BaseException {
+    public void patchUser(UpdateUser updateUser) throws BaseException {
 
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
-        member.changeEmail(email);
+        member.updateUser(updateUser.getName(), updateUser.getEmail());
     }
 
     @Transactional
@@ -153,5 +154,14 @@ public class MemberService {
                 .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
 
         member.deleteOwner();
+    }
+
+    public String getUserImage() throws BaseException {
+
+        //고객 조회
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        return member.getProfileImage();
     }
 }

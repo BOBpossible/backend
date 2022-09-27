@@ -1,5 +1,6 @@
 package cmc.bobpossible.member_category;
 
+import cmc.bobpossible.category.dto.GetCategoriesRes;
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.auth.SecurityUtil;
 import cmc.bobpossible.category.Category;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static cmc.bobpossible.config.BaseResponseStatus.*;
 
@@ -43,5 +45,17 @@ public class MemberCategoryService {
         }
 
         member.completeRegister();
+    }
+
+    public List<GetCategoriesRes> getUserCategories() throws BaseException {
+
+        // 고객 조회
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new BaseException(CHECK_QUIT_USER));
+
+        List<MemberCategory> byMember = memberCategoryRepository.findByMember(member);
+        return byMember.stream()
+                .map(GetCategoriesRes::new)
+                .collect(Collectors.toList());
     }
 }
