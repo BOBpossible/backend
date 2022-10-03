@@ -58,4 +58,13 @@ public class MemberCategoryService {
                 .map(GetCategoriesRes::new)
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public void deleteUserCategories(Long memberCategoryId) throws BaseException {
+
+        MemberCategory memberCategory = memberCategoryRepository.findById(memberCategoryId)
+                .orElseThrow(() -> new BaseException(MEMBER_CATEGORY_NOT_EXISTS));
+
+        memberCategory.delete();
+    }
 }

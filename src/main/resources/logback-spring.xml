@@ -12,7 +12,7 @@
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>ec2-52-78-211-85.ap-northeast-2.compute.amazonaws.com:5000</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"appname":"appname"}</customFields>
+            <customFields>{"appname":"bobplace"}</customFields>
         </encoder>
     </appender>
 

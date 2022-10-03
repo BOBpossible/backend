@@ -116,7 +116,8 @@ public enum BaseResponseStatus {
     // Order
     DELETION_FAIL_ORDER(false, 4020, "주문취소 실패"),
 
-    DELETION_FAIL_Like(false,4030, "찜취소 실패");
+    DELETION_FAIL_Like(false,4030, "찜취소 실패"),
+    MEMBER_CATEGORY_NOT_EXISTS(false, 4040, "해당 멤버카테고리 아이디가 존재하지 않습니다." );
 
     // 5000 : 필요시 만들어서 쓰세요
     // 6000 : 필요시 만들어서 쓰세요
