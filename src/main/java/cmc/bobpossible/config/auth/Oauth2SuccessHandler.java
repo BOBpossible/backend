@@ -47,6 +47,7 @@ public class Oauth2SuccessHandler extends SavedRequestAwareAuthenticationSuccess
                 .queryParam("refreshToken", token.getRefreshToken())
                 .queryParam("accessTokenExpiresIn", token.getAccessTokenExpiresIn())
                 .queryParam("registerStatus", sessionMember.getRegisterStatus())
+                .queryParam("role", sessionMember.getRole())
                 .build().toUriString();
 //        if (response.isCommitted()) {
 //            return;

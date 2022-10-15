@@ -2,6 +2,7 @@ package cmc.bobpossible.config.auth.controller;
 
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.auth.dto.AppleLoginReq;
+import cmc.bobpossible.config.auth.dto.LoginRes;
 import cmc.bobpossible.config.auth.dto.PhoneValidationDto;
 import cmc.bobpossible.config.auth.jwt.TokenDto;
 import cmc.bobpossible.config.auth.jwt.TokenProvider;
@@ -70,7 +71,7 @@ public class OauthService {
     }
 
     @Transactional
-    public TokenDto login(String email, String name) {
+    public LoginRes login(String email, String name) {
 
         Member member = memberRepository.findByEmail(email)
                 .orElse(Member.create(email, name));
@@ -88,12 +89,13 @@ public class OauthService {
 
         refreshTokenRepository.save(refreshToken);
 
-        return TokenDto.builder()
+        return LoginRes.builder()
                 .grantType(token.getGrantType())
                 .accessToken(token.getAccessToken())
                 .refreshToken(token.getRefreshToken())
                 .accessTokenExpiresIn(token.getAccessTokenExpiresIn())
                 .registerStatus(member.getRegisterStatus().name())
+                .role(member.getRole().name())
                 .build();
     }
 
@@ -129,7 +131,7 @@ public class OauthService {
     }
 
     @Transactional
-    public TokenDto appleLogin(AppleLoginReq appleLoginReq) throws JsonProcessingException {
+    public LoginRes appleLogin(AppleLoginReq appleLoginReq) throws JsonProcessingException {
 
         //토큰 복호화
         int i = appleLoginReq.getToken().lastIndexOf('.');
@@ -156,12 +158,13 @@ public class OauthService {
 
         refreshTokenRepository.save(refreshToken);
 
-        return TokenDto.builder()
+        return LoginRes.builder()
                 .grantType(token.getGrantType())
                 .accessToken(token.getAccessToken())
                 .refreshToken(token.getRefreshToken())
                 .accessTokenExpiresIn(token.getAccessTokenExpiresIn())
                 .registerStatus(member.getRegisterStatus().name())
+                .role(member.getRole().name())
                 .build();
     }
 }

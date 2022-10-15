@@ -37,7 +37,7 @@ public class MemberCategoryController {
         return new BaseResponse<>(getCategoriesRes);
     }
 
-    @ApiOperation("고객이 선호하는 음식종류들 조회")
+    @ApiOperation("고객이 선호하는 음식종류 삭제")
     @PatchMapping("/status/{memberCategoryId}")
     public BaseResponse<String> deleteUserCategories(@PathVariable Long memberCategoryId) throws BaseException {
 

@@ -3,8 +3,10 @@ package cmc.bobpossible.config.auth.controller;
 import cmc.bobpossible.config.BaseException;
 import cmc.bobpossible.config.BaseResponse;
 import cmc.bobpossible.config.auth.dto.AppleLoginReq;
+import cmc.bobpossible.config.auth.dto.LoginRes;
 import cmc.bobpossible.config.auth.dto.PhoneValidationDto;
 import cmc.bobpossible.config.auth.jwt.TokenDto;
+import cmc.bobpossible.member.Role;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +26,7 @@ public class OauthController {
 
     @ApiOperation(value = "로그인 성공")
     @GetMapping("/success")
-    public String jwtResponse(@RequestParam("grantType") String grantType, @RequestParam("accessToken") String accessToken, @RequestParam("refreshToken") String refreshToken, @RequestParam("accessTokenExpiresIn") Long accessTokenExpiresIn, @RequestParam("registerStatus") String registerStatus) {
+    public String jwtResponse(@RequestParam("grantType") String grantType, @RequestParam("accessToken") String accessToken, @RequestParam("refreshToken") String refreshToken, @RequestParam("accessTokenExpiresIn") Long accessTokenExpiresIn, @RequestParam("registerStatus") String registerStatus, @RequestParam("role") String role) {
 
 
         return "";
@@ -43,12 +45,12 @@ public class OauthController {
     }
 
     @PostMapping("/authorization/login")
-    public BaseResponse<TokenDto> login(@RequestParam String email, @RequestParam String name) {
+    public BaseResponse<LoginRes> login(@RequestParam String email, @RequestParam String name) {
         return new BaseResponse<>(oauthService.login(email, name));
     }
 
     @PostMapping("/authorization/apple-login")
-    public BaseResponse<TokenDto> appleLogin(@RequestBody AppleLoginReq appleLoginReq) throws JsonProcessingException {
+    public BaseResponse<LoginRes> appleLogin(@RequestBody AppleLoginReq appleLoginReq) throws JsonProcessingException {
         return new BaseResponse<>(oauthService.appleLogin(appleLoginReq));
     }
 
