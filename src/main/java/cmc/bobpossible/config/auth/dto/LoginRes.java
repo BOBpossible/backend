@@ -2,7 +2,9 @@ package cmc.bobpossible.config.auth.dto;
 
 import cmc.bobpossible.member.Role;
 import lombok.Builder;
+import lombok.Data;
 
+@Data
 public class LoginRes {
     private String grantType;
     private String accessToken;
