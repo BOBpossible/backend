@@ -28,7 +28,7 @@ public class OauthController {
     @GetMapping("/success")
     public String jwtResponse(@RequestParam("grantType") String grantType, @RequestParam("accessToken") String accessToken, @RequestParam("refreshToken") String refreshToken, @RequestParam("accessTokenExpiresIn") Long accessTokenExpiresIn, @RequestParam("registerStatus") String registerStatus, @RequestParam("role") String role) {
 
-
+        
         return "";
     }
 

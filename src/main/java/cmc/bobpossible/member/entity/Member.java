@@ -95,7 +95,8 @@ public class Member extends BaseEntity {
         this.id = id;
         this.name = name;
         this.email = email;
-        registerStatus = RegisterStatus.NEW;
+        this.registerStatus = RegisterStatus.NEW;
+        this.role = Role.NEW;
     }
 
     protected Member() {
