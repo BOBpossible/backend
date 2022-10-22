@@ -27,6 +27,7 @@ public class FCMService {
     private String API_URL = "https://fcm.googleapis.com/v1/projects/bobpossible-67a56/messages:send";
     private final ObjectMapper objectMapper;
     private final PushNotificationRepository pushNotificationRepository;
+    private static OkHttpClient client;
 
     @Transactional
     public void sendReviewPush(String targetToken ,Member member, Store store, Mission mission) throws IOException {
@@ -37,7 +38,7 @@ public class FCMService {
     public void sendMessageTo(String targetToken, String title, String body, String dTitle, String dBody) throws IOException {
         String message = makeMessage(targetToken, title, body, dTitle, dBody);
 
-        OkHttpClient client = new OkHttpClient();
+//        OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
         Request request = new Request.Builder()
                 .url(API_URL)
